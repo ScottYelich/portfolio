@@ -37,6 +37,11 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   padding:5px 11px;border-radius:999px;cursor:pointer;font-size:12.5px;user-select:none}
 .tag.on{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
 .meta{color:var(--muted);font-size:12.5px;margin:6px 2px 0}
+.active{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.achip{display:inline-flex;align-items:center;gap:6px;font-size:12px;background:var(--chip-on);
+  color:#fff;border-radius:999px;padding:3px 7px 3px 11px}
+.achip b{cursor:pointer;font-weight:700;opacity:.8}
+.achip b:hover{opacity:1}
 .chart-wrap{background:var(--panel);border:1px solid var(--border);border-radius:12px;
   padding:8px 12px 12px;margin-top:8px;position:relative}
 .chart-wrap h3{margin:8px 4px;font-size:13px;color:var(--muted);font-weight:600}

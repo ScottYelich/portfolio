@@ -72,7 +72,7 @@ for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
     if vl >= 80: tag_list.append("flagship")
     seen = set(); tag_list = [t for t in tag_list if not (t.lower() in seen or seen.add(t.lower()))]
     tags = " ".join(f'"{esc(t)}"' for t in tag_list)
-    kw = list(keywords.get(name, [])) + [t.lower() for t in tag_list] + [name.lower(), (lang or "").lower()]
+    kw = list(keywords.get(name, [])) + [t.lower() for t in tag_list] + [name.lower(), (lang or "").lower(), vis]
     seen = set(); kw = [k for k in kw if k and not (k in seen or seen.add(k))]
     kwstr = " ".join(f'"{esc(k)}"' for k in kw)
     lines += [

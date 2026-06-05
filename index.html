@@ -7,8 +7,8 @@
 <!-- PROV:START -->
 <meta name="author" content="Scott Yelich (scott@spy.org)">
 <meta name="version" content="1.0.0">
-<meta name="build-date" content="2026-06-05T06:44:33Z">
-<!-- index.html · v1.0.0 · built 2026-06-05T06:44:33Z · author: Scott Yelich <scott@spy.org> -->
+<meta name="build-date" content="2026-06-05T06:57:38Z">
+<!-- index.html · v1.0.0 · built 2026-06-05T06:57:38Z · author: Scott Yelich <scott@spy.org> -->
 <!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
@@ -22,8 +22,8 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:44:33Z
- * sha256:  126835262444578f8a60306f09f6ca894fa7bcad2375319799182066d2d219ad
+ * date:    2026-06-05T06:57:38Z
+ * sha256:  e5d120e820aa3ce87a7ef248a91258222049b30a576c19ff3c56ebe8d7999a37
  * note:    inlined for self-containment; check source for updates.
  */
 /*!
@@ -65,6 +65,11 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   padding:5px 11px;border-radius:999px;cursor:pointer;font-size:12.5px;user-select:none}
 .tag.on{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
 .meta{color:var(--muted);font-size:12.5px;margin:6px 2px 0}
+.active{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.achip{display:inline-flex;align-items:center;gap:6px;font-size:12px;background:var(--chip-on);
+  color:#fff;border-radius:999px;padding:3px 7px 3px 11px}
+.achip b{cursor:pointer;font-weight:700;opacity:.8}
+.achip b:hover{opacity:1}
 .chart-wrap{background:var(--panel);border:1px solid var(--border);border-radius:12px;
   padding:8px 12px 12px;margin-top:8px;position:relative}
 .chart-wrap h3{margin:8px 4px;font-size:13px;color:var(--muted);font-weight:600}
@@ -159,9 +164,11 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         <button data-m="or">OR</button>
       </div>
       <button id="cloudBtn" class="cloudbtn" title="open the tag cloud in a window">☁ tag cloud</button>
+      <button id="clearBtn" class="cloudbtn" title="clear all filters">✕ clear</button>
       <span class="count" id="count"></span>
     </div>
     <div class="tags" id="tags"></div>
+    <div class="active" id="active" style="display:none"></div>
     <div class="meta" id="genmeta"></div>
   </div>
 
@@ -224,7 +231,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:44:33Z")
+  (generated "2026-06-05T06:57:38Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -245,7 +252,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 20)
     (llm 20)
     (tags "HTML" "developing" "lean")
-    (keywords "portfolio" "index" "directory" "catalog" "showcase" "overview" "map" "atlas" "repos" "repositories" "projects" "dashboard" "charts" "echarts" "visualization" "public" "landing" "homepage" "github-pages" "html" "developing" "lean"))
+    (keywords "portfolio" "index" "directory" "catalog" "gallery" "showcase" "overview" "map" "atlas" "profile" "bio" "resume" "cv" "repos" "repositories" "projects" "links" "navigation" "filter" "search" "dashboard" "charts" "echarts" "spider" "radar" "scatter" "visualization" "sexp" "self-contained" "vendored" "provenance" "static-site" "pages" "public" "landing" "homepage" "github-pages" "html" "developing" "lean"))
   (repo
     (name "gmail-utility")
     (visibility private)
@@ -266,7 +273,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 60)
     (llm 40)
     (tags "ai" "google" "HTML" "developing" "moderate")
-    (keywords "gmail" "email" "mail" "archive" "archiving" "backup" "eml" "mbox" "sqlite" "search" "searchable" "imap" "google" "cli" "export" "download" "trash" "delete" "recovery" "local" "offline" "ybs" "dagsmith" "automation" "privacy" "ai" "html" "developing" "moderate" "gmail-utility"))
+    (keywords "gmail" "email" "mail" "imap" "smtp" "pop3" "message" "messages" "thread" "threads" "label" "labels" "attachment" "attachments" "mime" "header" "headers" "archive" "archiving" "backup" "eml" "mbox" "sqlite" "search" "searchable" "fulltext" "dedup" "deduplication" "incremental" "sync" "export" "download" "trash" "delete" "restore" "recovery" "retention" "gdpr" "compliance" "forensics" "e-discovery" "local" "offline" "ybs" "dagsmith" "automation" "privacy" "ai" "google" "html" "developing" "moderate" "gmail-utility" "private"))
   (repo
     (name "mlx-router")
     (visibility private)
@@ -287,7 +294,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 55)
     (llm 88)
     (tags "ai" "devtools" "Python" "mature" "moderate" "flagship")
-    (keywords "mlx" "apple-silicon" "metal" "llm" "inference" "model" "models" "router" "routing" "proxy" "gateway" "endpoint" "openai-compatible" "openai" "api" "server" "serving" "local" "on-device" "offline" "gpu" "tokens" "throughput" "tok/s" "ttft" "kv-cache" "cache" "quantization" "quantized" "tool-calling" "coder" "qwen" "llama" "benchmark" "daemon" "python" "self-hosted" "privacy" "private" "ai" "devtools" "mature" "moderate" "flagship" "mlx-router"))
+    (keywords "mlx" "apple-silicon" "metal" "m1" "m2" "m3" "m4" "neural-engine" "ane" "unified-memory" "vram" "llm" "inference" "model" "models" "router" "routing" "load-balance" "load-balancer" "affinity" "sticky-session" "session-affinity" "batching" "continuous-batching" "proxy" "gateway" "endpoint" "openai-compatible" "openai" "api" "rest" "http" "fastapi" "server" "serving" "sse" "streaming" "local" "on-device" "offline" "gpu" "tokens" "throughput" "tok/s" "ttft" "context-length" "kv-cache" "cache" "quantization" "quantized" "gguf" "safetensors" "weights" "tool-calling" "coder" "qwen" "llama" "benchmark" "daemon" "python" "self-hosted" "privacy" "private" "ai" "devtools" "mature" "moderate" "flagship" "mlx-router"))
   (repo
     (name "playground")
     (visibility private)
@@ -308,7 +315,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 0)
     (llm 0)
     (tags "HTML" "early" "lean")
-    (keywords "playground" "scratch" "sandbox" "experiment" "test" "demo" "placeholder" "empty" "wip" "old" "archive" "html" "early" "lean"))
+    (keywords "playground" "scratch" "sandbox" "experiment" "trial" "prototype" "throwaway" "kata" "snippet" "snippets" "test" "demo" "learning" "placeholder" "empty" "wip" "old" "archive" "html" "early" "lean" "private"))
   (repo
     (name "yx")
     (visibility public)
@@ -329,7 +336,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 70)
     (llm 10)
     (tags "Python" "mature" "moderate")
-    (keywords "protocol" "packet" "packets" "udp" "networking" "network" "wire-format" "serialization" "binary" "hmac" "integrity" "encryption" "encrypted" "security" "crypto" "transport" "interop" "interoperability" "ipc" "messaging" "datagram" "low-level" "canonical" "swift" "python" "mature" "moderate" "yx"))
+    (keywords "protocol" "packet" "packets" "udp" "networking" "network" "wire-format" "framing" "length-prefix" "serialization" "binary" "codec" "encode" "decode" "checksum" "crc" "hmac" "integrity" "nonce" "replay-protection" "encryption" "encrypted" "aead" "chacha" "aes" "security" "crypto" "key-exchange" "handshake" "session-key" "transport" "multiplexing" "reliability" "ordering" "fragmentation" "mtu" "endianness" "interop" "interoperability" "ipc" "messaging" "datagram" "low-level" "canonical" "swift" "python" "mature" "moderate" "yx" "public"))
   (repo
     (name "yobro")
     (visibility private)
@@ -350,7 +357,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 45)
     (llm 85)
     (tags "ai" "Python" "developing" "moderate")
-    (keywords "voice" "speech" "assistant" "alexa" "siri" "wake-word" "wakeword" "hotword" "stt" "tts" "speech-to-text" "text-to-speech" "asr" "whisper" "voice-clone" "audio" "microphone" "mic" "local" "offline" "privacy" "llm" "ai" "macos" "smart-speaker" "hands-free" "conversational" "python" "developing" "moderate" "yobro"))
+    (keywords "voice" "speech" "assistant" "alexa" "siri" "wake-word" "wakeword" "hotword" "porcupine" "vosk" "coqui" "piper" "whisper" "stt" "tts" "speech-to-text" "text-to-speech" "asr" "voice-activity" "vad" "voice-clone" "audio" "microphone" "mic" "intent" "intents" "nlu" "command" "commands" "skill" "skills" "home-automation" "iot" "barge-in" "duplex" "local" "on-device" "edge" "offline" "privacy" "latency" "llm" "ai" "macos" "smart-speaker" "hands-free" "conversational" "python" "developing" "moderate" "yobro" "private"))
   (repo
     (name "mind")
     (visibility private)
@@ -371,7 +378,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 35)
     (llm 78)
     (tags "ai" "HTML" "developing" "moderate")
-    (keywords "mind" "cognition" "cognitive" "intelligence" "learning" "pattern" "patterns" "prediction" "predictive" "inference" "statistics" "statistical" "probability" "agentic" "ai" "ml" "machine-learning" "processing" "analysis" "insight" "insights" "memory" "neural" "reasoning" "html" "developing" "moderate"))
+    (keywords "mind" "cognition" "cognitive" "intelligence" "learning" "pattern" "patterns" "prediction" "predictive" "inference" "bayesian" "markov" "statistics" "statistical" "probability" "distribution" "histogram" "frequency" "frequencies" "classifier" "classification" "clustering" "feature" "features" "signal" "correlation" "heuristic" "agentic" "ai" "ml" "machine-learning" "model" "modeling" "processing" "analysis" "insight" "insights" "summarize" "summary" "extract" "extraction" "memory" "neural" "reasoning" "html" "developing" "moderate" "private"))
   (repo
     (name "memory")
     (visibility private)
@@ -392,7 +399,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 40)
     (llm 60)
     (tags "ai" "HTML" "developing" "lean")
-    (keywords "memory" "memories" "remember" "recall" "knowledge" "store" "storage" "notes" "note-taking" "obsidian" "markdown" "log" "logging" "journal" "agentic" "ai" "llm" "agent" "context" "persistence" "file-based" "knowledge-base" "embeddings" "retrieval" "rag" "html" "developing" "lean"))
+    (keywords "memory" "memories" "remember" "recall" "knowledge" "knowledge-graph" "knowledge-base" "graph" "node" "link" "backlink" "wikilink" "zettelkasten" "pkm" "second-brain" "store" "storage" "notes" "note-taking" "obsidian" "markdown" "log" "logging" "journal" "index" "indexing" "fulltext" "search" "semantic" "vector" "embedding" "embeddings" "retrieval" "rag" "agentic" "ai" "llm" "agent" "context" "persistence" "file-based" "provenance" "audit-trail" "append-only" "event-sourcing" "html" "developing" "lean" "private"))
   (repo
     (name "gws")
     (visibility private)
@@ -413,7 +420,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 50)
     (llm 55)
     (tags "google" "Python" "developing" "moderate")
-    (keywords "google" "gmail" "email" "mail" "gsuite" "workspace" "sheets" "spreadsheet" "drive" "calendar" "api" "cli" "json" "automation" "agent" "ai" "oauth" "integration" "tooling" "scripting" "productivity" "python" "developing" "moderate" "gws"))
+    (keywords "google" "gmail" "email" "mail" "gsuite" "workspace" "sheets" "spreadsheet" "drive" "calendar" "contacts" "docs" "slides" "forms" "admin" "directory" "api" "api-client" "rest" "cli" "json" "csv" "oauth" "oauth2" "service-account" "credentials" "token" "scopes" "batch" "export" "import" "automation" "agent" "ai" "integration" "tooling" "scripting" "productivity" "python" "developing" "moderate" "gws" "private"))
   (repo
     (name "laniakea")
     (visibility private)
@@ -434,7 +441,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 35)
     (llm 75)
     (tags "ai" "Python" "developing" "moderate")
-    (keywords "lan" "network" "local" "ai" "llm" "inference" "cluster" "supercluster" "homelab" "self-hosted" "apple-silicon" "mac" "python" "shell" "scripts" "scripting" "bin" "tooling" "infrastructure" "infra" "plumbing" "vision" "multimodal" "deploy" "deployment" "automation" "server" "developing" "moderate" "laniakea"))
+    (keywords "lan" "network" "local" "ai" "llm" "inference" "cluster" "supercluster" "homelab" "self-hosted" "apple-silicon" "mac" "gpu" "accelerator" "python" "shell" "scripts" "scripting" "bin" "tooling" "infrastructure" "infra" "plumbing" "provisioning" "bootstrap" "dotfiles" "install" "installer" "setup" "environment" "venv" "pyenv" "homebrew" "brew" "launchd" "cron" "scheduler" "monitoring" "observability" "vision" "multimodal" "deploy" "deployment" "orchestration" "automation" "server" "developing" "moderate" "laniakea" "private"))
   (repo
     (name "dagsmith")
     (visibility private)
@@ -455,7 +462,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 45)
     (llm 65)
     (tags "devtools" "Swift" "developing" "complex")
-    (keywords "dag" "graph" "orchestrator" "orchestration" "pipeline" "workflow" "build" "builds" "scheduler" "scheduling" "dependency" "dependencies" "make" "makefile" "task" "tasks" "step" "steps" "executor" "ai" "llm" "agent" "automation" "kanban" "node" "nodes" "edge" "topological" "parallel" "dispatch" "devtools" "swift" "developing" "complex" "dagsmith"))
+    (keywords "dag" "graph" "topology" "topological-sort" "orchestrator" "orchestration" "pipeline" "workflow" "build" "builds" "scheduler" "scheduling" "dependency" "dependencies" "fan-out" "fan-in" "parallelism" "concurrency" "make" "makefile" "rule" "rules" "target" "targets" "recipe" "task" "tasks" "step" "steps" "executor" "incremental" "cache" "build-cache" "idempotent" "retries" "artifact" "graph-rewriting" "self-modifying" "declarative" "ai" "llm" "agent" "automation" "kanban" "node" "nodes" "edge" "dispatch" "devtools" "swift" "developing" "complex" "dagsmith" "private"))
   (repo
     (name "agent")
     (visibility private)
@@ -476,7 +483,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 55)
     (llm 50)
     (tags "ai" "Swift" "developing" "moderate")
-    (keywords "agent" "daemon" "queue" "work-queue" "job" "jobs" "worker" "workers" "task" "tasks" "scheduler" "scheduling" "concurrency" "concurrent" "background" "service" "macos" "launchd" "filesystem" "directory" "folder" "watch" "watcher" "file-drop" "durable" "persistence" "automation" "pipeline" "dispatch" "dispatcher" "ai" "llm" "swift" "developing" "moderate"))
+    (keywords "agent" "daemon" "queue" "work-queue" "job" "jobs" "worker" "workers" "task" "tasks" "scheduler" "scheduling" "concurrency" "concurrent" "background" "service" "macos" "launchd" "fsm" "state-machine" "event-driven" "inbox" "outbox" "mailbox" "filesystem" "directory" "folder" "watch" "watcher" "fswatch" "fsevents" "file-drop" "no-poll" "polling" "lockfile" "atomic" "durable" "persistence" "idempotent" "retry" "backpressure" "throughput" "supervisor" "supervision" "restart" "crash-recovery" "automation" "pipeline" "dispatch" "dispatcher" "ai" "llm" "swift" "developing" "moderate" "private"))
   (repo
     (name "saixha")
     (visibility private)
@@ -497,7 +504,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 40)
     (llm 80)
     (tags "ai" "HTML" "developing" "complex")
-    (keywords "shell" "sh" "repl" "lisp" "scheme" "s-expression" "sexp" "sexpr" "interpreter" "eval" "dsl" "ai" "llm" "agent" "assistant" "sasha" "pipe" "pipeline" "command" "cli" "terminal" "code-as-data" "homoiconic" "functional" "parser" "reader" "automation" "scripting" "script" "swift" "html" "developing" "complex" "saixha"))
+    (keywords "shell" "sh" "repl" "lisp" "scheme" "s-expression" "sexp" "sexpr" "interpreter" "eval" "eval-apply" "macro" "macros" "quote" "quasiquote" "closure" "lambda" "reader-macro" "metaprogramming" "homoiconic" "homoiconicity" "dsl" "ai" "llm" "agent" "assistant" "sasha" "pipe" "unix-pipe" "pipeline" "composable" "filter" "transform" "command" "cli" "terminal" "code-as-data" "functional" "parser" "reader" "automation" "scripting" "script" "swift" "html" "developing" "complex" "saixha" "private"))
   (repo
     (name "murphy")
     (visibility private)
@@ -518,7 +525,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 60)
     (llm 92)
     (tags "ai" "Swift" "mature" "complex" "flagship")
-    (keywords "llm" "ai" "agent" "agentic" "chat" "chatbot" "assistant" "inference" "prompt" "prompting" "completion" "model" "models" "gpt" "claude" "anthropic" "openai" "tool" "tools" "tool-calling" "function-calling" "jsonl" "events" "streaming" "macos" "cli" "engine" "execution" "executor" "worker" "single-shot" "loop" "orchestration" "pipeline" "automation" "shell" "llmops" "swift" "mature" "complex" "flagship" "murphy"))
+    (keywords "llm" "ai" "agent" "agentic" "chat" "chatbot" "assistant" "inference" "prompt" "prompting" "system-prompt" "completion" "sampling" "temperature" "context-window" "multi-turn" "turn" "session" "model" "models" "gpt" "claude" "anthropic" "openai" "sdk" "tool" "tools" "tool-calling" "function-calling" "structured-output" "schema" "jsonl" "events" "streaming" "macos" "cli" "engine" "execution" "executor" "worker" "single-shot" "loop" "subprocess" "sandbox" "exit-code" "stdout" "stdin" "retry" "guardrails" "observability" "trace" "tracing" "orchestration" "pipeline" "automation" "shell" "llmops" "swift" "mature" "complex" "flagship" "murphy" "private"))
   (repo
     (name "sdts")
     (visibility private)
@@ -539,7 +546,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 65)
     (llm 30)
     (tags "trading" "Python" "mature" "complex" "flagship")
-    (keywords "trade" "trades" "trading" "trader" "broker" "brokerage" "ibkr" "interactive-brokers" "stock" "stocks" "equity" "equities" "share" "shares" "commodity" "commodities" "future" "futures" "option" "options" "derivative" "derivatives" "forex" "fx" "algo" "algorithm" "algorithmic" "quant" "quantitative" "money" "cash" "capital" "finance" "financial" "fintech" "market" "markets" "exchange" "cme" "nyse" "nasdaq" "es" "spx" "signal" "signals" "strategy" "bracket" "order" "orders" "execution" "fill" "fills" "tick" "ticks" "ohlc" "candle" "candlestick" "position" "positions" "pnl" "profit" "loss" "risk" "risk-management" "stop-loss" "backtest" "backtesting" "daemon" "service-mesh" "mesh" "discovery" "udp" "networking" "dashboard" "terminal" "tui" "realtime" "real-time" "low-latency" "hft" "high-frequency" "bot" "bots" "automation" "python" "mature" "complex" "flagship" "sdts"))
+    (keywords "trade" "trades" "trading" "trader" "broker" "brokerage" "ibkr" "interactive-brokers" "stock" "stocks" "equity" "equities" "share" "shares" "commodity" "commodities" "future" "futures" "option" "options" "derivative" "derivatives" "forex" "fx" "hedge" "arbitrage" "spread" "leverage" "margin" "liquidity" "volatility" "momentum" "mean-reversion" "indicator" "rsi" "macd" "moving-average" "algo" "algorithm" "algorithmic" "quant" "quantitative" "money" "cash" "capital" "finance" "financial" "fintech" "market" "markets" "exchange" "cme" "nyse" "nasdaq" "es" "spx" "signal" "signals" "strategy" "bracket" "order" "orders" "limit-order" "market-order" "execution" "fill" "fills" "slippage" "tick" "ticks" "ohlc" "candle" "candlestick" "orderbook" "depth" "vwap" "twap" "position" "positions" "pnl" "profit" "loss" "risk" "risk-management" "stop-loss" "drawdown" "sharpe" "backtest" "backtesting" "paper-trading" "live-trading" "securities" "asset" "assets" "instrument" "daemon" "service-mesh" "mesh" "discovery" "udp" "networking" "dashboard" "terminal" "tui" "realtime" "real-time" "low-latency" "latency" "hft" "high-frequency" "colocation" "bot" "bots" "automation" "python" "mature" "complex" "flagship" "sdts" "private"))
   (repo
     (name "ybs")
     (visibility private)
@@ -560,7 +567,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (tests 50)
     (llm 70)
     (tags "devtools" "HTML" "developing" "moderate")
-    (keywords "build" "builds" "building" "build-system" "buildsystem" "methodology" "spec" "specs" "specification" "step" "steps" "sdlc" "devops" "autonomous" "agent" "agentic" "ai" "codegen" "code-generation" "scaffold" "scaffolding" "generator" "traceability" "verification" "validation" "requirements" "s-expression" "sexp" "scheme" "lisp" "dsl" "graph" "node" "nodes" "guid" "template" "templates" "framework" "process" "workflow" "ci" "cd" "pipeline" "devtools" "html" "developing" "moderate" "ybs"))
+    (keywords "build" "builds" "building" "build-system" "buildsystem" "methodology" "blueprint" "spec" "specs" "specification" "step" "steps" "sdlc" "devops" "autonomous" "agent" "agentic" "ai" "codegen" "code-generation" "scaffold" "scaffolding" "generator" "declarative" "idempotent" "reproducible" "deterministic" "artifact" "artifacts" "manifest" "traceability" "verification" "validation" "acceptance-test" "test-driven" "tdd" "requirements" "s-expression" "sexp" "scheme" "lisp" "dsl" "graph" "build-graph" "dependency-graph" "node" "nodes" "guid" "template" "templates" "framework" "process" "workflow" "ci" "cd" "ci-cd" "pipeline" "governance" "audit" "adr" "decision-record" "devtools" "html" "developing" "moderate" "ybs" "private"))
 )
 ;; DATA:END
 </script>
@@ -654,6 +661,12 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     render();
   }
   document.querySelectorAll('#mode button').forEach(b=>{ b.onclick=()=>setTagMode(b.dataset.m); });
+  function clearAll(){ state.q=''; const q=document.getElementById('q'); if(q) q.value='';
+    state.vis='all'; document.querySelectorAll('#vis button').forEach(x=>x.classList.toggle('on',x.dataset.v==='all'));
+    state.tags.clear(); state.tagMode='and';
+    document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x.dataset.m==='and'));
+    syncTagChips(); render(); }
+  (function(){ const c=document.getElementById('clearBtn'); if(c) c.onclick=clearAll; })();
   elQ.addEventListener('input',()=>{ state.q=elQ.value.toLowerCase().trim(); render(); });
 
   function toggleTag(t,el){
@@ -719,6 +732,18 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     });
     if(typeof drawRadar==='function') drawRadar();
     if(typeof drawScatter==='function') drawScatter();
+    renderActive();
+    const cw=window.__cloudWin&&window.__cloudWin();
+    if(cw&&!cw.closed&&cw.cloudRestyle){ try{ cw.cloudRestyle(); }catch(e){} }
+  }
+  function renderActive(){
+    const el=document.getElementById('active'); if(!el) return;
+    el.innerHTML='';
+    [...state.tags].forEach(t=>{ const s=document.createElement('span'); s.className='achip';
+      s.textContent=t; const x=document.createElement('b'); x.textContent='×';
+      x.onclick=()=>{ state.tags.delete(t); syncTagChips(); render(); };
+      s.appendChild(x); el.appendChild(s); });
+    el.style.display=state.tags.size?'flex':'none';
   }
 
   (function(){ const mv=document.querySelector('meta[name=version]'),
@@ -773,7 +798,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   repos.slice().sort((a,b)=>(Number(b.value)||0)-(Number(a.value)||0)).slice(0,2).forEach(r=>radarSel.add(r.name));
   radarChips();   // initial radar/scatter drawn by the final render()
 
-  /* ---------- tag cloud: opens in a SEPARATE chrome-less window; spiral, coloured by type ---------- */
+  /* ---------- tag cloud: separate chrome-less window; spiral, pan/zoom/fit, coloured by type ---------- */
   (function cloudInit(){
     const btn=document.getElementById('cloudBtn'); if(!btn) return;
     const freqC={};
@@ -781,74 +806,114 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       .forEach(t=>freqC[t]=(freqC[t]||0)+1); });
     const terms=Object.keys(freqC).sort((a,b)=>freqC[b]-freqC[a]||a.localeCompare(b));
     const max=Math.max(1,...terms.map(t=>freqC[t]));
+    const VIS=new Set(['public','private']);
     const LANGS=new Set(['python','swift','html','shell','javascript','typescript','go','rust','c','c++','ruby','java','kotlin','makefile','css','scheme','lisp','objective-c']);
     const TIERS=new Set(['mature','developing','early','complex','moderate','lean','flagship']);
-    const CATS=new Set(['trading','ai','google','devtools','archived','fork']);
-    const COLOR={language:'#58a6ff',domain:'#3fb950',measure:'#d29922',keyword:'#bc8cff'};
-    const typeOf=t=>LANGS.has(t)?'language':TIERS.has(t)?'measure':CATS.has(t)?'domain':'keyword';
-    const CAP=120;
+    const AI=new Set(['ai','llm','agent','agentic','ml','machine-learning','inference','model','models','gpt','claude','anthropic','openai','mlx','neural','reasoning','embeddings','embedding','rag','prompt','prompting','completion','chat','chatbot','assistant','conversational','cognition','cognitive','intelligence','learning','predictive','llmops','tool-calling','function-calling','whisper','voice-clone','quantization','quantized','kv-cache','bayesian','classifier','classification','clustering']);
+    const FIN=new Set(['trade','trades','trading','trader','broker','brokerage','ibkr','interactive-brokers','stock','stocks','equity','equities','commodity','commodities','future','futures','option','options','derivative','derivatives','forex','fx','hedge','arbitrage','quant','quantitative','money','cash','capital','finance','financial','fintech','market','markets','exchange','cme','nyse','nasdaq','signal','signals','strategy','order','orders','fill','fills','tick','ticks','ohlc','candlestick','position','positions','pnl','profit','loss','risk','backtest','backtesting','hft','high-frequency','volatility','momentum','leverage','margin','liquidity']);
+    const INFRA=new Set(['build','builds','building','build-system','buildsystem','daemon','queue','work-queue','job','jobs','worker','workers','task','tasks','scheduler','scheduling','service','launchd','devops','ci','cd','ci-cd','pipeline','orchestrator','orchestration','dag','makefile','make','deploy','deployment','automation','server','serving','gateway','proxy','router','routing','infrastructure','infra','homelab','cluster','supercluster','self-hosted','methodology','spec','specs','step','steps','sdlc','traceability','verification','scaffold','generator','concurrency','concurrent','dispatch','kanban','provisioning','bootstrap','installer','load-balancer']);
+    const DATA=new Set(['protocol','packet','packets','udp','networking','network','wire-format','serialization','binary','hmac','integrity','encryption','encrypted','security','crypto','transport','ipc','messaging','datagram','sqlite','json','jsonl','eml','mbox','archive','archiving','backup','storage','store','database','memory','memories','knowledge','knowledge-base','notes','obsidian','markdown','retrieval','persistence','file-based','canonical','low-level','checksum','crc','aes','codec','encode','decode']);
+    const TOOLS=new Set(['google','gmail','email','mail','gsuite','workspace','sheets','spreadsheet','drive','calendar','oauth','productivity','voice','speech','tts','stt','speech-to-text','text-to-speech','asr','audio','alexa','siri','wake-word','wakeword','hotword','smart-speaker','shell','sh','repl','lisp','scheme','s-expression','sexp','sexpr','interpreter','cli','terminal','script','scripting','imap','smtp']);
+    const COLOR={visibility:'#f778ba',language:'#58a6ff',ai:'#a371f7',finance:'#3fb950',infra:'#ff7b72',data:'#39c5cf',tools:'#ffa657',measure:'#d29922',keyword:'#8b949e'};
+    const typeOf=t=> VIS.has(t)?'visibility':LANGS.has(t)?'language':TIERS.has(t)?'measure'
+      :AI.has(t)?'ai':FIN.has(t)?'finance':INFRA.has(t)?'infra':DATA.has(t)?'data':TOOLS.has(t)?'tools':'keyword';
+    const CAP=170;
+    const LEGEND='<span style="color:#f778ba">●</span>visibility <span style="color:#58a6ff">●</span>language <span style="color:#a371f7">●</span>ai <span style="color:#3fb950">●</span>finance <span style="color:#ff7b72">●</span>infra <span style="color:#39c5cf">●</span>data <span style="color:#ffa657">●</span>tools <span style="color:#d29922">●</span>measure';
     const CSS='*{box-sizing:border-box}html,body{height:100%;margin:0}'
       +'body{background:#0d1117;color:#e6edf3;font:14px -apple-system,system-ui,sans-serif;display:flex;flex-direction:column}'
-      +'.h{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid #30363d;flex-wrap:wrap}'
-      +'.h strong{color:#e6edf3}#s{flex:1;max-width:300px;background:#161b22;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:6px 10px;font-size:13px}'
-      +'.lg{font-size:11px;color:#8b949e;display:flex;gap:9px}.md{font-size:11px;color:#8b949e;display:flex;gap:4px;align-items:center}'
+      +'.h{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid #30363d;flex-wrap:wrap}'
+      +'.h strong{color:#e6edf3}#s{flex:1;max-width:240px;background:#161b22;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:6px 10px;font-size:13px}'
+      +'.lg{font-size:11px;color:#8b949e;display:flex;gap:8px;flex-wrap:wrap}.md{font-size:11px;color:#8b949e;display:flex;gap:4px;align-items:center}'
       +'.md button{background:#1c2330;color:#8b949e;border:1px solid #30363d;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:11px}'
       +'.md button.on{background:#1f6feb;color:#fff;border-color:#1f6feb}#i{margin-left:auto;color:#8b949e;font-size:12px;white-space:nowrap}'
-      +'#b{position:relative;flex:1;overflow:hidden}'
-      +'.t{position:absolute;cursor:pointer;user-select:none;white-space:nowrap;font-weight:600;line-height:1;padding:2px 5px;border-radius:6px;transition:transform .08s}'
-      +'.t:hover{transform:scale(1.16);z-index:3;text-shadow:0 0 9px rgba(0,0,0,.7)}.t.on{background:#1f6feb;color:#fff}';
-    let win=null;
-    function layout(doc, box, info, filter){
-      box.innerHTML='';
+      +'#b{position:relative;flex:1;overflow:hidden;cursor:grab}#stage{position:absolute;left:0;top:0;transform-origin:0 0}'
+      +'.t{position:absolute;cursor:pointer;user-select:none;white-space:nowrap;font-weight:600;line-height:1;padding:2px 5px;border-radius:6px}'
+      +'.t:hover{filter:brightness(1.4);text-shadow:0 0 9px rgba(0,0,0,.8)}.t.on{background:#1f6feb;color:#fff!important}'
+      +'.zc{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:5px}'
+      +'.zc button{width:28px;height:28px;background:#1c2330;color:#e6edf3;border:1px solid #30363d;border-radius:7px;cursor:pointer;font-size:15px;line-height:1}'
+      +'.zc button:hover{border-color:#58a6ff;color:#58a6ff}';
+    let win=null, stage=null, vp=null, tx=0, ty=0, sc=1, bb={minX:0,minY:0,maxX:0,maxY:0};
+    function apply(){ if(stage) stage.style.transform='translate('+tx+'px,'+ty+'px) scale('+sc+')'; }
+    function fit(){ if(!vp) return; const vw=vp.clientWidth,vh=vp.clientHeight,
+        cw=Math.max(1,bb.maxX-bb.minX),ch=Math.max(1,bb.maxY-bb.minY);
+      sc=Math.max(0.1,Math.min(Math.min(vw/(cw+60),vh/(ch+60)),3));
+      tx=(vw-cw*sc)/2-bb.minX*sc; ty=(vh-ch*sc)/2-bb.minY*sc; apply(); }
+    function center(){ if(!vp) return; const vw=vp.clientWidth,vh=vp.clientHeight,
+        cw=bb.maxX-bb.minX,ch=bb.maxY-bb.minY;
+      tx=(vw-cw*sc)/2-bb.minX*sc; ty=(vh-ch*sc)/2-bb.minY*sc; apply(); }
+    function zoom(f){ if(!vp) return; const cx=vp.clientWidth/2,cy=vp.clientHeight/2;
+      const wx=(cx-tx)/sc, wy=(cy-ty)/sc; sc=Math.max(0.1,Math.min(sc*f,6));
+      tx=cx-wx*sc; ty=cy-wy*sc; apply(); }
+    function restyle(){ if(!stage) return; stage.querySelectorAll('.t').forEach(s=>{
+      const t=s.dataset.t, on=state.tags.has(t); s.classList.toggle('on',on); s.style.color=on?'':COLOR[typeOf(t)]; }); }
+    function layout(doc, info, filter){
+      stage.innerHTML='';
       let list=terms.filter(t=>!filter||t.indexOf(filter)>=0);
       const total=list.length;
-      if(!filter && list.length>CAP) list=list.slice(0,CAP);
+      if(!filter && list.length>CAP){ const top=list.slice(0,CAP);
+        list.slice(CAP).forEach(t=>{ if(state.tags.has(t)) top.push(t); }); list=top; }
       info.textContent=list.length+(total>list.length?' of '+total:'')+' terms · '+state.tags.size+' selected';
-      const W=box.clientWidth||900, H=box.clientHeight||600, cx=W/2, cy=H/2, placed=[];
+      const placed=[]; let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
       list.forEach(t=>{
         const sel=state.tags.has(t), s=doc.createElement('span');
-        s.className='t'+(sel?' on':''); s.textContent=t;
-        s.style.fontSize=(13+Math.round((freqC[t]/max)*32))+'px';
+        s.className='t'+(sel?' on':''); s.textContent=t; s.dataset.t=t;
+        s.style.fontSize=(13+Math.round((freqC[t]/max)*34))+'px';
         if(!sel) s.style.color=COLOR[typeOf(t)];
         s.title=t+' · '+typeOf(t)+' · '+freqC[t]+' repo'+(freqC[t]>1?'s':'');
-        s.onclick=()=>{ const on=!state.tags.has(t);
+        s.onclick=()=>{ if(win&&win.__dragged) return;
+          const on=!state.tags.has(t);
           if(on) state.tags.add(t); else state.tags.delete(t);
           s.classList.toggle('on',on); s.style.color=on?'':COLOR[typeOf(t)];
           info.textContent=list.length+(total>list.length?' of '+total:'')+' terms · '+state.tags.size+' selected';
-          syncTagChips(); render(); };   // render() filters the MAIN window's cards, live
-        box.appendChild(s);
+          syncTagChips(); render(); };
+        stage.appendChild(s);
         const w=s.offsetWidth, h=s.offsetHeight; let ok=false;
-        for(let a=0;a<1800;a++){ const r=Math.sqrt(a)*7, ang=a*0.55;
-          const x=cx+r*Math.cos(ang)-w/2, y=cy+r*Math.sin(ang)-h/2;
-          if(x<2||y<2||x+w>W-2||y+h>H-2) continue;
-          let hit=false; for(const p of placed){ if(x+w+3>p.x&&p.x+p.w+3>x&&y+h+3>p.y&&p.y+p.h+3>y){hit=true;break;} }
-          if(!hit){ s.style.left=x+'px'; s.style.top=y+'px'; placed.push({x,y,w,h}); ok=true; break; } }
+        for(let a=0;a<3500;a++){ const r=Math.sqrt(a)*7, ang=a*0.55;
+          const x=2000+r*Math.cos(ang)-w/2, y=1500+r*Math.sin(ang)-h/2;
+          let hit=false; for(const p of placed){ if(x+w+4>p.x&&p.x+p.w+4>x&&y+h+4>p.y&&p.y+p.h+4>y){hit=true;break;} }
+          if(!hit){ s.style.left=x+'px'; s.style.top=y+'px'; placed.push({x,y,w,h});
+            if(x<minX)minX=x; if(y<minY)minY=y; if(x+w>maxX)maxX=x+w; if(y+h>maxY)maxY=y+h; ok=true; break; } }
         if(!ok) s.remove();
       });
+      bb={minX,minY,maxX,maxY}; fit();
     }
     function openCloud(){
-      const w=window.open('','pf_tagcloud','width=1000,height=760,menubar=no,toolbar=no,location=no,status=no,scrollbars=no,resizable=yes');
+      const w=window.open('','pf_tagcloud','width=1040,height=780,menubar=no,toolbar=no,location=no,status=no,scrollbars=no,resizable=yes');
       if(!w) return false;
       w.document.open();
       w.document.write('<!DOCTYPE html><html><head><meta charset=utf-8><title>Tag cloud · ScottYelich</title><style>'+CSS+'</style></head><body>'
         +'<div class="h"><strong>Tag cloud</strong>'
         +'<input id="s" type="search" placeholder="filter terms…">'
-        +'<span class="lg"><span style="color:#58a6ff">●</span>language <span style="color:#3fb950">●</span>domain <span style="color:#d29922">●</span>measure <span style="color:#bc8cff">●</span>keyword</span>'
+        +'<span class="lg">'+LEGEND+'</span>'
         +'<span class="md">match&nbsp;<button data-m="and">AND</button><button data-m="or">OR</button></span>'
-        +'<span id="i"></span></div><div id="b"></div></body></html>');
+        +'<span id="i"></span></div>'
+        +'<div id="b"><div id="stage"></div>'
+        +'<div class="zc"><button data-z="in" title="zoom in">+</button><button data-z="out" title="zoom out">−</button>'
+        +'<button data-z="fit" title="fit to window">▢</button><button data-z="center" title="center">⌖</button></div></div>'
+        +'</body></html>');
       w.document.close();
-      win=w; window.__cloudWin=()=>win;
-      const doc=w.document, box=doc.getElementById('b'), info=doc.getElementById('i'), search=doc.getElementById('s');
+      win=w; window.__cloudWin=()=>win; win.__dragged=false;
+      const doc=w.document; vp=doc.getElementById('b'); stage=doc.getElementById('stage');
+      const info=doc.getElementById('i'), search=doc.getElementById('s');
       let filter='';
-      const redraw=()=>layout(doc,box,info,filter);
-      w.cloudRedraw=redraw;
+      const redraw=()=>layout(doc,info,filter);
+      w.cloudRedraw=redraw; w.cloudRestyle=restyle;
       search.addEventListener('input',()=>{ filter=search.value.trim().toLowerCase(); redraw(); });
+      doc.querySelectorAll('.zc button').forEach(b=>b.onclick=()=>{ const z=b.dataset.z;
+        if(z==='in') zoom(1.25); else if(z==='out') zoom(0.8); else if(z==='fit') fit(); else center(); });
       const paintMode=()=>doc.querySelectorAll('.md button').forEach(b=>b.classList.toggle('on',b.dataset.m===state.tagMode));
       doc.querySelectorAll('.md button').forEach(b=>b.onclick=()=>{ setTagMode(b.dataset.m); });
       paintMode();
-      w.addEventListener('resize',()=>{ clearTimeout(w.__rz); w.__rz=setTimeout(redraw,150); });
-      w.addEventListener('beforeunload',()=>{ win=null; });
-      setTimeout(redraw,80);
+      let panning=false,sx=0,sy=0,stx=0,sty=0;
+      vp.addEventListener('mousedown',e=>{ if(e.target.closest('.zc')) return;
+        panning=true; win.__dragged=false; sx=e.clientX; sy=e.clientY; stx=tx; sty=ty; vp.style.cursor='grabbing'; });
+      doc.addEventListener('mousemove',e=>{ if(!panning) return; const dx=e.clientX-sx,dy=e.clientY-sy;
+        if(Math.abs(dx)+Math.abs(dy)>4) win.__dragged=true; tx=stx+dx; ty=sty+dy; apply(); });
+      doc.addEventListener('mouseup',()=>{ panning=false; if(vp) vp.style.cursor='grab'; });
+      vp.addEventListener('wheel',e=>{ e.preventDefault(); zoom(e.deltaY<0?1.12:0.9); },{passive:false});
+      w.addEventListener('resize',()=>{ clearTimeout(w.__rz); w.__rz=setTimeout(fit,120); });
+      w.addEventListener('beforeunload',()=>{ win=null; stage=null; vp=null; });
+      setTimeout(redraw,90);
       return true;
     }
     window.__cloudWin=()=>win;
