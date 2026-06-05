@@ -7,8 +7,8 @@
 <!-- PROV:START -->
 <meta name="author" content="Scott Yelich (scott@spy.org)">
 <meta name="version" content="1.0.0">
-<meta name="build-date" content="2026-06-05T06:32:20Z">
-<!-- index.html · v1.0.0 · built 2026-06-05T06:32:20Z · author: Scott Yelich <scott@spy.org> -->
+<meta name="build-date" content="2026-06-05T06:35:04Z">
+<!-- index.html · v1.0.0 · built 2026-06-05T06:35:04Z · author: Scott Yelich <scott@spy.org> -->
 <!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
@@ -22,7 +22,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:32:20Z
+ * date:    2026-06-05T06:35:04Z
  * sha256:  126835262444578f8a60306f09f6ca894fa7bcad2375319799182066d2d219ad
  * note:    inlined for self-containment; check source for updates.
  */
@@ -220,7 +220,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:32:20Z")
+  (generated "2026-06-05T06:35:04Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -843,14 +843,14 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         axisLabel:{color:'#8b949e'},axisLine:{lineStyle:{color:'#30363d'}},splitLine:{lineStyle:{color:'#21262d'}}},
       series:[{
         type:'scatter', cursor:'pointer',
-        symbolSize:d=>Math.min(26,Math.max(8,Math.sqrt(d[2])/3)),   // cap so giants don't swallow neighbours
-        itemStyle:{                                                  // green=public / amber=private, ring lets you see overlaps
-          color:p=>p.data.vis==='public'?'rgba(63,185,80,0.42)':'rgba(210,153,34,0.42)',
-          borderColor:p=>p.data.vis==='public'?'#3fb950':'#d29922', borderWidth:2 },
+        symbolSize:d=>Math.min(26,Math.max(10,Math.sqrt(d[2])/3)),  // cap so giants don't swallow neighbours
+        itemStyle:{                                                  // bright green=public / amber=private (readable when small)
+          color:p=>p.data.vis==='public'?'rgba(86,211,100,0.75)':'rgba(227,179,65,0.75)',
+          borderColor:p=>p.data.vis==='public'?'#7ee787':'#f2cc60', borderWidth:2 },
         label:{show:true,formatter:p=>p.data.name,position:'top',color:'#8b949e',fontSize:9},
         labelLayout:{hideOverlap:true},
-        emphasis:{scale:1.3,focus:'self',
-          itemStyle:{color:p=>p.data.vis==='public'?'#3fb950':'#d29922'},
+        emphasis:{scale:1.35,focus:'self',
+          itemStyle:{color:p=>p.data.vis==='public'?'#56d364':'#e3b341'},
           label:{color:'#e6edf3',fontSize:11}},
         blur:{itemStyle:{opacity:.35}},
         data:pts
