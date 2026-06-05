@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ScottYelich · repositories</title>
+<!-- PROV:START -->
+<meta name="author" content="Scott Yelich (scott@spy.org)">
+<meta name="version" content="1.0.0">
+<meta name="build-date" content="2026-06-05T06:32:20Z">
+<!-- index.html · v1.0.0 · built 2026-06-05T06:32:20Z · author: Scott Yelich <scott@spy.org> -->
+<!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
   - Style is inlined from style/portfolio.css with a provenance header (versioned, dated, sha256).
@@ -16,8 +22,8 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:14:50Z
- * sha256:  da55ec58a22786ff9d05b9185b83301dfa3f22c83c1c83a6f3dde81d608e982c
+ * date:    2026-06-05T06:32:20Z
+ * sha256:  126835262444578f8a60306f09f6ca894fa7bcad2375319799182066d2d219ad
  * note:    inlined for self-containment; check source for updates.
  */
 /*!
@@ -60,8 +66,23 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 .tag.on{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
 .meta{color:var(--muted);font-size:12.5px;margin:6px 2px 0}
 .chart-wrap{background:var(--panel);border:1px solid var(--border);border-radius:12px;
-  padding:8px 12px 12px;margin-top:8px}
+  padding:8px 12px 12px;margin-top:8px;position:relative}
 .chart-wrap h3{margin:8px 4px;font-size:13px;color:var(--muted);font-weight:600}
+.infobtn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;
+  border-radius:50%;border:1px solid var(--border);background:var(--panel2);color:var(--muted);
+  font:italic 700 10px/1 Georgia,serif;cursor:pointer;vertical-align:middle}
+.infobtn:hover{color:var(--fg);border-color:var(--accent)}
+.pop{display:none;position:absolute;left:14px;top:32px;z-index:6;max-width:330px;font-weight:400;
+  background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;
+  font-size:12px;color:var(--fg);box-shadow:0 8px 22px rgba(0,0,0,.45)}
+.pop.open{display:flex;flex-direction:column;gap:5px}
+.pop b{color:var(--fg)}
+.pop span{color:var(--muted)}
+.pop i{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle}
+.zoomctl{position:absolute;left:16px;bottom:40px;display:flex;flex-direction:column;gap:5px;z-index:3}
+.zoomctl button{width:27px;height:27px;background:var(--panel2);color:var(--fg);
+  border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:16px;line-height:1;padding:0}
+.zoomctl button:hover{border-color:var(--accent);color:var(--accent)}
 #chart,#radar{width:100%;height:300px}
 .charts-top{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
 .charts-top .chart-wrap{flex:1 1 400px;min-width:320px;margin-top:0}
@@ -142,7 +163,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 
   <div class="charts-top">
     <div class="chart-wrap">
-      <h3>Capability spider <span style="color:var(--muted);font-weight:400">· portfolio average + repos you pick</span></h3>
+      <h3>Capability spider <span style="color:var(--muted);font-weight:400">· portfolio average + repos you pick · 0–100 (curated assessment)</span></h3>
       <div class="radar-ctl">
         <select id="radarAdd"><option value="">+ compare a repo…</option></select>
         <span id="radarSel" class="rsel"></span>
@@ -150,7 +171,22 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       <div id="radar"></div>
     </div>
     <div class="chart-wrap" id="chart-wrap">
-      <h3>Complexity × maturity <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private · click → spider · scroll / box-zoom to separate</span></h3>
+      <h3>Complexity × maturity
+        <button class="infobtn" id="cmInfo" title="about this chart" aria-label="about this chart">i</button>
+        <span class="pop" id="cmPop">
+          <b>How to read it</b>
+          <span><i style="background:#3fb950"></i> public &nbsp;&nbsp; <i style="background:#d29922"></i> private</span>
+          <span><b>position</b> — x = complexity, y = maturity (0–100, curated)</span>
+          <span><b>bubble size</b> — repository size on disk</span>
+          <span><b>click a bubble</b> — toggle it on/off the spider</span>
+          <span><b>+ / −</b> or scroll = zoom · drag = pan · ⤢ = reset · box-zoom in toolbar</span>
+        </span>
+      </h3>
+      <div class="zoomctl">
+        <button data-z="in" title="zoom in">+</button>
+        <button data-z="out" title="zoom out">−</button>
+        <button data-z="reset" title="reset zoom">⤢</button>
+      </div>
       <div id="chart"></div>
     </div>
   </div>
@@ -184,7 +220,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:14:50Z")
+  (generated "2026-06-05T06:32:20Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -655,6 +691,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       + '<div class="foot"><span>'+(r.language?esc(r.language)+' · ':'')+'updated '+esc(r.updated)+'</span>'
       + '<span class="links">'+links+'</span></div></div>';
   }
+  function filterActive(){ return !!(state.q || state.tags.size || state.vis!=='all'); }
   function render(){
     const vis=repos.filter(matches);
     elGrid.innerHTML=vis.map(card).join('');
@@ -666,11 +703,17 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         const chip=[].slice.call(elTags.children).filter(x=>x.dataset.tag===t)[0];
         if(!state.tags.has(t)) toggleTag(t,chip); };
     });
+    if(typeof drawRadar==='function') drawRadar();
+    if(typeof drawScatter==='function') drawScatter();
   }
 
-  document.getElementById('genmeta').textContent =
-    model.generated ? 'Data generated '+model.generated+' · '+repos.length+' repositories' : '';
-  render();
+  (function(){ const mv=document.querySelector('meta[name=version]'),
+      ma=document.querySelector('meta[name=author]'), parts=[];
+    if(mv&&mv.content) parts.push('v'+mv.content);
+    if(model.generated) parts.push('built '+model.generated);
+    if(ma&&ma.content) parts.push(ma.content.split(' (')[0]);
+    parts.push(repos.length+' repositories');
+    document.getElementById('genmeta').textContent=parts.join(' · '); })();
 
   /* ---------- capability spider (portfolio avg + repos you pick) ---------- */
   const RADAR_AXES=[['Value','value'],['Maturity','maturity'],['Complexity','complexity'],
@@ -684,14 +727,15 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     if(!window.echarts) return;
     if(!radarChart) radarChart=echarts.init(document.getElementById('radar'),null,{renderer:'canvas'});
     const pal=['#58a6ff','#f778ba','#3fb950','#d29922','#bc8cff','#39c5cf'];
+    const sel = filterActive() ? repos.filter(matches).map(r=>r.name) : [...radarSel];
     const data=[{value:PORT_AVG,name:'portfolio avg',areaStyle:{color:'rgba(139,148,158,.16)'},
       lineStyle:{color:'#8b949e',width:2},itemStyle:{color:'#8b949e'}}];
     let i=0;
-    radarSel.forEach(n=>{ const r=repoBy(n); if(!r) return; const c=pal[i++%pal.length];
+    sel.forEach(n=>{ const r=repoBy(n); if(!r) return; const c=pal[i++%pal.length];
       data.push({value:RADAR_AXES.map(([,k])=>Number(r[k])||0),name:n,
         lineStyle:{color:c,width:2},itemStyle:{color:c},areaStyle:{color:'transparent'}}); });
     radarChart.setOption({backgroundColor:'transparent',
-      legend:{type:'scroll',data:['portfolio avg',...radarSel],textStyle:{color:'#8b949e'},top:0},
+      legend:{type:'scroll',data:['portfolio avg',...sel],textStyle:{color:'#8b949e'},top:0},
       tooltip:{},
       radar:{indicator:RADAR_AXES.map(([n])=>({name:n,max:100})),splitNumber:4,
         axisName:{color:'#8b949e',fontSize:10},splitLine:{lineStyle:{color:'#21262d'}},
@@ -713,7 +757,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       o.value=n; o.textContent=n; sel.appendChild(o); });
     sel.onchange=()=>{ addRadar(sel.value); sel.value=''; }; })();
   repos.slice().sort((a,b)=>(Number(b.value)||0)-(Number(a.value)||0)).slice(0,2).forEach(r=>radarSel.add(r.name));
-  radarChips(); drawRadar();
+  radarChips();   // initial radar/scatter drawn by the final render()
 
   /* ---------- full-screen tag cloud: spiral (largest centred), coloured by type ---------- */
   (function cloudInit(){
@@ -774,19 +818,20 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   })();
 
   /* ---------- ECharts: complexity × maturity across all repos (graceful if lib missing) ---------- */
-  (function chart(){
+  let scatterCh=null;
+  function drawScatter(){
     const wrap=document.getElementById('chart-wrap');
-    if(!window.echarts){ wrap.style.display='none'; return; }
-    const pts=repos.map(r=>({
-      name:r.name, vis:r.visibility,
-      value:[Number(r.complexity)||0, Number(r.maturity)||0, Number(r.size)||1]
-    })).filter(p=>p.value[0]||p.value[1]).sort((a,b)=>b.value[2]-a.value[2]); // big first -> small on top
-    if(!pts.length){ wrap.style.display='none'; return; }
-    const ch=echarts.init(document.getElementById('chart'),null,{renderer:'canvas'});
+    if(!window.echarts){ if(wrap) wrap.style.display='none'; return; }
+    const set=filterActive()?repos.filter(matches):repos;   // search/filter drives the points shown
+    const pts=set.map(r=>({name:r.name,vis:r.visibility,
+      value:[Number(r.complexity)||0,Number(r.maturity)||0,Number(r.size)||1]}))
+      .filter(p=>p.value[0]||p.value[1]).sort((a,b)=>b.value[2]-a.value[2]); // big first -> small on top
+    if(!scatterCh) scatterCh=echarts.init(document.getElementById('chart'),null,{renderer:'canvas'});
+    const ch=scatterCh;
     ch.setOption({
       backgroundColor:'transparent',
       grid:{left:54,right:24,top:30,bottom:48},
-      dataZoom:[{type:'inside',xAxisIndex:0,yAxisIndex:0,filterMode:'none'}],
+      dataZoom:[{type:'inside',xAxisIndex:0,filterMode:'none'},{type:'inside',yAxisIndex:0,filterMode:'none'}],
       toolbox:{right:10,top:2,itemSize:13,iconStyle:{borderColor:'#8b949e'},
         emphasis:{iconStyle:{borderColor:'#e6edf3'}},
         feature:{dataZoom:{title:{zoom:'box-zoom',back:'undo'},yAxisIndex:0},restore:{title:'reset'}}},
@@ -799,27 +844,44 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       series:[{
         type:'scatter', cursor:'pointer',
         symbolSize:d=>Math.min(26,Math.max(8,Math.sqrt(d[2])/3)),   // cap so giants don't swallow neighbours
-        itemStyle:{                                                  // hollow rings: see + click occluded points
-          color:p=>'rgba('+(p.data.vis==='public'?'63,185,80':'210,153,34')+',0.14)',
+        itemStyle:{                                                  // green=public / amber=private, ring lets you see overlaps
+          color:p=>p.data.vis==='public'?'rgba(63,185,80,0.42)':'rgba(210,153,34,0.42)',
           borderColor:p=>p.data.vis==='public'?'#3fb950':'#d29922', borderWidth:2 },
         label:{show:true,formatter:p=>p.data.name,position:'top',color:'#8b949e',fontSize:9},
         labelLayout:{hideOverlap:true},
         emphasis:{scale:1.3,focus:'self',
-          itemStyle:{color:p=>'rgba('+(p.data.vis==='public'?'63,185,80':'210,153,34')+',0.45)'},
+          itemStyle:{color:p=>p.data.vis==='public'?'#3fb950':'#d29922'},
           label:{color:'#e6edf3',fontSize:11}},
-        blur:{itemStyle:{opacity:.4}},
+        blur:{itemStyle:{opacity:.35}},
         data:pts
       }]
-    });
-    // click a circle -> toggle that repo on/off the spider (and flash its card if visible)
-    ch.on('click',function(p){
-      if(!p.data||!p.data.name) return;
-      toggleRadar(p.data.name);
-      const el=document.getElementById('card-'+p.data.name);
-      if(el){ el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1500); }
-    });
-    window.addEventListener('resize',()=>ch.resize());
-  })();
+    },true);
+    if(!ch.__bound){ ch.__bound=true;
+      ch.on('click',function(p){ if(!p.data||!p.data.name) return;   // click -> toggle on the spider
+        toggleRadar(p.data.name);
+        const el=document.getElementById('card-'+p.data.name);
+        if(el){ el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1500); } });
+      document.querySelectorAll('#chart-wrap .zoomctl button').forEach(b=>{
+        b.onclick=()=>{ if(b.dataset.z==='reset'){
+            ch.dispatchAction({type:'dataZoom',dataZoomIndex:0,start:0,end:100});
+            ch.dispatchAction({type:'dataZoom',dataZoomIndex:1,start:0,end:100}); return; }
+          const f=b.dataset.z==='in'?0.62:1/0.62, dz=ch.getOption().dataZoom;
+          const nw=d=>{ const c=(d.start+d.end)/2, h=(d.end-d.start)/2*f;
+            return [Math.max(0,c-h),Math.min(100,c+h)]; };
+          const x=nw(dz[0]), y=nw(dz[1]);
+          ch.dispatchAction({type:'dataZoom',dataZoomIndex:0,start:x[0],end:x[1]});
+          ch.dispatchAction({type:'dataZoom',dataZoomIndex:1,start:y[0],end:y[1]}); }; });
+      window.addEventListener('resize',()=>ch.resize());
+    }
+  }
+
+  /* (i) info popover for the complexity×maturity chart */
+  (function(){ const b=document.getElementById('cmInfo'), p=document.getElementById('cmPop');
+    if(!b||!p) return;
+    b.onclick=e=>{ e.stopPropagation(); p.classList.toggle('open'); };
+    document.addEventListener('click',e=>{ if(!p.contains(e.target)&&e.target!==b) p.classList.remove('open'); }); })();
+
+  render();   // initial draw: cards + spider + scatter
 })();
 </script>
 </body>

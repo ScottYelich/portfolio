@@ -117,6 +117,15 @@ html = re.sub(r"(;; DATA:START).*?(;; DATA:END)",
               lambda m: m.group(1) + "\n" + sexp + "\n" + m.group(2), html, flags=re.S)
 html = re.sub(r"(/\* CSS:START \*/).*?(/\* CSS:END \*/)",
               lambda m: m.group(1) + "\n" + prov + css + m.group(2), html, flags=re.S)
+
+idx_ver = "1.0.0"
+iprov = ('<meta name="author" content="Scott Yelich (scott@spy.org)">\n'
+         '<meta name="version" content="' + idx_ver + '">\n'
+         '<meta name="build-date" content="' + gen + '">\n'
+         '<!-- index.html · v' + idx_ver + ' · built ' + gen + ' · author: Scott Yelich <scott@spy.org> -->')
+html = re.sub(r"(<!-- PROV:START -->).*?(<!-- PROV:END -->)",
+              lambda m: m.group(1) + "\n" + iprov + "\n" + m.group(2), html, flags=re.S)
+
 open("index.html", "w").write(html)
 
 pub = sum(1 for r in repos if (r.get("visibility") or "").lower() == "public")
