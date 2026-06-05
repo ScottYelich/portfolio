@@ -74,22 +74,6 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 .cloudbtn{background:var(--panel);color:var(--muted);border:1px solid var(--border);
   border-radius:8px;padding:9px 12px;cursor:pointer;font-size:13px}
 .cloudbtn:hover{color:var(--fg);border-color:var(--accent)}
-.overlay{position:fixed;inset:0;background:rgba(13,17,23,.97);z-index:50;
-  display:flex;flex-direction:column;padding:18px 22px}
-.overlay-head{display:flex;align-items:center;gap:14px;
-  color:var(--muted);font-size:13px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.ovclose{background:none;border:0;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
-.ovclose:hover{color:var(--fg)}
-.cloudsearch{flex:1;max-width:360px;background:var(--panel);border:1px solid var(--border);
-  color:var(--fg);border-radius:8px;padding:7px 11px;font-size:13px}
-.cloudsearch:focus{outline:none;border-color:var(--accent)}
-.cloudinfo{margin-left:auto;color:var(--muted);font-size:12px;white-space:nowrap}
-.cloudlegend{display:flex;gap:6px 10px;flex-wrap:wrap;font-size:11px;color:var(--muted);align-items:center}
-.cloudtags{position:relative;flex:1;width:100%;overflow:hidden}
-.cloudtag{position:absolute;cursor:pointer;user-select:none;white-space:nowrap;line-height:1;
-  font-weight:600;padding:2px 5px;border-radius:6px;transition:transform .08s}
-.cloudtag:hover{transform:scale(1.15);z-index:3;text-shadow:0 0 9px rgba(0,0,0,.7)}
-.cloudtag.on{background:var(--chip-on);color:#fff!important;z-index:2}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin-top:18px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;
   display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
