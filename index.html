@@ -16,8 +16,8 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T04:30:21Z
- * sha256:  72ac5e0d342e61c4bde459ed28e3cc7fc79ad9c1276af862149374d7c01e8897
+ * date:    2026-06-05T04:53:57Z
+ * sha256:  5dbf0b896aa6b4b90b9d37ae2c35cf1703c8d5b342aa152ace6193dfe32e12d2
  * note:    inlined for self-containment; check source for updates.
  */
 /*!
@@ -71,7 +71,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 .badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.3px}
 .badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
 .badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
-.desc{color:var(--fg);font-size:13.5px;flex:1}
+.desc{color:var(--fg);font-size:13.5px}
+.summary{color:var(--muted);font-size:12.5px;font-style:italic;
+  border-left:2px solid var(--border);padding-left:9px;margin:2px 0;flex:1}
 .ctags{display:flex;gap:6px;flex-wrap:wrap}
 .ctag{font-size:11.5px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);
   padding:2px 8px;border-radius:6px;cursor:pointer}
@@ -124,11 +126,13 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T04:30:21Z")
+  (generated "2026-06-05T04:53:57Z")
   (repo
     (name "portfolio")
     (visibility public)
     (description "Interactive index of my repos (public + private)")
+    (summary "The public index and starting point for all these projects — an interactive, self-contained map.")
+    (doc "docs/portfolio.html")
     (url "https://github.com/ScottYelich/portfolio")
     (homepage "https://scottyelich.github.io/portfolio/")
     (language "HTML")
@@ -138,6 +142,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "sdts")
     (visibility private)
     (description "Scott & Daniel - Trading System")
+    (summary "A full-stack algorithmic-trading lab: secure UDP networking, a zero-config service mesh, and a real-time terminal dashboard for trading bots.")
+    (doc "docs/sdts.html")
     (url "https://github.com/ScottYelich/sdts")
     (homepage "")
     (language "Python")
@@ -147,6 +153,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "yx")
     (visibility public)
     (description "yx packet")
+    (summary "A secure, payload-agnostic UDP packet protocol with HMAC integrity and a byte-identical wire format across Python and Swift.")
+    (doc "docs/yx.html")
     (url "https://github.com/ScottYelich/yx")
     (homepage "")
     (language "Python")
@@ -156,6 +164,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "yobro")
     (visibility private)
     (description "Alexa clone")
+    (summary "A 100% local, always-on \"Alexa clone\" for macOS that wakes to \"yo bro\" and answers in a local LLM's words — no cloud.")
+    (doc "docs/yobro.html")
     (url "https://github.com/ScottYelich/yobro")
     (homepage "")
     (language "Python")
@@ -165,6 +175,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "gws")
     (visibility private)
     (description "Google workspace")
+    (summary "A fast, JSON-only CLI wrapper around Gmail and Google Sheets, built to be driven by AI agents and shell scripts.")
+    (doc "docs/gws.html")
     (url "https://github.com/ScottYelich/gws")
     (homepage "")
     (language "Python")
@@ -174,6 +186,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "laniakea")
     (visibility private)
     (description "LAN AI ... ")
+    (summary "The plumbing layer of a personal AI supercluster — scripts that turn one Apple Silicon Mac into a LAN-reachable LLM/vision/inference stack.")
+    (doc "docs/laniakea.html")
     (url "https://github.com/ScottYelich/laniakea")
     (homepage "")
     (language "Python")
@@ -183,6 +197,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "dagsmith")
     (visibility private)
     (description "DAG smithy ... orchestrator, builds stuff.")
+    (summary "`make` for AI work — a dependency-aware DAG orchestrator that dispatches build steps to pluggable AI executors, with a graph that can rewrite itself.")
+    (doc "docs/dagsmith.html")
     (url "https://github.com/ScottYelich/dagsmith")
     (homepage "")
     (language "Swift")
@@ -192,6 +208,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "ybs")
     (visibility private)
     (description "Yelich Build System")
+    (summary "A spec-and-step build methodology that lets AI agents construct whole systems autonomously, with traceability and verification baked in.")
+    (doc "docs/ybs.html")
     (url "https://github.com/ScottYelich/ybs")
     (homepage "")
     (language "Shell")
@@ -201,6 +219,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "saixha")
     (visibility private)
     (description "Sasha:  AI Shell")
+    (summary "An S-expression AI shell (\"Sasha\") where the LLM, a Lisp interpreter, and Swift built-ins are all in-process evaluators.")
+    (doc "docs/saixha.html")
     (url "https://github.com/ScottYelich/saixha")
     (homepage "")
     (language "Swift")
@@ -210,6 +230,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "murphy")
     (visibility private)
     (description "murphy chat w/ llm + tooling, etc.")
+    (summary "A single-shot Swift AI agent engine for macOS — prompt in, structured JSONL events out, exit code.")
+    (doc "docs/murphy.html")
     (url "https://github.com/ScottYelich/murphy")
     (homepage "")
     (language "Swift")
@@ -219,6 +241,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "agent")
     (visibility private)
     (description "General AI agent/worker continuous loop, etc.")
+    (summary "Drop a file into a folder and it runs — a no-polling macOS daemon that turns directories into a durable work queue.")
+    (doc "docs/agent.html")
     (url "https://github.com/ScottYelich/agent")
     (homepage "")
     (language "Swift")
@@ -228,6 +252,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "mlx-router")
     (visibility private)
     (description "MLX Router (proxy)")
+    (summary "A thin wrapper that turns any Apple Silicon Mac into a private, OpenAI-compatible LLM endpoint backed by MLX.")
+    (doc "docs/mlx-router.html")
     (url "https://github.com/ScottYelich/mlx-router")
     (homepage "")
     (language "Python")
@@ -237,6 +263,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "mind")
     (visibility private)
     (description "mind - agentic processing stuffs")
+    (summary "The intelligence layer that reads your memories and learns \"what usually happens next\" — Memory stores what happened, Mind understands what it means.")
+    (doc "docs/mind.html")
     (url "https://github.com/ScottYelich/mind")
     (homepage "")
     (language "")
@@ -246,6 +274,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "memory")
     (visibility private)
     (description "Memories (for agentic systems work/use)")
+    (summary "A passive, file-based memory layer that turns every agent turn, job, and command into a linked Obsidian-compatible note.")
+    (doc "docs/memory.html")
     (url "https://github.com/ScottYelich/memory")
     (homepage "")
     (language "")
@@ -255,6 +285,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "gmail-utility")
     (visibility private)
     (description "General gmail utility: create, read, update, delete -- plus search, etc.  May then be called as agent /skill, etc.")
+    (summary "A CLI to pull your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash.")
+    (doc "docs/gmail-utility.html")
     (url "https://github.com/ScottYelich/gmail-utility")
     (homepage "")
     (language "Python")
@@ -264,6 +296,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (name "playground")
     (visibility private)
     (description "playground")
+    (summary "An empty 2014-era scratch repo — a named placeholder.")
+    (doc "docs/playground.html")
     (url "https://github.com/ScottYelich/playground")
     (homepage "")
     (language "")
@@ -369,7 +403,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       for(const t of state.tags){ if(rt.indexOf(t.toLowerCase())<0) return false; }
     }
     if(state.q){
-      const hay=(r.name+' '+(r.description||'')+' '+(r.tags||[]).join(' ')+' '+(r.language||'')).toLowerCase();
+      const hay=(r.name+' '+(r.description||'')+' '+(r.summary||'')+' '+(r.tags||[]).join(' ')+' '+(r.language||'')).toLowerCase();
       if(hay.indexOf(state.q)<0) return false;
     }
     return true;
@@ -382,9 +416,12 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     let links=pub ? '<a href="'+esc(r.url)+'" target="_blank" rel="noopener">repo →</a>'
                   : '<span title="private — requires access" style="color:var(--muted)">private repo</span>';
     if(r.homepage) links+=' <a href="'+esc(r.homepage)+'" target="_blank" rel="noopener">site ↗</a>';
+    if(r.doc) links+=' <a href="'+esc(r.doc)+'">details →</a>';
+    const summary=r.summary ? '<div class="summary">'+esc(r.summary)+'</div>' : '';
     return '<div class="card">'
       + '<h2>'+esc(r.name)+' <span class="badge '+(pub?'public':'private')+'">'+(pub?'public':'private')+'</span></h2>'
       + '<div class="desc">'+(esc(r.description)||'<span style="color:var(--muted)">no description</span>')+'</div>'
+      + summary
       + '<div class="ctags">'+tagHtml+'</div>'
       + '<div class="foot"><span>'+(r.language?esc(r.language)+' · ':'')+'updated '+esc(r.updated)+'</span>'
       + '<span class="links">'+links+'</span></div></div>';

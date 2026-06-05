@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>murphy · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:26Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">murphy</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="murphy--executive-summary">murphy — executive summary</h1>
+<p><strong>One-liner:</strong> A single-shot Swift AI agent engine for
+macOS — prompt in, structured JSONL events out, exit code — a
+disciplined worker that does one agent loop and gets out of the way.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>Murphy takes a prompt, runs one LLM-plus-tools agent loop, streams
+every action as canonical JSONL events on stdout, and exits with a
+structured code. It ships six built-in tools (<code>read_file</code>,
+<code>write_file</code>, <code>edit_file</code>,
+<code>list_files</code>, <code>search_files</code>,
+<code>run_shell</code>) and auto-discovers external tools that respond
+to <code>--schema</code>. A single OpenAI-compatible HTTP adapter is its
+only provider interface, so all model-specific translation (Anthropic,
+Apple Foundation Models, local Qwen/Llama/Hermes) is delegated to
+mlx-router and Murphy itself stays provider-agnostic. It runs
+non-interactively (<code>murphy -p "..."</code>) and is designed to be
+invoked as a subprocess by an orchestrator.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Clean separation of concerns: a worker, not an orchestrator — never
+retries across runs, escalates models, or manages multi-step
+builds.</li>
+<li>Fully observable: 19 event types covering the whole lifecycle
+(session, rounds, text deltas, tool calls, errors, cancellation) as flat
+one-object-per-line JSONL.</li>
+<li>Provider-agnostic by design — one HTTP adapter, zero
+Anthropic/OpenAI-shaped types leaking into the engine.</li>
+<li>Security by default: path sandboxing, deny-by-default file access,
+symlink/path-traversal prevention, sandboxed shell execution.</li>
+<li>Swift 6 with strict concurrency and no third-party dependencies; v2
+binary is built and installed with 772 tests passing.</li>
+<li>Fast, predictable failure — connection errors exit immediately with
+a structured code, leaving the decision to the caller.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>macOS-only, and the deploy step is fragile: copying the binary
+invalidates the ad-hoc code signature and it must be re-signed or it
+silently dies (<code>zsh: killed</code>).</li>
+<li>The shipping artifact is v2; v3, v4, and v5 are specs/plans, not
+running code, so the headless canonical-event engine described in the
+README is partly aspirational.</li>
+<li>Repo carries significant clutter — multiple historical build-spec
+trees (v1–v5) plus loose debugging files (MLX tool-calling issue notes,
+quick-fix checklists, test scripts) at the top level.</li>
+<li>Useful only in concert with mlx-router for inference; on its own it
+cannot reach Anthropic, Apple FM, or local models.</li>
+<li>No UI, REPL, or interactive mode (by design) — not meant for direct
+human conversation.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use Murphy when you need a reliable, scriptable execution unit that
+runs exactly one AI agent task and reports everything it did in a
+machine-readable stream. It is the right tool when an orchestrator (or a
+human) wants to dispatch work, watch structured events, and make
+retry/escalation decisions externally — rather than embedding that logic
+in the worker.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>Murphy is the middle layer of a three-tool stack:
+<strong>agent</strong> (the macOS work-queue daemon) dispatches jobs,
+<strong>dagsmith</strong> (the DAG orchestrator) reads YBS steps and
+calls Murphy as an executor subprocess, and Murphy runs the actual agent
+loop. Downstream, Murphy speaks only OpenAI-compatible HTTP to
+<strong>mlx-router</strong>, which translates every provider (local MLX
+models, Anthropic, Apple Foundation Models, OpenAI). Its JSONL output is
+consumable by <strong>dagsmith</strong> and importable into
+<strong>memory</strong> (and onward to <strong>mind</strong> for pattern
+detection). Murphy itself is built with the <strong>ybs</strong>
+spec/step methodology, and shares the laniakea-style
+<code>~/ai/bin/</code> deployment convention with the rest of the
+portfolio.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+</div>
+</body>
+</html>

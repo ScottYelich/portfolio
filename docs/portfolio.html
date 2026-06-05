@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>portfolio · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:26Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">portfolio</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="portfolio--executive-summary">portfolio — executive summary</h1>
+<p><strong>One-liner:</strong> The public index and starting point for
+all these projects — an interactive, self-contained map of what each
+repo is and how they fit together.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>A single public page (<code>index.html</code>) listing every
+repository — public and private — with search, public/private filtering,
+tag chips, and a by-language chart. Repo data is an embedded
+S-expression; the style is inlined with a provenance header; ECharts is
+vendored. A <code>docs/</code> directory holds an executive summary for
+each repo (this directory), so the public page can surface <em>what each
+project does</em> even when the repo itself is private.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li><strong>Self-contained &amp; portable</strong> — opens from GitHub
+Pages or <code>file://</code>, no server, no CDN.</li>
+<li><strong>One public entry point</strong> for an otherwise-private
+ecosystem.</li>
+<li><strong>Convention source of truth</strong> —
+<code>tools/mdpage.py</code>, <code>style/*.css</code>, and the
+<code>{{name}}</code> placeholder + embedding/provenance conventions
+live here and are reused by every repo.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Summaries are hand-curated and can drift from the repos they
+describe.</li>
+<li>Links to private repos 404 for anyone without access (by
+design).</li>
+<li>Deliberately "leaks" capability summaries of private work —
+appropriate only because that exposure is intended.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>As the front door: to see, at a glance, every project, what it does,
+and how the pieces relate — then jump to whichever repo (or its rendered
+README) matters.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>It indexes and links to all of them, and each repo links back here as
+its top-level reference. It documents the shared conventions
+(placeholders, embedding, README→web rendering via
+<code>tools/mdpage.py</code>) that the whole portfolio follows.</p>
+<hr />
+<p><em>Executive summary. Part of <a
+href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+</div>
+</body>
+</html>

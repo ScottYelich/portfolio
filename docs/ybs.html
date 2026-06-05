@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ybs · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:27Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">ybs</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="ybs--executive-summary">ybs — executive summary</h1>
+<p><strong>One-liner:</strong> A spec-and-step build methodology that
+lets AI agents construct whole systems autonomously, with traceability
+and verification baked in.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>YBS (Yelich Build System) is a <strong>methodology +
+framework</strong> for defining software as a graph of specifications
+and executable build steps that an AI agent can run end-to-end. It is
+configuration-first (a Step 0 collects all config up front into
+<code>BUILD_CONFIG.json</code>), then proceeds through steps without
+prompting. Every step carries explicit verification criteria and
+traceability links from code back to requirements. The 2.0 direction
+models all spec/step artifacts as atomic <strong>S-expression
+<code>.ybs</code> graph nodes</strong> linked by GUIDs, so quality is
+provable from graph structure rather than prose.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li><strong>Autonomous, repeatable builds</strong> — agents execute
+without hand-holding after Step 0.</li>
+<li><strong>Traceability &amp; verification</strong> are first-class
+(code ↔︎ spec links, per-step checks, retry limits).</li>
+<li><strong>Language- and system-agnostic</strong> framework; reusable
+templates and tools.</li>
+<li>The S-expression graph model makes specs machine-checkable.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Up-front rigor (specs before code) is heavier than ad-hoc coding for
+small tasks.</li>
+<li>The 2.0 S-expression rework currently lives on <code>develop</code>,
+unmerged — two models coexist.</li>
+<li>Effectiveness depends on disciplined step authoring; a vague step
+yields vague builds.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>When you want an AI agent to build (or rebuild) a system
+<strong>reproducibly and verifiably</strong> from a written
+specification, rather than improvising — especially across multiple
+builds or agents.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>YBS is the <strong>methodology backbone</strong> of the portfolio.
+Several systems are specified <em>in</em> YBS (<code>gws</code>,
+<code>murphy</code>, <code>saixha</code>, <code>yobro</code> all carry
+<code>.ybs</code> spec/step files). <code>dagsmith</code> orchestrates
+multi-step builds and complements YBS's step model.
+<code>saixha</code>'s S-expression substrate shares the same "code =
+data" philosophy as YBS 2.0's <code>.ybs</code> graph. In short: YBS
+defines <em>how</em> things get built; the other repos are <em>what</em>
+gets built (often through it).</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:27Z.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gmail-utility · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:25Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">gmail-utility</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="gmail-utility--executive-summary">gmail-utility — executive
+summary</h1>
+<p><strong>One-liner:</strong> A CLI tool to pull your entire Gmail down
+into a local, searchable archive — SQLite metadata plus standard
+<code>.eml</code> files — with a deliberately paranoid two-stage trash
+system so cleanup never loses mail by accident.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>Bulk download of Gmail messages via the Gmail REST API (batch
+requests) into a local archive.</li>
+<li>Local storage split for speed and portability: SQLite holds metadata
+plus an FTS5 full-text search index (no BLOBs), while message bodies
+live as standard <code>.eml</code> files readable by any mail
+client.</li>
+<li>Attachment extraction with SHA256 deduplication and reference
+counting, so identical attachments are stored once.</li>
+<li>A safe, reversible cleanup workflow — delete → local trash → review
+→ purge — built on two databases (<code>gmail.db</code> active,
+<code>gmail-trash.db</code> trash) with undelete support.</li>
+<li>Search over the archive (e.g. <code>from:</code>,
+<code>subject:</code>, label/date filters) and an intended Claude Code
+skill integration for conversational email management.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li><strong>Clear, opinionated architecture</strong>: metadata-only
+SQLite + on-disk <code>.eml</code> keeps the database small and fast
+while leaving content in a universal, future-proof format.</li>
+<li><strong>Safety-first design</strong>: trash-before-delete, undelete,
+dry-run, read-only Gmail scope, and a hard rule against destructive
+operations on live/pre-existing mail. Data directories live outside the
+repo to avoid leaking mail into git/tar/backups.</li>
+<li><strong>Thoroughly specified</strong>: a ~40 KB technical proposal
+and a ~50-step, 11-phase implementation plan with checkpoints and tests,
+plus a session-state tracker for resumable, incremental
+development.</li>
+<li><strong>Reconciliation-based sync</strong> (set difference rather
+than a checkpoint table) keeps the sync model simple and robust.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li><strong>Pre-implementation</strong>: this is the project's most
+important caveat. Despite extensive docs, essentially no functionality
+is built yet — only a ~123-line <code>click</code> CLI skeleton exists;
+the <code>api/</code>, <code>storage/</code>, <code>sync/</code>,
+<code>trash/</code>, and <code>utils/</code> packages are empty
+<code>__init__.py</code> stubs, and the test suite is empty. Session
+state lists Phase 0 (project setup) as "NOT STARTED."</li>
+<li><strong>No tests yet</strong> beyond an empty scaffold, so the
+safety guarantees are specified but unproven in code.</li>
+<li><strong>Setup friction</strong>: requires a Google Cloud project,
+Gmail API enablement, and user-provided OAuth credentials before first
+use; assumes Python 3.11+ and pyenv.</li>
+<li><strong>Single-account / local-only</strong> in scope; no
+multi-account, server, or sync-back-to-Gmail story (by design it stays
+read-only against Gmail).</li>
+<li><strong>Version-locked at 0.1.x</strong>, signaling it is explicitly
+not yet ready for general use.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use it when you want a durable, self-owned, locally searchable
+archive of your Gmail and a safe way to declutter — bulk-deleting old
+promotions or newsletters without trusting an irreversible action
+against your live inbox. The <code>.eml</code> + SQLite combo is
+attractive if you value portable, tool-agnostic storage and full-text
+search you control. Today, though, it is better read as a reference spec
+than a tool you can run.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>gmail-utility is the Gmail-specific, local-archive counterpart to
+<strong>gws</strong> (broader Google Workspace tooling), and the two
+share a Google-API domain and likely overlapping auth/data-handling
+philosophy. It echoes the portfolio-wide pattern of spec-first
+development seen in <strong>ybs</strong>-built projects (gws, yobro): a
+detailed proposal and step-by-step implementation plan precede code,
+with session-state tracking for resumable, agent-friendly work. As a
+clean, scoped CLI over a well-defined data store, its local archive
+could serve as a data source for agentic systems in the portfolio —
+<strong>memory</strong> (durable memories),
+<strong>mind</strong>/<strong>murphy</strong> (LLM
+processing/execution), and <strong>agent</strong> (macOS work-queue
+worker) — and its Claude Code skill hook aligns it with that
+conversational-tooling ecosystem.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>memory · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:25Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">memory</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="memory--executive-summary">memory — executive summary</h1>
+<p><strong>One-liner:</strong> A passive, file-based memory layer for
+agentic systems that turns every Murphy turn, Agent job, dagsmith step,
+and shell command into a linked Obsidian-compatible markdown note —
+without any tool needing to know it exists.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>A Zettelkasten-style knowledge store at <code>~/.memory/</code>,
+where each interaction is one atomic markdown file (<code>.md</code>)
+with YAML frontmatter and <code>[[id]]</code> wikilinks.</li>
+<li>Decoupled "importers" (Murphy, Agent, dagsmith, Shell) that read
+each tool's <em>existing</em> output format after the fact and create
+memories — zero coupling, so if Memory breaks nothing else breaks.</li>
+<li>A planned CLI
+(<code>memory collect | search | show | thread | session | recent | related | tags</code>)
+for idempotent collection and traversal of memories by source, session,
+thread, tag, or link.</li>
+<li>An Obsidian-compatible vault: open <code>~/.memory/</code> in
+Obsidian to browse the graph, follow links, and query with
+Dataview.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Zero-coupling design: tools write their normal output and never
+import or call Memory, making the whole stack resilient and
+independently testable.</li>
+<li>Source of truth is plain markdown + YAML — human-readable, diffable,
+portable, and tool-agnostic (no database required; SQLite only as
+optional cache).</li>
+<li>Atomic, ID-linked memory units (one turn / command / job / step)
+compose into threads and sessions, enabling clean graph traversal.</li>
+<li>Idempotent collection avoids duplicates by checking existing
+IDs.</li>
+<li>Clean separation of concerns: Memory stores; Mind (a sibling)
+interprets.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Status is "design complete, implementation pending" — the CLI,
+importers, and store are specified but not yet built, so today it is
+documentation rather than working software.</li>
+<li>Passive by design: it does no thinking, learning, or summarization
+on its own; value depends on Mind being built and run.</li>
+<li>Dual link representation (frontmatter <code>links:</code> array +
+body <code>[[id]]</code> wikilinks) must be kept in sync manually/by
+convention, a likely source of drift bugs.</li>
+<li>File-per-memory at scale (potentially many thousands of notes) may
+stress filesystem and Obsidian performance and make search/traversal
+slower without the optional cache.</li>
+<li>Tight conceptual reliance on specific sibling tool output formats
+(JSONL, job dirs, event logs) means importers are coupled to those
+schemas even though the tools aren't coupled to Memory.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use Memory when you want a durable, inspectable, plain-text record of
+everything your agentic tool stack does — and a substrate that
+downstream intelligence can mine for patterns — without retrofitting
+logging or instrumentation into the tools themselves. It is the system
+of record for the agent ecosystem: capture now, understand later.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>Memory sits downstream of the execution tools and upstream of
+analysis. Its importers consume outputs from <strong>murphy</strong>
+(JSONL turn events), <strong>agent</strong> (job directories in the
+work-queue), and <strong>dagsmith</strong> (build step event logs), plus
+shell history — none of which depend on Memory in return.
+<strong>mind</strong> is the intelligence layer: it reads the memory
+store and writes <code>pattern</code>/<code>observation</code> memories
+back into the same vault, closing the loop. <strong>mlx-router</strong>
+has no direct relationship (Murphy talks to it, not Memory). Like much
+of the portfolio (e.g. <strong>saixha</strong>'s code-as-data ethos),
+Memory leans on a simple, transparent, file-native representation as its
+foundation. Built in Swift, consistent with sibling tools like murphy
+and agent.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+</div>
+</body>
+</html>

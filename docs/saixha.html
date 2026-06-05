@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>saixha · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:26Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">saixha</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="saixha--executive-summary">saixha — executive summary</h1>
+<p><strong>One-liner:</strong> An S-expression AI shell (pronounced
+"Sasha") where the LLM, a Lisp interpreter, and Swift built-ins are all
+in-process evaluators — and forking out to a real command is the
+exception, not the rule.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>saixha is the design for an interactive macOS shell where evaluation
+happens in-process by default and S-expressions are the native substrate
+(code = data = pipe format). Distinct input prefixes route to distinct
+evaluators: <code>/cmd</code> (Swift built-in), <code>!cmd</code> (force
+shell exec), <code>!!cmd</code> (shell exec whose stdout is piped into
+LLM context), <code>?text</code> (one-shot LLM query),
+<code>:text</code> (stateful murphy conversation),
+<code>@type job.sh</code> (agent enqueue), <code>$(expr)</code> (inline
+Lisp), and bare text falling back to the LLM. The signature feature is
+the <code>!!</code> bridge: run a real command and its output is
+silently added to the conversation, so the next LLM question already has
+the data — no copy-paste. It also specifies a dependency-free
+Swift-native Lisp interpreter (~900 lines, scoped as a config/spec DSL),
+built-in commands for the agent job queue, context save/load, aliases,
+and mlx-router model tiers.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Coherent, well-articulated design philosophy ("fork is the escape
+hatch, not the default") borrowed cleanly from <code>/bin/sh</code>
+semantics.</li>
+<li>The <code>!!cmd</code> context bridge is a genuinely useful idea: it
+fuses deterministic shell output with non-deterministic LLM reasoning
+without manual copy-paste.</li>
+<li>S-expression-as-pipe-format gives typed, self-describing, AND
+executable inter-process data — a real step beyond text or JSONL.</li>
+<li>Clean ecosystem boundaries: it calls murphy as a function, reads
+agent's queue dirs, and routes inference through mlx-router rather than
+re-implementing any of them.</li>
+<li>Disciplined constraints: no third-party Swift packages, no direct
+<code>api.anthropic.com</code> calls, no terminal emulator, no embedded
+agent loop.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Essentially a scaffold at v0.1.0: the REPL is not implemented.
+Source is an 11-line <code>main.swift</code> and a 6-line test — none of
+the documented behavior exists in code yet.</li>
+<li>All the value is currently in docs/specs (architecture, naming
+etymology), not in a runnable artifact.</li>
+<li>Tightly coupled to a specific macOS 26 / Swift 6 stack and a bespoke
+sibling ecosystem (murphy, agent, mlx-router); not portable or
+standalone.</li>
+<li>The embedded Lisp is deliberately limited (no TCO, GC, or
+continuations); anything needing full Scheme requires swapping in
+s7.</li>
+<li>Heavy reliance on local conventions (<code>~/ai/bin</code>,
+<code>$AGENT_HOME/queue/</code>, mlx-router tiers) means it only "works"
+inside its author's environment.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>You'd reach for saixha when you want a single interactive prompt that
+blends ordinary shell work, structured Lisp scripting, and an
+always-available LLM that can see your real command output — without
+context-switching to a separate chat window or pasting logs. It is the
+human-facing front door to an AI-agent ecosystem: inspect agent jobs,
+ask murphy stateful questions, and pipe shell reality into the model,
+all from one REPL. Today, though, it is a blueprint to build from, not a
+tool to run.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>saixha is the interactive shell layer of a larger AI-agent ecosystem.
+It calls <strong>murphy</strong> (the LLM processing/execution engine)
+as an in-process function with a clean S-expression I/O contract for
+<code>:</code> and <code>?</code> queries. It talks to
+<strong>agent</strong> (the macOS work-queue daemon) by reading its
+queue directories and shelling out to its CLI via
+<code>@type job.sh</code>, never embedding the agent loop. LLM inference
+routes through <strong>mlx-router</strong> (local MLX inference) via
+murphy and the <code>/model</code> tier selector.
+<strong>dagsmith</strong> builds the ecosystem, and the build
+methodology traces to <strong>ybs</strong> (the spec/step S-expression
+<code>.ybs</code> graph), which is also the shared philosophical root of
+"S-expression as the universal substrate." <strong>laniakea</strong>
+owns the <code>~/ai/bin/</code> script layer that saixha sits alongside,
+and <strong>memory</strong> consumes agent job dirs that saixha can
+inspect. The whole set is indexed from the public
+<strong>portfolio</strong>.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agent · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:25Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">agent</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="agent--executive-summary">agent — executive summary</h1>
+<p><strong>One-liner:</strong> Drop a file into a folder and it runs — a
+no-polling macOS daemon that turns directories into a durable,
+concurrency-controlled work queue.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>A persistent macOS LaunchAgent (<code>KeepAlive</code>) that watches
+typed <code>drop/&lt;handler&gt;/</code> directories via
+<code>DispatchSource</code>/kqueue and executes work the instant a file
+appears — no polling, no scheduler.</li>
+<li>A filesystem-as-database job state machine
+(<code>inbox → running → done | failed</code>) where every job is a
+directory containing a JSON manifest, the payload, captured
+stdout/stderr logs, and sidecar status files.</li>
+<li>Execution primitives only: concurrency limits, LockKey mutual
+exclusion, per-job timeouts, heartbeat monitoring, and graceful drain
+for zero-loss binary upgrades.</li>
+<li>Fully config-driven job types — handlers are declared in
+<code>~/.config/agent/handlers.json</code>; adding a new job type needs
+only a config edit plus <code>agent init</code>, never a binary
+change.</li>
+<li>A CLI for the full lifecycle: <code>init</code>, <code>loop</code>,
+<code>enqueue</code>, <code>status</code>, <code>logs</code>,
+<code>cancel</code>, <code>retry</code>, <code>purge</code>,
+<code>drain</code>. Status reads the filesystem directly and never
+consumes a worker slot.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Event-driven and efficient: kqueue watchers instead of polling
+loops; correctness comes from directory scans, not event delivery.</li>
+<li>Durable and inspectable by design — state lives entirely on disk as
+JSON + sidecar files, so jobs survive restarts and can be examined with
+ordinary shell tools.</li>
+<li>Clean architecture: Swift 6 with strict (<code>complete</code>)
+concurrency, zero third-party dependencies, and a deliberate decoupling
+where <code>AgentLoop</code> and <code>JobRunner</code> never import
+each other (wired only through a <code>JobExecutor</code>
+protocol).</li>
+<li>Mechanism, not policy: the binary has no hard-coded job logic,
+making it a reusable substrate that any CLI tool or AI worker can plug
+into.</li>
+<li>Graceful drain enables safe in-place upgrades — SIGTERM stops
+intake, lets in-flight jobs finish, then lets launchd relaunch the new
+binary.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Single-machine and macOS-only (macOS 26.0+, Swift 6.2+) — not
+distributed, not portable to Linux, no iOS/visionOS targets by
+design.</li>
+<li>Not a scheduler: jobs run when dropped, never on a cron/time basis;
+scheduling must come from an external system.</li>
+<li>Deliberately minimal — no HTTP intake, no built-in retry policy
+beyond attempts, no job logic of its own; real value depends on the
+handlers and engines wired in around it.</li>
+<li>Early-stage (v0.x; README describes v1 as
+<code>exec</code>-handler-only) with the broader feature set staged
+through external YBS/dagsmith builds.</li>
+<li>The on-disk state machine relies on filesystem atomicity conventions
+(LockKey mkdir mutexes, tmp-staging), tying durability and correctness
+to local filesystem semantics.</li>
+<li>Requires manual ad-hoc codesigning after each binary copy on macOS,
+adding operational friction to upgrades.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Reach for agent when you want a dead-simple, reliable local execution
+substrate on a Mac: a place to drop work and trust it will run exactly
+once, with concurrency caps, locks, timeouts, and a clear audit trail on
+disk. It is ideal as the worker-loop backbone for an AI or automation
+pipeline where the intelligence lives elsewhere and you just need a
+robust queue that survives reboots and upgrades without losing or
+double-running jobs.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>agent is the execution backbone of a larger local-AI ecosystem. It
+runs the queue, but the work it executes typically comes from
+<strong>murphy</strong>, the LLM processing/execution engine that
+supplies the actual agent-job logic. <strong>dagsmith</strong> sits
+above it, orchestrating multi-step DAG builds — agent's own new features
+are even built this way, defined as YBS step files.
+<strong>memory</strong> reads agent's job directories (via an
+AgentImporter) to harvest memories for agentic systems, and
+<strong>mlx-router</strong> provides the local LLM inference backend
+those jobs call into. agent shares the portfolio's build philosophy with
+<strong>ybs</strong> (the spec/step methodology used to build agent
+itself) and deploys alongside <strong>laniakea</strong>-managed scripts
+into the shared <code>~/ai/bin/</code> local toolchain.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+</div>
+</body>
+</html>

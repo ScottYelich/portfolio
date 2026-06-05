@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dagsmith · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:25Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">dagsmith</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="dagsmith--executive-summary">dagsmith — executive summary</h1>
+<p><strong>One-liner:</strong> <code>make</code> for AI work — a
+dependency-aware DAG orchestrator that dispatches markdown build steps
+to pluggable AI executors, except the build graph can rewrite itself
+while it runs.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>dagsmith reads structured step files (markdown), resolves their
+dependency graph, and dispatches ready steps to pluggable executors
+(Murphy, Claude Code, aider, shell scripts — anything that takes
+markdown in and returns structured JSON out). It is purely the
+<em>orchestrator</em>: it schedules, dispatches, and tracks state, but
+executes nothing itself. Key capabilities include topological scheduling
+with parallel dispatch of independent steps, a runtime-mutable DAG
+(planners, executors, or humans can inject/modify steps mid-build), an
+entirely filesystem-based state protocol (event log, DONE files,
+questions, control signals), and crash recovery that resumes from the
+last checkpoint. It ships a Swift CLI with 15 subcommands (run, plan,
+status, pause/resume, answer, interactive REPL, attach), an HTTP REST
+API, and an MCP server for Claude Code integration. It natively
+understands the YBS step/dependency format, plus single-file and
+directory input formats via auto-detection.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li><strong>No LLM in the scheduler</strong> — scheduling is pure graph
+math, so it is deterministic, free (zero tokens to plan), and fast; only
+the executors spend tokens.</li>
+<li><strong>Filesystem-native state</strong> makes crash recovery
+essentially free and lets any external tool read/inspect build state
+(events, BUILD_STATUS.md, questions/, control/).</li>
+<li><strong>Loosely coupled, language-agnostic executors</strong> —
+subprocess "markdown in, JSON out" contract means executors can be any
+tool in any language (Murphy, Claude Code, CrewAI/LangGraph agents,
+plain scripts).</li>
+<li><strong>Mutable DAG with a human-in-the-loop protocol</strong> —
+async questions, answers, pause, priority changes, and runtime step
+injection are first-class, unlike static schedulers (make/Airflow).</li>
+<li><strong>Self-hosting / dogfooded</strong> — dagsmith ships its own
+YBS build definition (it can build itself), and has a no-Xcode test
+runner.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li><strong>macOS-first.</strong> Swift was chosen for ecosystem
+alignment with Murphy; Linux runs but the toolchain/ecosystem is thinner
+and less tested, and the static binary advantage shrinks there.</li>
+<li><strong>Documentation status is inconsistent.</strong> The README
+presents all features as complete with 58 tests passing, while CLAUDE.md
+describes an earlier state (24 tests, orchestrator/REPL/HTTP/MCP "not
+yet implemented"). Treat the precise maturity of the orchestrator loop
+and frontends as needing verification before relying on them.</li>
+<li><strong>Niche by design.</strong> It is the wrong tool for one-off
+tasks (use an executor directly) or exploratory/unknown-step work (use
+an emergent multi-agent system); its value only appears once a
+structured, repeatable plan exists.</li>
+<li><strong>Smaller contributor pool</strong> for a Swift CLI tool
+versus Go/Python equivalents; explicitly framed as a personal/small-team
+project.</li>
+<li><strong>HTTP/MCP frontends are secondary.</strong> The core is
+headless-first; network frontends were backlog items and add external
+dependencies.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Reach for dagsmith when you have a <em>known, structured plan</em> of
+AI-driven build steps with real dependencies and want to run it
+reliably, repeatably, and in parallel. It shines for builds that must
+survive crashes, mix heterogeneous executors (Murphy + Claude + scripts)
+in one graph, expose inspectable state to other tooling, and support
+async human-in-the-loop decisions. Choose something else for ad-hoc
+single tasks or open-ended "figure out what's wrong and fix it"
+exploration where the steps aren't known up front.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>dagsmith sits at the center of the build-automation stack as the
+<strong>orchestrator</strong> role, distinct from planners and
+executors. It consumes the <strong>ybs</strong> spec/step methodology
+natively — STEPS_ORDER.txt and its S-expression-derived dependency graph
+are dagsmith's primary input format, and ybs acts as the planner that
+produces the DAG. It dispatches work to executors, most directly
+<strong>murphy</strong> (the Swift LLM execution engine, with which it
+deliberately shares the Swift ecosystem, types, and subprocess
+patterns), and equally to <strong>agent</strong> (the macOS work-queue
+daemon / AI worker loop), Claude Code, or any script. Conceptually it
+pairs with <strong>mlx-router</strong> when executors route to local MLX
+inference, and its filesystem event/state protocol is a natural
+producer/consumer alongside <strong>memory</strong> (persistent memories
+for agentic systems) and <strong>mind</strong> (agentic processing). It
+is a foundational piece of the broader portfolio that also includes
+ybs-built applications such as <strong>gws</strong>,
+<strong>yobro</strong>, and <strong>gmail-utility</strong>.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+</div>
+</body>
+</html>

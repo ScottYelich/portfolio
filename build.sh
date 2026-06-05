@@ -20,8 +20,13 @@ CSS_SHA="$(shasum -a 256 style/portfolio.css | awk '{print $1}')"
 python3 - "$GEN" "$CSS_VERSION" "$CSS_SHA" <<'PY'
 import json, sys, re
 
+import os
 gen, css_ver, css_sha = sys.argv[1], sys.argv[2], sys.argv[3]
 repos = json.load(open("/tmp/portfolio_repos.json"))
+try:
+    taglines = json.load(open("data/taglines.json"))
+except Exception:
+    taglines = {}
 
 def esc(s):  # escape for an S-expression string literal
     return (s or "").replace("\\", "\\\\").replace('"', '\\"')
@@ -49,11 +54,16 @@ for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
     lang = (r.get("primaryLanguage") or {}).get("name") or ""
     vis  = (r.get("visibility") or "").lower()
     tags = " ".join(f'"{esc(t)}"' for t in tags_for(r, lang))
+    name = r["name"]
+    summary = taglines.get(name, "")
+    doc = f"docs/{name}.html" if os.path.exists(f"docs/{name}.html") else ""
     lines += [
         "  (repo",
-        f'    (name "{esc(r["name"])}")',
+        f'    (name "{esc(name)}")',
         f'    (visibility {vis})',
         f'    (description "{esc(r.get("description") or "")}")',
+        f'    (summary "{esc(summary)}")',
+        f'    (doc "{esc(doc)}")',
         f'    (url "{esc(r["url"])}")',
         f'    (homepage "{esc(r.get("homepageUrl") or "")}")',
         f'    (language "{esc(lang)}")',

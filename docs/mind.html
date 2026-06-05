@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mind · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:26Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">mind</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="mind--executive-summary">mind — executive summary</h1>
+<p><strong>One-liner:</strong> The intelligence layer that reads your
+memories, learns "what usually happens next," and writes back
+human-readable patterns — Memory stores what happened, Mind understands
+what it means.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>Mind is a planned on-demand (non-daemon) processor that sits on top
+of the Memory store (<code>~/.memory/memories/</code>). It reads
+accumulated memories, maintains a lightweight Bayesian behavioral model
+(transition probabilities, co-occurrence matrices, temporal weights),
+and uses an LLM to turn the top statistical patterns into first-class
+pattern/observation memories written back to the same store.</p>
+<ul>
+<li><strong>Statistical core:</strong> simple count-and-normalize
+probability tables answering "given what just happened, what usually
+happens next?" — updated per-memory in microseconds, stored as plain
+JSON at <code>~/.mind/model.json</code>.</li>
+<li><strong>LLM interpretation:</strong> feeds the strongest patterns to
+Murphy (via mlx-router) to generate readable observations with
+confidence scores and evidence links.</li>
+<li><strong>Memories in, memories out:</strong> outputs are normal
+markdown memories (<code>kind: pattern</code>,
+<code>kind: observation</code>, <code>source: mind</code>) — searchable,
+linkable, visible in the Obsidian graph.</li>
+<li><strong>CLI surface:</strong> <code>observe</code>,
+<code>learn</code>, <code>suggest --context &lt;id&gt;</code>,
+<code>patterns</code>, <code>profile</code>,
+<code>explain &lt;id&gt;</code>.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li><strong>Deliberately simple.</strong> Rejects neural/"anima engine"
+complexity in favor of probability tables; the entire learning algorithm
+is count, normalize, decay — trivially debuggable and
+microsecond-fast.</li>
+<li><strong>Zero coupling.</strong> Murphy, Agent, dagsmith, and Memory
+don't know Mind exists. It only reads/writes files by filesystem
+convention, so if Mind breaks, nothing else does.</li>
+<li><strong>Clean separation of concerns.</strong> Stats find the
+patterns; the LLM only supplies language. Storage is Memory's job;
+computation is Mind's.</li>
+<li><strong>Inspectable artifacts.</strong> Both the model (JSON) and
+the outputs (markdown with evidence chains) are human-readable and
+grep-friendly.</li>
+<li><strong>Flexible execution.</strong> Run manually, on a schedule,
+post-collection, or as a watch loop — no always-on process
+required.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li><strong>Not implemented.</strong> Status is "design complete,
+implementation pending." This is a specification/architecture repo (only
+README + CLAUDE.md), not working software.</li>
+<li><strong>Cold-start dependency.</strong> Useless until Memory is
+populated with enough data to learn from.</li>
+<li><strong>Runtime dependencies for the LLM path.</strong>
+Natural-language observation generation needs Murphy and mlx-router
+running locally; without them only raw statistics are available.</li>
+<li><strong>Single-user / single-machine assumptions.</strong> Built
+around local home-directory paths and one person's behavioral profile;
+no multi-user or distributed story.</li>
+<li><strong>Naive learning model by design.</strong>
+Counting/normalization will not capture higher-order or long-range
+structure; the simplicity that is a strength is also a ceiling.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use Mind when you have a growing Memory store of agent/tool/shell
+activity and want it to become more than an archive — to surface
+recurring workflows, preferences, and "next-action" predictions that
+downstream tools (like Murphy) can act on proactively. It is the right
+tool when you value a transparent, debuggable statistical model over an
+opaque neural one, and want insights expressed as ordinary, linkable
+memories rather than a black-box service.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>Mind sits directly downstream of <strong>memory</strong>: it reads
+from and writes to the same <code>~/.memory/memories/</code> store,
+acting as the computation layer to Memory's storage layer. For
+natural-language interpretation it calls <strong>murphy</strong> (the
+Swift LLM processing/execution engine) over an OpenAI-compatible HTTP
+interface routed through <strong>mlx-router</strong> (local MLX
+inference) — the same path Murphy itself uses. <strong>agent</strong>
+(the macOS work-queue daemon) may dispatch <code>mind observe</code> as
+a scheduled job but does not otherwise depend on Mind. Upstream tools
+whose output becomes memories — Murphy (JSONL events), Agent (job
+directories), and <strong>dagsmith</strong> (DAG build/event logs) —
+feed Mind indirectly via Memory importers, with zero coupling.
+Implementation-wise it shares the Swift stack and local-LLM philosophy
+of Murphy, Agent, and dagsmith.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sdts · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:26Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">sdts</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="sdts--executive-summary">sdts — executive summary</h1>
+<p><strong>One-liner:</strong> A full-stack algorithmic-trading lab
+where a hand-rolled secure UDP networking framework, a zero-config
+service mesh, and a real-time terminal dashboard let trading bots
+discover each other, place bracket orders, and stream ticks across
+machines.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<p>SDTS (Scott &amp; Daniel Trading System) bundles three
+production-ready layers in one repo. The <strong>YX Framework</strong>
+is a dual-language (Python + Swift, fully interoperable) secure UDP/P2P
+networking stack with a 5-layer design, JSON-RPC and binary/chunked
+protocols, HMAC-SHA256 validation, AES-256-GCM encryption, compression,
+and replay protection. <strong>AlgoTrader</strong> is a broadcast-based
+distributed service mesh built on YX that handles zero-config peer
+discovery (heartbeats), lifecycle management (spawn/restart/auto-restart
+policies), metrics, logs, and a 9-view ASCII dashboard plus a 10Hz
+live-trading CLI. The <strong>MES Trading System</strong> adds
+state-machine futures simulators and Interactive Brokers (TWS/Gateway)
+data fetchers for Micro E-mini S&amp;P 500 contracts, with momentum
+signals and bracket orders.</p>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Genuinely complete and tested: dual Python/Swift YX with 20/20
+interoperability tests and 94+ Swift unit tests; AlgoTrader's
+trading-utils carry 200+ tests.</li>
+<li>Strong operational discipline baked into docs: locked Architecture
+Decision Records (ADRs), proof-based "no claims without evidence" rules,
+and an anti-thrashing challenge protocol.</li>
+<li>Zero-configuration networking — services find each other via UDP
+broadcast heartbeats with no hard code dependencies, so workspaces
+interoperate cleanly.</li>
+<li>Cross-platform service management (macOS launchd, Linux systemd,
+WSL2) with real-time observability built in.</li>
+<li>Real broker integration (IBKR paper/live) plus simulators, so the
+same mesh spans backtesting and live execution.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Custom-rolled crypto/networking (HMAC + AES-GCM over raw UDP) is
+ambitious to maintain and audit versus using a vetted transport
+(TLS/QUIC/mTLS); security depends on shared keys.</li>
+<li>Broadcast-only architecture (255.255.255.255, SO_REUSEPORT) is a
+deliberate constraint that limits the topology to a single LAN segment
+and adds noise at scale.</li>
+<li>Version drift in the docs: README claims YX v2.0.0 while CLAUDE.md
+references v1.0.3, indicating the documentation set has not fully
+converged.</li>
+<li>Heavy reliance on per-developer workspaces (scott/, daniel/) means
+much logic lives outside shared infrastructure and isn't uniformly
+hardened.</li>
+<li>Private/personal project (no open license, single primary author per
+component), small contributor base, and trading-specific scope; this is
+research/lab tooling, not turnkey production trading software.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Reach for SDTS when you want a self-contained sandbox for distributed
+algorithmic trading: a place to run multiple trading services across LAN
+machines, watch ticks and orders live in a terminal, and wire signal
+generators to a broker — without standing up heavyweight infrastructure.
+It's most valuable as a learning/experimentation platform and as a
+reference for how to build a secure, discoverable service mesh from
+primitives.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>SDTS shares DNA with <strong>yx</strong> (the yx packet /
+data-protocol project) — the YX networking framework here is the same
+lineage of UDP packet format and secure transport. Its
+broadcast-discovery, daemon-driven service mesh echoes the operational
+pattern of <strong>agent</strong> (the macOS work-queue daemon / AI
+worker loop in Swift) and <strong>murphy</strong> (Swift execution
+engine), all favoring autonomous, long-running processes that coordinate
+over messages rather than tight coupling. The proof-based, ADR-governed
+engineering rigor mirrors the disciplined, spec-first ethos seen across
+the portfolio's build-methodology tooling (<strong>ybs</strong>,
+<strong>dagsmith</strong>). Within the broader portfolio it is the
+domain-specific trading vertical, standing apart from the AI/LLM-centric
+repos while sharing their distributed-systems and Swift/Python
+craftsmanship.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+</div>
+</body>
+</html>

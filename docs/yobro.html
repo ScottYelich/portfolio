@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yobro · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:27Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">yobro</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="yobro--executive-summary">yobro — executive summary</h1>
+<p><strong>One-liner:</strong> A 100% local, always-on "Alexa clone" for
+macOS that wakes to "yo bro," answers in a 229B-parameter local LLM's
+words, and can speak back in a clone of your own voice — no cloud, no
+API keys.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>An always-listening voice pipeline: mic capture → CPU voice-activity
+detection → local speech-to-text → wake-word check → local LLM →
+text-to-speech → audio playback, looping continuously.</li>
+<li>Wake words/phrases ("yo bro," "hey bro," "yo geek," "hey dad")
+recognized via a lightweight VAD+STT loop rather than a dedicated
+wake-word model, so no extra model to download or train.</li>
+<li>Two TTS modes: a fast preset voice (Kokoro-82M, sub-200ms) and a
+zero-shot voice clone (F5-TTS) of the user from a ~15-20s reference
+recording, set up interactively via <code>yobro setup-voice</code>.</li>
+<li>A small, installable Python CLI (<code>yobro listen</code>,
+<code>yobro setup-voice</code>) that orchestrates external local
+services rather than bundling models itself.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Fully local and private: all inference runs on-device (M3/M4-class
+Apple Silicon), with no cloud calls, accounts, or credentials.</li>
+<li>Reuses existing local infrastructure (voice-server STT/TTS on :7022,
+mlx-router LLM on :7777) instead of reinventing it — the daemon is thin
+and focused.</li>
+<li>Clever wake-word approach: piggybacks on already-running STT,
+avoiding a separate wake-word model while keeping trigger words editable
+in one Python dict.</li>
+<li>Personalization: speaks back in the user's own cloned voice with a
+one-time setup.</li>
+<li>Cleanly built and documented via the YBS 2.0 spec/step methodology
+(features, technical-specs, ADRs, acceptance-tests, build steps all
+present).</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Heavy external dependency footprint: needs voice-server, mlx-router,
+and (for cloning) f5-tts-clone all running on a specific high-end Mac
+before it functions — not self-contained or plug-and-play.</li>
+<li>Tightly coupled to one home setup, including a hardcoded LAN host
+for the LLM, so portability to other machines/networks requires
+reconfiguration.</li>
+<li>The VAD+STT wake-word strategy adds ~300-500ms latency and is less
+robust than a purpose-built wake-word detector; voice-clone TTS adds
+2-5s per response.</li>
+<li>macOS-only (relies on <code>afplay</code>); no cross-platform
+support.</li>
+<li>No README; documentation lives in CLAUDE.md and docs/. Async
+intent-routing / agent-job-queue integration is still on the roadmap
+(deferred), so today it answers conversationally but does not yet
+dispatch background tasks like sending email.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use yobro when you want a private, hands-free voice assistant on your
+own Mac that never touches the cloud — for casual Q&amp;A, quick spoken
+answers, and experimenting with local STT/LLM/TTS and personal voice
+cloning. It is best suited to someone already running a local MLX-based
+AI stack who values privacy and customization over turnkey
+convenience.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>yobro is built with <strong>ybs</strong> (the S-expression spec/step
+build methodology — its <code>specs/</code>, <code>steps/</code>, and
+<code>step-plans/</code> are all <code>.ybs</code> graphs). It is the
+voice front-end of a broader local-AI ecosystem: it routes LLM queries
+through <strong>mlx-router</strong> (local MLX inference) and can hand
+off to <strong>murphy</strong> (the Swift LLM execution engine), which
+can in turn call yobro for spoken responses. Its thin deploy wrapper
+lives alongside <strong>laniakea</strong> (LAN AI scripts → local bin).
+The deferred roadmap connects it to <strong>agent</strong> (the macOS
+work-queue daemon) for async intent routing and to
+<strong>gws</strong>/<strong>gmail-utility</strong> for calendar/email
+actions spoken aloud. It is one repo in the <a
+href="https://scottyelich.github.io/portfolio/">ScottYelich
+portfolio</a>.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:27Z.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yx · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:27Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">yx</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="yx--executive-summary">yx — executive summary</h1>
+<p><strong>One-liner:</strong> A secure, payload-agnostic UDP packet
+protocol with HMAC integrity and byte-identical wire format across
+Python and Swift implementations.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>A lightweight transport layer for distributed/LAN systems: UDP
+broadcast delivery with HMAC-SHA256 packet integrity (16-byte
+truncated), optional AES-256-GCM encryption, optional ZLIB compression,
+and chunked delivery for large messages.</li>
+<li>A defined 3-layer wire format (HMAC + 6-byte sender GUID + variable
+payload) with both a text protocol and a binary protocol, channel-based
+message isolation (up to ~65K channels), and a default port of
+50000.</li>
+<li>Cross-language parity by construction: the Python build is the
+reference implementation and emits canonical test vectors and reference
+packets; the Swift build validates byte-for-byte against those canonical
+artifacts.</li>
+<li>A full YBS-managed spec/step/build structure (specs define WHAT,
+steps define HOW per language, builds are workspaces, canonical holds
+shared validation artifacts) plus a working Python and Swift
+implementation under <code>canonical/</code>.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Clear, versioned protocol specification (v1.0.3 / Binary Protocol
+v2.0) with an exact wire-format layout, making third-party
+implementations feasible.</li>
+<li>Strong guarantee model: implementations must produce byte-identical
+packets for identical inputs, enforced via canonical test vectors rather
+than prose.</li>
+<li>Solid security primitives chosen sensibly (HMAC-SHA256 with
+constant-time compare, AES-256-GCM, CSPRNG-generated GUIDs).</li>
+<li>Reproducible, AI-agent-driven build methodology via YBS, with
+crash-recovery session handling and per-step status tracking.</li>
+<li>Independent test coverage is real: ~100 Python unit tests plus
+integration tests, and Swift canonical validation passing 3/3
+vectors.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Cross-language UDP interoperability is unproven. Only wire-format
+compatibility is verified; actual Python↔︎Swift, Swift→Python, and
+Swift→Swift network communication is untested due to Swift API
+mismatches (SymmetricKey vs raw bytes, parameter naming) and a broken
+<code>test_all_combinations.py</code> harness.</li>
+<li>Documentation is internally inconsistent: the top-level README and
+CLAUDE.md still claim "no builds exist yet" and "steps need to be
+created," while build steps, working Python/Swift code, and an
+INTEROP_STATUS report already exist. The README understates current
+maturity.</li>
+<li>The mandated "48/48 interop tests" completion bar is not met, so by
+the project's own definition the system is not formally "complete."</li>
+<li>UDP broadcast transport implies no built-in delivery guarantees,
+ordering, or retransmission beyond the chunking layer; replay protection
+and key distribution are out of scope.</li>
+<li>Production-readiness is currently scoped to same-language use
+only.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Use yx when you need a small, auditable, authenticated message
+protocol over UDP for trusted LAN/distributed systems — especially when
+the same protocol must be spoken from multiple languages (e.g., a Python
+tool and a Swift agent) and you need a hard guarantee that their packets
+are bit-identical. It is a protocol/data-plane building block, not a
+general-purpose networking stack.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>yx is the data/protocol layer of the portfolio and is itself built
+with <strong>ybs</strong> (the S-expression spec/step build
+methodology), sharing that family's spec→step→build discipline and
+canonical-artifact validation philosophy with siblings like
+<strong>gws</strong> and <strong>yobro</strong>. Its Python-reference /
+Swift-validates split mirrors the Swift-heavy execution tier of the
+ecosystem (<strong>murphy</strong>, <strong>agent</strong>), and it is a
+natural transport for LAN-oriented AI workflows such as
+<strong>laniakea</strong> and for message passing between agentic
+components (<strong>mind</strong>, <strong>memory</strong>,
+<strong>dagsmith</strong>). Where those projects orchestrate work and
+reason over content, yx provides the secure wire format that could carry
+messages between their distributed nodes.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:27Z.</footer>
+</div>
+</body>
+</html>

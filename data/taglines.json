@@ -1,0 +1,18 @@
+{
+  "portfolio": "The public index and starting point for all these projects — an interactive, self-contained map.",
+  "sdts": "A full-stack algorithmic-trading lab: secure UDP networking, a zero-config service mesh, and a real-time terminal dashboard for trading bots.",
+  "yx": "A secure, payload-agnostic UDP packet protocol with HMAC integrity and a byte-identical wire format across Python and Swift.",
+  "yobro": "A 100% local, always-on \"Alexa clone\" for macOS that wakes to \"yo bro\" and answers in a local LLM's words — no cloud.",
+  "gws": "A fast, JSON-only CLI wrapper around Gmail and Google Sheets, built to be driven by AI agents and shell scripts.",
+  "laniakea": "The plumbing layer of a personal AI supercluster — scripts that turn one Apple Silicon Mac into a LAN-reachable LLM/vision/inference stack.",
+  "dagsmith": "`make` for AI work — a dependency-aware DAG orchestrator that dispatches build steps to pluggable AI executors, with a graph that can rewrite itself.",
+  "ybs": "A spec-and-step build methodology that lets AI agents construct whole systems autonomously, with traceability and verification baked in.",
+  "saixha": "An S-expression AI shell (\"Sasha\") where the LLM, a Lisp interpreter, and Swift built-ins are all in-process evaluators.",
+  "murphy": "A single-shot Swift AI agent engine for macOS — prompt in, structured JSONL events out, exit code.",
+  "agent": "Drop a file into a folder and it runs — a no-polling macOS daemon that turns directories into a durable work queue.",
+  "mlx-router": "A thin wrapper that turns any Apple Silicon Mac into a private, OpenAI-compatible LLM endpoint backed by MLX.",
+  "mind": "The intelligence layer that reads your memories and learns \"what usually happens next\" — Memory stores what happened, Mind understands what it means.",
+  "memory": "A passive, file-based memory layer that turns every agent turn, job, and command into a linked Obsidian-compatible note.",
+  "gmail-utility": "A CLI to pull your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash.",
+  "playground": "An empty 2014-era scratch repo — a named placeholder."
+}

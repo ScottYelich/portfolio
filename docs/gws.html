@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gws · summary</title>
+<style>
+/*! EMBEDDED ASSET — readme.css
+ * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * version: 0.1.0
+ * date:    2026-06-05T04:52:25Z
+ * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
+ * note:    inlined for self-containment; check source for updates.
+ */
+/*!
+ * readme.css — theme for browser-loadable rendered README / doc pages
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ * Embedded inline by tools/mdpage.py (with a provenance header). Self-contained.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --code:#1c2330;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;display:flex;align-items:center;gap:14px;
+  background:rgba(13,17,23,.92);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);padding:12px 0;margin-bottom:28px;font-size:14px}
+.topbar .home{font-weight:600}
+.topbar .crumb{color:var(--muted)}
+.topbar .src{margin-left:auto;color:var(--muted)}
+.markdown-body h1,.markdown-body h2{border-bottom:1px solid var(--border);padding-bottom:.3em;margin-top:1.6em}
+.markdown-body h1{font-size:1.9em}.markdown-body h2{font-size:1.45em}
+.markdown-body h3{font-size:1.2em;margin-top:1.4em}
+.markdown-body code{background:var(--code);padding:.2em .4em;border-radius:6px;font-size:.88em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.markdown-body pre{background:var(--code);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;overflow:auto;line-height:1.5}
+.markdown-body pre code{background:none;padding:0}
+.markdown-body blockquote{margin:0;padding:.2em 1em;color:var(--muted);border-left:3px solid var(--border)}
+.markdown-body table{border-collapse:collapse;width:100%;margin:1em 0;display:block;overflow:auto}
+.markdown-body th,.markdown-body td{border:1px solid var(--border);padding:7px 12px}
+.markdown-body th{background:var(--panel)}
+.markdown-body tr:nth-child(2n){background:var(--panel)}
+.markdown-body img{max-width:100%}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:2em 0}
+.markdown-body ul,.markdown-body ol{padding-left:1.6em}
+.markdown-body li{margin:.25em 0}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
+    <span class="crumb">gws</span>
+  </nav>
+  <article class="markdown-body">
+<h1 id="gws--executive-summary">gws — executive summary</h1>
+<p><strong>One-liner:</strong> A fast, JSON-only command-line wrapper
+around the Gmail and Google Sheets APIs, built to be driven by AI agents
+and shell scripts instead of a browser.</p>
+<h2 id="what-it-provides">What it provides</h2>
+<ul>
+<li>A single <code>gws</code> CLI exposing real-time Gmail operations
+(search, read message, read thread, create drafts, list labels) and
+Google Sheets operations (read, write, append, batch-update, create
+spreadsheet).</li>
+<li>Every command emits valid JSON to stdout and JSON errors to stderr,
+so an LLM tool caller can <code>json.loads(stdout)</code>
+unconditionally — no browser automation, no MCP server, no persistent
+process.</li>
+<li>One-time OAuth2 setup via InstalledAppFlow, then fully headless
+silent token refresh; sub-second API round-trips (~200–500ms per
+invocation including Python startup).</li>
+<li>A complete YBS 2.0.0 specification graph (features,
+functional/technical requirements, ADRs, acceptance tests, security
+threats) plus executable build steps, so the implementation can be
+regenerated from spec by an AI executor.</li>
+</ul>
+<h2 id="strengths">Strengths</h2>
+<ul>
+<li>Purpose-built for subprocess/agent invocation: uniform JSON contract
+makes it trivial for Murphy, Claude, or any script to call and
+parse.</li>
+<li>Much faster and more reliable than screen-scraping or
+browser-driving a spreadsheet UI.</li>
+<li>Small, focused dependency surface (google-api-python-client,
+google-auth, Click) and a clean service-class layout (auth/gmail/sheets)
+that is also importable.</li>
+<li>Fully spec-driven via YBS: the repo documents its own requirements,
+decisions, and tests, and BUILD_STATUS shows a clean end-to-end build
+from steps 0–6.</li>
+<li>Security-conscious by design: credentials/token excluded from git,
+token written <code>0600</code>, explicit revocation guidance.</li>
+</ul>
+<h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
+<ul>
+<li>Narrow surface area: only Gmail and Sheets are implemented despite
+"Workspace" framing — no Calendar, Drive, or Docs commands yet
+(Drive/Calendar scopes are requested but unused).</li>
+<li>Gmail is read-plus-draft only; it cannot send mail, modify labels on
+messages, or delete — write capability is deliberately limited.</li>
+<li>Single-user, desktop OAuth model (InstalledAppFlow, not service
+accounts), so it does not fit server/multi-tenant or domain-wide
+automation.</li>
+<li>Per-call Python process startup adds latency and makes it unsuitable
+for high-throughput batch loops where a long-lived service would be
+better.</li>
+<li>Spec metadata still marks the three features as "draft," and there
+is no visible automated test execution evidence beyond the YBS
+acceptance-test specs.</li>
+</ul>
+<h2 id="why-youd-use-it">Why you'd use it</h2>
+<p>Reach for <code>gws</code> when an AI agent or shell script needs to
+programmatically search live Gmail or read/write Google Sheets in a
+tool-call loop and wants guaranteed parseable JSON output with minimal
+latency. It is the right tool for real-time Workspace read/write from
+automation — not for bulk archiving, not for human interactive use, and
+not for server-side multi-account deployments.</p>
+<h2 id="how-it-relates-to-the-other-projects">How it relates to the
+other projects</h2>
+<p>gws is built with <strong>ybs</strong> (the spec/step methodology and
+S-expression <code>.ybs</code> graph format), and its specs/steps
+directories are the concrete output of that methodology. It is
+explicitly designed as a callable tool for <strong>murphy</strong> (the
+Swift LLM execution engine) and for the broader agentic stack —
+<strong>agent</strong> (work-queue daemon/AI worker loop),
+<strong>mind</strong> (agentic processing), and <strong>saixha</strong>
+(S-expression AI shell) — any of which can shell out to <code>gws</code>
+to act on Gmail or Sheets and consume its JSON. It is a deliberate
+sibling to <strong>gmail-utility</strong>: gmail-utility does local
+archiving (SQLite + .eml) for offline search, while gws does real-time
+API read/write; they share the OAuth2 pattern but zero code and use
+separate token files. Like <strong>yobro</strong>, it demonstrates the
+ybs-built application pattern within the portfolio.</p>
+<hr />
+<p><em>Executive summary — condensed from this repo's own docs. Part of
+<a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
+portfolio</a>, the public starting point for these projects.</em></p>
+
+  </article>
+  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+</div>
+</body>
+</html>
