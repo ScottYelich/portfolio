@@ -7,8 +7,8 @@
 <!-- PROV:START -->
 <meta name="author" content="Scott Yelich (scott@spy.org)">
 <meta name="version" content="1.0.0">
-<meta name="build-date" content="2026-06-05T06:57:38Z">
-<!-- index.html · v1.0.0 · built 2026-06-05T06:57:38Z · author: Scott Yelich <scott@spy.org> -->
+<meta name="build-date" content="2026-06-05T07:02:23Z">
+<!-- index.html · v1.0.0 · built 2026-06-05T07:02:23Z · author: Scott Yelich <scott@spy.org> -->
 <!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
@@ -22,7 +22,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:57:38Z
+ * date:    2026-06-05T07:02:23Z
  * sha256:  e5d120e820aa3ce87a7ef248a91258222049b30a576c19ff3c56ebe8d7999a37
  * note:    inlined for self-containment; check source for updates.
  */
@@ -231,7 +231,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:57:38Z")
+  (generated "2026-06-05T07:02:23Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -242,7 +242,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "https://scottyelich.github.io/portfolio/")
     (language "HTML")
     (updated "2026-06-05")
-    (size 559)
+    (size 668)
     (value 67)
     (maturity 67)
     (complexity 34)
@@ -826,6 +826,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       +'.lg{font-size:11px;color:#8b949e;display:flex;gap:8px;flex-wrap:wrap}.md{font-size:11px;color:#8b949e;display:flex;gap:4px;align-items:center}'
       +'.md button{background:#1c2330;color:#8b949e;border:1px solid #30363d;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:11px}'
       +'.md button.on{background:#1f6feb;color:#fff;border-color:#1f6feb}#i{margin-left:auto;color:#8b949e;font-size:12px;white-space:nowrap}'
+      +'.cb{background:#1c2330;color:#8b949e;border:1px solid #30363d;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:11px}.cb:hover{color:#e6edf3;border-color:#58a6ff}'
       +'#b{position:relative;flex:1;overflow:hidden;cursor:grab}#stage{position:absolute;left:0;top:0;transform-origin:0 0}'
       +'.t{position:absolute;cursor:pointer;user-select:none;white-space:nowrap;font-weight:600;line-height:1;padding:2px 5px;border-radius:6px}'
       +'.t:hover{filter:brightness(1.4);text-shadow:0 0 9px rgba(0,0,0,.8)}.t.on{background:#1f6feb;color:#fff!important}'
@@ -886,7 +887,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         +'<input id="s" type="search" placeholder="filter terms…">'
         +'<span class="lg">'+LEGEND+'</span>'
         +'<span class="md">match&nbsp;<button data-m="and">AND</button><button data-m="or">OR</button></span>'
-        +'<span id="i"></span></div>'
+        +'<span id="i"></span><button class="cb" id="cwclear" title="clear all filters">✕ clear all</button></div>'
         +'<div id="b"><div id="stage"></div>'
         +'<div class="zc"><button data-z="in" title="zoom in">+</button><button data-z="out" title="zoom out">−</button>'
         +'<button data-z="fit" title="fit to window">▢</button><button data-z="center" title="center">⌖</button></div></div>'
@@ -904,6 +905,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       const paintMode=()=>doc.querySelectorAll('.md button').forEach(b=>b.classList.toggle('on',b.dataset.m===state.tagMode));
       doc.querySelectorAll('.md button').forEach(b=>b.onclick=()=>{ setTagMode(b.dataset.m); });
       paintMode();
+      doc.getElementById('cwclear').onclick=()=>{ clearAll(); search.value=''; filter=''; paintMode(); redraw(); };
       let panning=false,sx=0,sy=0,stx=0,sty=0;
       vp.addEventListener('mousedown',e=>{ if(e.target.closest('.zc')) return;
         panning=true; win.__dragged=false; sx=e.clientX; sy=e.clientY; stx=tx; sty=ty; vp.style.cursor='grabbing'; });
