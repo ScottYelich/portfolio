@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScottYelich · repositories</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+    --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+    --chip:#21262d; --chip-on:#1f6feb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+  header h1{margin:0 0 4px;font-size:24px;letter-spacing:.3px}
+  header .sub{color:var(--muted);font-size:13px}
+  .controls{position:sticky;top:0;background:var(--bg);padding:16px 0 12px;
+    border-bottom:1px solid var(--border);margin-bottom:18px;z-index:5}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type=search]{flex:1;min-width:220px;background:var(--panel);border:1px solid var(--border);
+    color:var(--fg);padding:9px 12px;border-radius:8px;font-size:14px}
+  input[type=search]:focus{outline:none;border-color:var(--accent)}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .seg button{background:var(--panel);color:var(--muted);border:0;padding:9px 14px;cursor:pointer;font-size:13px}
+  .seg button.on{background:var(--chip-on);color:#fff}
+  .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+  .tag{background:var(--chip);border:1px solid var(--border);color:var(--muted);
+    padding:5px 11px;border-radius:999px;cursor:pointer;font-size:12.5px;user-select:none}
+  .tag.on{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
+  .meta{color:var(--muted);font-size:12.5px;margin:6px 2px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin-top:18px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;
+    display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
+  .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.3px}
+  .badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+  .badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+  .desc{color:var(--fg);font-size:13.5px;flex:1}
+  .ctags{display:flex;gap:6px;flex-wrap:wrap}
+  .ctag{font-size:11.5px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);
+    padding:2px 8px;border-radius:6px;cursor:pointer}
+  .ctag:hover{color:var(--fg)}
+  .foot{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-top:2px}
+  .links{display:flex;gap:12px}
+  .empty{color:var(--muted);text-align:center;padding:50px;font-size:15px}
+  .count{color:var(--muted);font-size:13px;margin-left:auto}
+  .note{color:var(--muted);font-size:12px;margin-top:10px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ScottYelich · repositories</h1>
+    <div class="sub">An interactive index of my projects — public and private. Private repos are listed for context; their links require access.</div>
+  </header>
+
+  <div class="controls">
+    <div class="row">
+      <input id="q" type="search" placeholder="Search name, description, tag…" autocomplete="off">
+      <div class="seg" id="vis">
+        <button data-v="all" class="on">All</button>
+        <button data-v="public">Public</button>
+        <button data-v="private">Private</button>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="tags" id="tags"></div>
+    <div class="meta" id="genmeta"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">No repositories match your filters.</div>
+  <div class="note">
+    Clone this page: <code>git clone https://github.com/ScottYelich/portfolio.git</code> &nbsp;·&nbsp;
+    Regenerate data: <code>./build.sh</code>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var repos = (window.REPOS || []).slice();
+  var state = { q:"", vis:"all", tags:new Set() };
+
+  // collect tags with frequency
+  var freq = {};
+  repos.forEach(function(r){ (r.tags||[]).forEach(function(t){ freq[t]=(freq[t]||0)+1; }); });
+  var allTags = Object.keys(freq).sort(function(a,b){ return freq[b]-freq[a] || a.localeCompare(b); });
+
+  var elGrid=document.getElementById("grid"),
+      elTags=document.getElementById("tags"),
+      elCount=document.getElementById("count"),
+      elEmpty=document.getElementById("empty"),
+      elQ=document.getElementById("q");
+
+  // render tag filter chips
+  allTags.forEach(function(t){
+    var b=document.createElement("span");
+    b.className="tag"; b.textContent=t+" ("+freq[t]+")"; b.dataset.tag=t;
+    b.onclick=function(){ toggleTag(t,b); };
+    elTags.appendChild(b);
+  });
+
+  // visibility segmented control
+  document.querySelectorAll("#vis button").forEach(function(btn){
+    btn.onclick=function(){
+      document.querySelectorAll("#vis button").forEach(function(x){x.classList.remove("on");});
+      btn.classList.add("on"); state.vis=btn.dataset.v; render();
+    };
+  });
+
+  elQ.addEventListener("input", function(){ state.q=elQ.value.toLowerCase().trim(); render(); });
+
+  function toggleTag(t, el){
+    if(state.tags.has(t)){ state.tags.delete(t); el.classList.remove("on"); }
+    else { state.tags.add(t); el.classList.add("on"); }
+    render();
+  }
+
+  function matches(r){
+    if(state.vis!=="all" && r.visibility!==state.vis) return false;
+    if(state.tags.size){
+      var rt=(r.tags||[]).map(function(x){return x.toLowerCase();});
+      for(var t of state.tags){ if(rt.indexOf(t.toLowerCase())<0) return false; } // AND
+    }
+    if(state.q){
+      var hay=(r.name+" "+r.description+" "+(r.tags||[]).join(" ")+" "+r.language).toLowerCase();
+      if(hay.indexOf(state.q)<0) return false;
+    }
+    return true;
+  }
+
+  function esc(s){ return (s||"").replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+
+  function card(r){
+    var pub = r.visibility==="public";
+    var tagHtml=(r.tags||[]).map(function(t){
+      return '<span class="ctag" data-tag="'+esc(t)+'">'+esc(t)+'</span>'; }).join("");
+    var links = pub
+      ? '<a href="'+esc(r.url)+'" target="_blank" rel="noopener">repo →</a>'
+      : '<span title="private — requires access" style="color:var(--muted)">private repo</span>';
+    if(r.homepage) links += ' <a href="'+esc(r.homepage)+'" target="_blank" rel="noopener">site ↗</a>';
+    return '<div class="card">'
+      + '<h2>'+esc(r.name)+' <span class="badge '+(pub?"public":"private")+'">'+(pub?"public":"private")+'</span></h2>'
+      + '<div class="desc">'+(esc(r.description)||'<span style="color:var(--muted)">no description</span>')+'</div>'
+      + '<div class="ctags">'+tagHtml+'</div>'
+      + '<div class="foot"><span>'+(r.language?esc(r.language)+' · ':'')+'updated '+esc(r.updated)+'</span>'
+      + '<span class="links">'+links+'</span></div>'
+      + '</div>';
+  }
+
+  function render(){
+    var vis=repos.filter(matches);
+    elGrid.innerHTML=vis.map(card).join("");
+    elEmpty.style.display=vis.length?"none":"block";
+    var pub=vis.filter(function(r){return r.visibility==="public";}).length;
+    elCount.textContent=vis.length+" / "+repos.length+" repos · "+pub+" public";
+    // wire card tag chips to filter
+    elGrid.querySelectorAll(".ctag").forEach(function(c){
+      c.onclick=function(){
+        var t=c.dataset.tag, chip=[].slice.call(elTags.children)
+          .filter(function(x){return x.dataset.tag===t;})[0];
+        if(chip && !state.tags.has(t)) toggleTag(t,chip);
+      };
+    });
+  }
+
+  document.getElementById("genmeta").textContent =
+    window.PORTFOLIO_GENERATED ? "Data generated "+window.PORTFOLIO_GENERATED : "";
+  render();
+})();
+</script>
+</body>
+</html>
