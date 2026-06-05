@@ -7,8 +7,8 @@
 <!-- PROV:START -->
 <meta name="author" content="Scott Yelich (scott@spy.org)">
 <meta name="version" content="1.0.0">
-<meta name="build-date" content="2026-06-05T06:36:29Z">
-<!-- index.html · v1.0.0 · built 2026-06-05T06:36:29Z · author: Scott Yelich <scott@spy.org> -->
+<meta name="build-date" content="2026-06-05T06:44:33Z">
+<!-- index.html · v1.0.0 · built 2026-06-05T06:44:33Z · author: Scott Yelich <scott@spy.org> -->
 <!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
@@ -22,7 +22,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:36:29Z
+ * date:    2026-06-05T06:44:33Z
  * sha256:  126835262444578f8a60306f09f6ca894fa7bcad2375319799182066d2d219ad
  * note:    inlined for self-containment; check source for updates.
  */
@@ -154,7 +154,11 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         <button data-v="public">Public</button>
         <button data-v="private">Private</button>
       </div>
-      <button id="cloudBtn" class="cloudbtn" title="browse all tags &amp; keywords">☁ tag cloud</button>
+      <div class="seg" id="mode" title="how multiple selected tags combine">
+        <button data-m="and" class="on">AND</button>
+        <button data-m="or">OR</button>
+      </div>
+      <button id="cloudBtn" class="cloudbtn" title="open the tag cloud in a window">☁ tag cloud</button>
       <span class="count" id="count"></span>
     </div>
     <div class="tags" id="tags"></div>
@@ -220,7 +224,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:36:29Z")
+  (generated "2026-06-05T06:44:33Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -621,7 +625,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   } catch(e){ console.error('sexp parse failed', e); }
 
   const repos=model.repos;
-  const state={q:'',vis:'all',tags:new Set()};
+  const state={q:'',vis:'all',tags:new Set(),tagMode:'and'};
 
   /* ---------- tag index ---------- */
   const freq={};
@@ -643,6 +647,13 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     btn.onclick=()=>{ document.querySelectorAll('#vis button').forEach(x=>x.classList.remove('on'));
       btn.classList.add('on'); state.vis=btn.dataset.v; render(); };
   });
+  function setTagMode(m){ state.tagMode=m;
+    document.querySelectorAll('#mode button').forEach(x=>x.classList.toggle('on',x.dataset.m===m));
+    const w=window.__cloudWin&&window.__cloudWin();
+    if(w&&!w.closed){ try{ w.document.querySelectorAll('.md button').forEach(x=>x.classList.toggle('on',x.dataset.m===m)); }catch(e){} }
+    render();
+  }
+  document.querySelectorAll('#mode button').forEach(b=>{ b.onclick=()=>setTagMode(b.dataset.m); });
   elQ.addEventListener('input',()=>{ state.q=elQ.value.toLowerCase().trim(); render(); });
 
   function toggleTag(t,el){
@@ -658,7 +669,10 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     if(state.vis!=='all' && r.visibility!==state.vis) return false;
     if(state.tags.size){
       const rt=[...(r.tags||[]),...(r.keywords||[])].map(x=>x.toLowerCase());
-      for(const t of state.tags){ if(rt.indexOf(t)<0) return false; }
+      if(state.tagMode==='or'){ let any=false;
+        for(const t of state.tags){ if(rt.indexOf(t)>=0){ any=true; break; } }
+        if(!any) return false;
+      } else { for(const t of state.tags){ if(rt.indexOf(t)<0) return false; } }
     }
     if(state.q){
       const hay=(r.name+' '+(r.description||'')+' '+(r.summary||'')+' '+(r.tags||[]).join(' ')+' '+(r.keywords||[]).join(' ')+' '+(r.language||'')).toLowerCase();
@@ -759,13 +773,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   repos.slice().sort((a,b)=>(Number(b.value)||0)-(Number(a.value)||0)).slice(0,2).forEach(r=>radarSel.add(r.name));
   radarChips();   // initial radar/scatter drawn by the final render()
 
-  /* ---------- full-screen tag cloud: spiral (largest centred), coloured by type ---------- */
+  /* ---------- tag cloud: opens in a SEPARATE chrome-less window; spiral, coloured by type ---------- */
   (function cloudInit(){
-    const btn=document.getElementById('cloudBtn'), ov=document.getElementById('cloud');
-    if(!btn||!ov) return;
-    const box=document.getElementById('cloudTags'),
-          info=document.getElementById('cloudInfo'),
-          search=document.getElementById('cloudSearch');
+    const btn=document.getElementById('cloudBtn'); if(!btn) return;
     const freqC={};
     repos.forEach(r=>{ new Set([...(r.tags||[]),...(r.keywords||[])].map(x=>x.toLowerCase()))
       .forEach(t=>freqC[t]=(freqC[t]||0)+1); });
@@ -776,18 +786,28 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     const CATS=new Set(['trading','ai','google','devtools','archived','fork']);
     const COLOR={language:'#58a6ff',domain:'#3fb950',measure:'#d29922',keyword:'#bc8cff'};
     const typeOf=t=>LANGS.has(t)?'language':TIERS.has(t)?'measure':CATS.has(t)?'domain':'keyword';
-    const CAP=120; let filter='';
-    function layout(){
+    const CAP=120;
+    const CSS='*{box-sizing:border-box}html,body{height:100%;margin:0}'
+      +'body{background:#0d1117;color:#e6edf3;font:14px -apple-system,system-ui,sans-serif;display:flex;flex-direction:column}'
+      +'.h{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid #30363d;flex-wrap:wrap}'
+      +'.h strong{color:#e6edf3}#s{flex:1;max-width:300px;background:#161b22;border:1px solid #30363d;color:#e6edf3;border-radius:8px;padding:6px 10px;font-size:13px}'
+      +'.lg{font-size:11px;color:#8b949e;display:flex;gap:9px}.md{font-size:11px;color:#8b949e;display:flex;gap:4px;align-items:center}'
+      +'.md button{background:#1c2330;color:#8b949e;border:1px solid #30363d;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:11px}'
+      +'.md button.on{background:#1f6feb;color:#fff;border-color:#1f6feb}#i{margin-left:auto;color:#8b949e;font-size:12px;white-space:nowrap}'
+      +'#b{position:relative;flex:1;overflow:hidden}'
+      +'.t{position:absolute;cursor:pointer;user-select:none;white-space:nowrap;font-weight:600;line-height:1;padding:2px 5px;border-radius:6px;transition:transform .08s}'
+      +'.t:hover{transform:scale(1.16);z-index:3;text-shadow:0 0 9px rgba(0,0,0,.7)}.t.on{background:#1f6feb;color:#fff}';
+    let win=null;
+    function layout(doc, box, info, filter){
       box.innerHTML='';
       let list=terms.filter(t=>!filter||t.indexOf(filter)>=0);
       const total=list.length;
       if(!filter && list.length>CAP) list=list.slice(0,CAP);
-      const note=list.length+(total>list.length?' of '+total:'')+' terms · '+state.tags.size+' selected';
-      info.textContent=note;
-      const W=box.clientWidth||800, H=box.clientHeight||500, cx=W/2, cy=H/2, placed=[];
+      info.textContent=list.length+(total>list.length?' of '+total:'')+' terms · '+state.tags.size+' selected';
+      const W=box.clientWidth||900, H=box.clientHeight||600, cx=W/2, cy=H/2, placed=[];
       list.forEach(t=>{
-        const sel=state.tags.has(t), s=document.createElement('span');
-        s.className='cloudtag'+(sel?' on':''); s.textContent=t;
+        const sel=state.tags.has(t), s=doc.createElement('span');
+        s.className='t'+(sel?' on':''); s.textContent=t;
         s.style.fontSize=(13+Math.round((freqC[t]/max)*32))+'px';
         if(!sel) s.style.color=COLOR[typeOf(t)];
         s.title=t+' · '+typeOf(t)+' · '+freqC[t]+' repo'+(freqC[t]>1?'s':'');
@@ -795,26 +815,45 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
           if(on) state.tags.add(t); else state.tags.delete(t);
           s.classList.toggle('on',on); s.style.color=on?'':COLOR[typeOf(t)];
           info.textContent=list.length+(total>list.length?' of '+total:'')+' terms · '+state.tags.size+' selected';
-          syncTagChips(); render(); };
+          syncTagChips(); render(); };   // render() filters the MAIN window's cards, live
         box.appendChild(s);
         const w=s.offsetWidth, h=s.offsetHeight; let ok=false;
-        for(let a=0;a<1800;a++){
-          const r=Math.sqrt(a)*7, ang=a*0.55;
+        for(let a=0;a<1800;a++){ const r=Math.sqrt(a)*7, ang=a*0.55;
           const x=cx+r*Math.cos(ang)-w/2, y=cy+r*Math.sin(ang)-h/2;
           if(x<2||y<2||x+w>W-2||y+h>H-2) continue;
-          let hit=false;
-          for(const p of placed){ if(x+w+3>p.x&&p.x+p.w+3>x&&y+h+3>p.y&&p.y+p.h+3>y){hit=true;break;} }
-          if(!hit){ s.style.left=x+'px'; s.style.top=y+'px'; placed.push({x,y,w,h}); ok=true; break; }
-        }
+          let hit=false; for(const p of placed){ if(x+w+3>p.x&&p.x+p.w+3>x&&y+h+3>p.y&&p.y+p.h+3>y){hit=true;break;} }
+          if(!hit){ s.style.left=x+'px'; s.style.top=y+'px'; placed.push({x,y,w,h}); ok=true; break; } }
         if(!ok) s.remove();
       });
     }
-    btn.onclick=()=>{ ov.style.display='flex'; requestAnimationFrame(layout); search.focus(); };
-    document.getElementById('cloudClose').onclick=()=>{ ov.style.display='none'; };
-    ov.addEventListener('click',e=>{ if(e.target===ov) ov.style.display='none'; });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&ov.style.display!=='none') ov.style.display='none'; });
-    search.addEventListener('input',()=>{ filter=search.value.trim().toLowerCase(); layout(); });
-    let rz; window.addEventListener('resize',()=>{ if(ov.style.display!=='none'){ clearTimeout(rz); rz=setTimeout(layout,150); } });
+    function openCloud(){
+      const w=window.open('','pf_tagcloud','width=1000,height=760,menubar=no,toolbar=no,location=no,status=no,scrollbars=no,resizable=yes');
+      if(!w) return false;
+      w.document.open();
+      w.document.write('<!DOCTYPE html><html><head><meta charset=utf-8><title>Tag cloud · ScottYelich</title><style>'+CSS+'</style></head><body>'
+        +'<div class="h"><strong>Tag cloud</strong>'
+        +'<input id="s" type="search" placeholder="filter terms…">'
+        +'<span class="lg"><span style="color:#58a6ff">●</span>language <span style="color:#3fb950">●</span>domain <span style="color:#d29922">●</span>measure <span style="color:#bc8cff">●</span>keyword</span>'
+        +'<span class="md">match&nbsp;<button data-m="and">AND</button><button data-m="or">OR</button></span>'
+        +'<span id="i"></span></div><div id="b"></div></body></html>');
+      w.document.close();
+      win=w; window.__cloudWin=()=>win;
+      const doc=w.document, box=doc.getElementById('b'), info=doc.getElementById('i'), search=doc.getElementById('s');
+      let filter='';
+      const redraw=()=>layout(doc,box,info,filter);
+      w.cloudRedraw=redraw;
+      search.addEventListener('input',()=>{ filter=search.value.trim().toLowerCase(); redraw(); });
+      const paintMode=()=>doc.querySelectorAll('.md button').forEach(b=>b.classList.toggle('on',b.dataset.m===state.tagMode));
+      doc.querySelectorAll('.md button').forEach(b=>b.onclick=()=>{ setTagMode(b.dataset.m); });
+      paintMode();
+      w.addEventListener('resize',()=>{ clearTimeout(w.__rz); w.__rz=setTimeout(redraw,150); });
+      w.addEventListener('beforeunload',()=>{ win=null; });
+      setTimeout(redraw,80);
+      return true;
+    }
+    window.__cloudWin=()=>win;
+    btn.onclick=()=>{ if(win && !win.closed){ win.focus(); if(win.cloudRedraw) win.cloudRedraw(); return; }
+      if(!openCloud()) alert('The tag cloud opens in a new window — please allow pop-ups for this page.'); };
   })();
 
   /* ---------- ECharts: complexity × maturity across all repos (graceful if lib missing) ---------- */
