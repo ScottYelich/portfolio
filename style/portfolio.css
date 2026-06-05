@@ -1,0 +1,62 @@
+/*!
+ * portfolio.css — canonical shared style (source of truth)
+ *
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * @license  MIT
+ *
+ * Convention: consumers EMBED this inline (never <link> it) and stamp the
+ * embedded copy with a provenance header (source + version + date + sha256)
+ * so they can check @source for updates. Edit here; bump @version on change.
+ */
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --fg:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+  --chip:#21262d; --chip-on:#1f6feb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+header h1{margin:0 0 4px;font-size:24px;letter-spacing:.3px}
+header .sub{color:var(--muted);font-size:13px}
+.controls{position:sticky;top:0;background:var(--bg);padding:16px 0 12px;
+  border-bottom:1px solid var(--border);margin-bottom:18px;z-index:5}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input[type=search]{flex:1;min-width:220px;background:var(--panel);border:1px solid var(--border);
+  color:var(--fg);padding:9px 12px;border-radius:8px;font-size:14px}
+input[type=search]:focus{outline:none;border-color:var(--accent)}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:9px 14px;cursor:pointer;font-size:13px}
+.seg button.on{background:var(--chip-on);color:#fff}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.tag{background:var(--chip);border:1px solid var(--border);color:var(--muted);
+  padding:5px 11px;border-radius:999px;cursor:pointer;font-size:12.5px;user-select:none}
+.tag.on{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
+.meta{color:var(--muted);font-size:12.5px;margin:6px 2px 0}
+.chart-wrap{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:8px 12px 12px;margin-top:8px}
+.chart-wrap h3{margin:8px 4px;font-size:13px;color:var(--muted);font-weight:600}
+#chart{width:100%;height:260px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin-top:18px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;
+  display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.3px}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.desc{color:var(--fg);font-size:13.5px;flex:1}
+.ctags{display:flex;gap:6px;flex-wrap:wrap}
+.ctag{font-size:11.5px;color:var(--muted);background:var(--panel2);border:1px solid var(--border);
+  padding:2px 8px;border-radius:6px;cursor:pointer}
+.ctag:hover{color:var(--fg)}
+.foot{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;margin-top:2px}
+.links{display:flex;gap:12px}
+.empty{color:var(--muted);text-align:center;padding:50px;font-size:15px}
+.count{color:var(--muted);font-size:13px;margin-left:auto}
+.note{color:var(--muted);font-size:12px;margin-top:18px;line-height:1.6}
+.note code{background:var(--panel2);padding:1px 6px;border-radius:5px}
