@@ -16,7 +16,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T06:09:12Z
+ * date:    2026-06-05T06:14:50Z
  * sha256:  da55ec58a22786ff9d05b9185b83301dfa3f22c83c1c83a6f3dde81d608e982c
  * note:    inlined for self-containment; check source for updates.
  */
@@ -150,7 +150,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       <div id="radar"></div>
     </div>
     <div class="chart-wrap" id="chart-wrap">
-      <h3>Complexity × maturity <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private · click → spider</span></h3>
+      <h3>Complexity × maturity <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private · click → spider · scroll / box-zoom to separate</span></h3>
       <div id="chart"></div>
     </div>
   </div>
@@ -184,7 +184,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T06:09:12Z")
+  (generated "2026-06-05T06:14:50Z")
   (repo
     (name "portfolio")
     (visibility public)
@@ -785,7 +785,11 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     const ch=echarts.init(document.getElementById('chart'),null,{renderer:'canvas'});
     ch.setOption({
       backgroundColor:'transparent',
-      grid:{left:54,right:24,top:18,bottom:48},
+      grid:{left:54,right:24,top:30,bottom:48},
+      dataZoom:[{type:'inside',xAxisIndex:0,yAxisIndex:0,filterMode:'none'}],
+      toolbox:{right:10,top:2,itemSize:13,iconStyle:{borderColor:'#8b949e'},
+        emphasis:{iconStyle:{borderColor:'#e6edf3'}},
+        feature:{dataZoom:{title:{zoom:'box-zoom',back:'undo'},yAxisIndex:0},restore:{title:'reset'}}},
       tooltip:{formatter:p=>'<b>'+p.data.name+'</b><br>complexity '+p.data.value[0]
         +' · maturity '+p.data.value[1]+'<br>'+p.data.value[2]+' KB · '+p.data.vis},
       xAxis:{name:'complexity →',nameLocation:'middle',nameGap:28,min:0,max:100,
@@ -794,7 +798,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
         axisLabel:{color:'#8b949e'},axisLine:{lineStyle:{color:'#30363d'}},splitLine:{lineStyle:{color:'#21262d'}}},
       series:[{
         type:'scatter', cursor:'pointer',
-        symbolSize:d=>Math.min(38,Math.max(9,Math.sqrt(d[2])/3)),   // cap so giants don't swallow neighbours
+        symbolSize:d=>Math.min(26,Math.max(8,Math.sqrt(d[2])/3)),   // cap so giants don't swallow neighbours
         itemStyle:{                                                  // hollow rings: see + click occluded points
           color:p=>'rgba('+(p.data.vis==='public'?'63,185,80':'210,153,34')+',0.14)',
           borderColor:p=>p.data.vis==='public'?'#3fb950':'#d29922', borderWidth:2 },
