@@ -413,10 +413,15 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   function card(r){
     const pub=r.visibility==='public';
     const tagHtml=(r.tags||[]).map(t=>'<span class="ctag" data-tag="'+esc(t)+'">'+esc(t)+'</span>').join('');
-    let links=pub ? '<a href="'+esc(r.url)+'" target="_blank" rel="noopener">repo →</a>'
-                  : '<span title="private — requires access" style="color:var(--muted)">private repo</span>';
-    if(r.homepage) links+=' <a href="'+esc(r.homepage)+'" target="_blank" rel="noopener">site ↗</a>';
-    if(r.doc) links+=' <a href="'+esc(r.doc)+'">details →</a>';
+    // repo link — always present (public + private; name+url leak is OK, access stays protected)
+    const repoLink='<a href="'+esc(r.url)+'" target="_blank" rel="noopener"'
+      +(pub?'':' title="private — opens only with access"')+'>'+(pub?'repo ↗':'private repo ↗')+'</a>';
+    // site link — always present: homepage if set, else the public summary page
+    const siteUrl=r.homepage||r.doc||'';
+    const siteLink=siteUrl
+      ? '<a href="'+esc(siteUrl)+'"'+(r.homepage?' target="_blank" rel="noopener"':'')+'>site ↗</a>' : '';
+    let links=repoLink+(siteLink?' '+siteLink:'');
+    if(r.homepage && r.doc) links+=' <a href="'+esc(r.doc)+'">details →</a>';
     const summary=r.summary ? '<div class="summary">'+esc(r.summary)+'</div>' : '';
     return '<div class="card">'
       + '<h2>'+esc(r.name)+' <span class="badge '+(pub?'public':'private')+'">'+(pub?'public':'private')+'</span></h2>'
