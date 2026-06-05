@@ -31,6 +31,10 @@ try:
     scores = {k: v for k, v in json.load(open("data/scores.json")).items() if not k.startswith("_")}
 except Exception:
     scores = {}
+try:
+    keywords = {k: v for k, v in json.load(open("data/keywords.json")).items() if not k.startswith("_")}
+except Exception:
+    keywords = {}
 
 def esc(s):  # escape for an S-expression string literal
     return (s or "").replace("\\", "\\\\").replace('"', '\\"')
@@ -57,11 +61,20 @@ lines = ["(portfolio", f'  (generated "{gen}")']
 for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
     lang = (r.get("primaryLanguage") or {}).get("name") or ""
     vis  = (r.get("visibility") or "").lower()
-    tags = " ".join(f'"{esc(t)}"' for t in tags_for(r, lang))
     name = r["name"]
     summary = taglines.get(name, "")
     doc = f"docs/{name}.html" if os.path.exists(f"docs/{name}.html") else ""
     sc = scores.get(name, {})
+    tag_list = tags_for(r, lang)
+    mt, cx, vl = sc.get("maturity", 0), sc.get("complexity", 0), sc.get("value", 0)
+    if mt: tag_list.append("mature" if mt >= 75 else ("developing" if mt >= 50 else "early"))
+    if cx: tag_list.append("complex" if cx >= 70 else ("moderate" if cx >= 45 else "lean"))
+    if vl >= 80: tag_list.append("flagship")
+    seen = set(); tag_list = [t for t in tag_list if not (t.lower() in seen or seen.add(t.lower()))]
+    tags = " ".join(f'"{esc(t)}"' for t in tag_list)
+    kw = list(keywords.get(name, [])) + [t.lower() for t in tag_list] + [name.lower(), (lang or "").lower()]
+    seen = set(); kw = [k for k in kw if k and not (k in seen or seen.add(k))]
+    kwstr = " ".join(f'"{esc(k)}"' for k in kw)
     lines += [
         "  (repo",
         f'    (name "{esc(name)}")',
@@ -74,9 +87,16 @@ for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
         f'    (language "{esc(lang)}")',
         f'    (updated "{(r.get("pushedAt") or "")[:10]}")',
         f'    (size {r.get("diskUsage", 0)})',
-        f'    (complexity {sc.get("complexity", 0)})',
+        f'    (value {sc.get("value", 0)})',
         f'    (maturity {sc.get("maturity", 0)})',
-        f'    (tags {tags}))',
+        f'    (complexity {sc.get("complexity", 0)})',
+        f'    (reusability {sc.get("reusability", 0)})',
+        f'    (autonomy {sc.get("autonomy", 0)})',
+        f'    (docs {sc.get("docs", 0)})',
+        f'    (tests {sc.get("tests", 0)})',
+        f'    (llm {sc.get("llm", 0)})',
+        f'    (tags {tags})',
+        f'    (keywords {kwstr}))',
     ]
 lines.append(")")
 sexp = "\n".join(lines)
