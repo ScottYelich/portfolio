@@ -16,7 +16,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T04:53:57Z
+ * date:    2026-06-05T05:09:30Z
  * sha256:  5dbf0b896aa6b4b90b9d37ae2c35cf1703c8d5b342aa152ace6193dfe32e12d2
  * note:    inlined for self-containment; check source for updates.
  */
@@ -126,7 +126,29 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T04:53:57Z")
+  (generated "2026-06-05T05:09:30Z")
+  (repo
+    (name "gmail-utility")
+    (visibility private)
+    (description "General gmail utility: create, read, update, delete -- plus search, etc.  May then be called as agent /skill, etc.")
+    (summary "A spec-first CLI that pulls your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash — now built via a YBS/dagsmith 24-step system.")
+    (doc "docs/gmail-utility.html")
+    (url "https://github.com/ScottYelich/gmail-utility")
+    (homepage "")
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "ai" "google" "HTML"))
+  (repo
+    (name "mlx-router")
+    (visibility private)
+    (description "MLX Router (proxy)")
+    (summary "A single OpenAI-compatible endpoint for Apple Silicon that routes each request to the right-sized local MLX model (7B chat → Coder-32B → 72B reasoning), with tool calling, KV-cache session affinity, and a self-managing daemon.")
+    (doc "docs/mlx-router.html")
+    (url "https://github.com/ScottYelich/mlx-router")
+    (homepage "")
+    (language "Python")
+    (updated "2026-06-05")
+    (tags "ai" "devtools" "Python"))
   (repo
     (name "portfolio")
     (visibility public)
@@ -139,16 +161,16 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (updated "2026-06-05")
     (tags "HTML"))
   (repo
-    (name "sdts")
+    (name "playground")
     (visibility private)
-    (description "Scott & Daniel - Trading System")
-    (summary "A full-stack algorithmic-trading lab: secure UDP networking, a zero-config service mesh, and a real-time terminal dashboard for trading bots.")
-    (doc "docs/sdts.html")
-    (url "https://github.com/ScottYelich/sdts")
+    (description "playground")
+    (summary "An empty 2014-era scratch repo — a named placeholder.")
+    (doc "docs/playground.html")
+    (url "https://github.com/ScottYelich/playground")
     (homepage "")
-    (language "Python")
-    (updated "2026-06-04")
-    (tags "trading" "Python"))
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "HTML"))
   (repo
     (name "yx")
     (visibility public)
@@ -158,7 +180,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/yx")
     (homepage "")
     (language "Python")
-    (updated "2026-04-27")
+    (updated "2026-06-05")
     (tags "Python"))
   (repo
     (name "yobro")
@@ -169,8 +191,30 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/yobro")
     (homepage "")
     (language "Python")
-    (updated "2026-04-13")
+    (updated "2026-06-05")
     (tags "ai" "Python"))
+  (repo
+    (name "mind")
+    (visibility private)
+    (description "mind - agentic processing stuffs")
+    (summary "The intelligence layer that reads your memories and learns \"what usually happens next\" — Memory stores what happened, Mind understands what it means.")
+    (doc "docs/mind.html")
+    (url "https://github.com/ScottYelich/mind")
+    (homepage "")
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "ai" "HTML"))
+  (repo
+    (name "memory")
+    (visibility private)
+    (description "Memories (for agentic systems work/use)")
+    (summary "A passive, file-based memory layer that turns every agent turn, job, and command into a linked Obsidian-compatible note.")
+    (doc "docs/memory.html")
+    (url "https://github.com/ScottYelich/memory")
+    (homepage "")
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "ai" "HTML"))
   (repo
     (name "gws")
     (visibility private)
@@ -180,7 +224,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/gws")
     (homepage "")
     (language "Python")
-    (updated "2026-04-13")
+    (updated "2026-06-05")
     (tags "google" "Python"))
   (repo
     (name "laniakea")
@@ -191,7 +235,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/laniakea")
     (homepage "")
     (language "Python")
-    (updated "2026-04-13")
+    (updated "2026-06-05")
     (tags "ai" "Python"))
   (repo
     (name "dagsmith")
@@ -202,41 +246,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/dagsmith")
     (homepage "")
     (language "Swift")
-    (updated "2026-04-13")
+    (updated "2026-06-05")
     (tags "devtools" "Swift"))
-  (repo
-    (name "ybs")
-    (visibility private)
-    (description "Yelich Build System")
-    (summary "A spec-and-step build methodology that lets AI agents construct whole systems autonomously, with traceability and verification baked in.")
-    (doc "docs/ybs.html")
-    (url "https://github.com/ScottYelich/ybs")
-    (homepage "")
-    (language "Shell")
-    (updated "2026-04-13")
-    (tags "devtools" "Shell"))
-  (repo
-    (name "saixha")
-    (visibility private)
-    (description "Sasha:  AI Shell")
-    (summary "An S-expression AI shell (\"Sasha\") where the LLM, a Lisp interpreter, and Swift built-ins are all in-process evaluators.")
-    (doc "docs/saixha.html")
-    (url "https://github.com/ScottYelich/saixha")
-    (homepage "")
-    (language "Swift")
-    (updated "2026-04-13")
-    (tags "ai" "Swift"))
-  (repo
-    (name "murphy")
-    (visibility private)
-    (description "murphy chat w/ llm + tooling, etc.")
-    (summary "A single-shot Swift AI agent engine for macOS — prompt in, structured JSONL events out, exit code.")
-    (doc "docs/murphy.html")
-    (url "https://github.com/ScottYelich/murphy")
-    (homepage "")
-    (language "Swift")
-    (updated "2026-04-13")
-    (tags "ai" "Swift"))
   (repo
     (name "agent")
     (visibility private)
@@ -246,63 +257,52 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (url "https://github.com/ScottYelich/agent")
     (homepage "")
     (language "Swift")
-    (updated "2026-04-13")
+    (updated "2026-06-05")
     (tags "ai" "Swift"))
   (repo
-    (name "mlx-router")
+    (name "saixha")
     (visibility private)
-    (description "MLX Router (proxy)")
-    (summary "A thin wrapper that turns any Apple Silicon Mac into a private, OpenAI-compatible LLM endpoint backed by MLX.")
-    (doc "docs/mlx-router.html")
-    (url "https://github.com/ScottYelich/mlx-router")
+    (description "Sasha:  AI Shell")
+    (summary "An S-expression AI shell (\"Sasha\") where the LLM, a Lisp interpreter, and Swift built-ins are all in-process evaluators.")
+    (doc "docs/saixha.html")
+    (url "https://github.com/ScottYelich/saixha")
+    (homepage "")
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "ai" "HTML"))
+  (repo
+    (name "murphy")
+    (visibility private)
+    (description "murphy chat w/ llm + tooling, etc.")
+    (summary "A single-shot Swift AI agent engine for macOS — prompt in, structured JSONL events out, exit code.")
+    (doc "docs/murphy.html")
+    (url "https://github.com/ScottYelich/murphy")
+    (homepage "")
+    (language "Swift")
+    (updated "2026-06-05")
+    (tags "ai" "Swift"))
+  (repo
+    (name "sdts")
+    (visibility private)
+    (description "Scott & Daniel - Trading System")
+    (summary "A full-stack algorithmic-trading lab: secure UDP networking, a zero-config service mesh, and a real-time terminal dashboard for trading bots.")
+    (doc "docs/sdts.html")
+    (url "https://github.com/ScottYelich/sdts")
     (homepage "")
     (language "Python")
-    (updated "2026-04-13")
-    (tags "ai" "devtools" "Python"))
+    (updated "2026-06-05")
+    (tags "trading" "Python"))
   (repo
-    (name "mind")
+    (name "ybs")
     (visibility private)
-    (description "mind - agentic processing stuffs")
-    (summary "The intelligence layer that reads your memories and learns \"what usually happens next\" — Memory stores what happened, Mind understands what it means.")
-    (doc "docs/mind.html")
-    (url "https://github.com/ScottYelich/mind")
+    (description "Yelich Build System")
+    (summary "A spec-and-step build methodology that lets AI agents construct whole systems autonomously, with traceability and verification baked in.")
+    (doc "docs/ybs.html")
+    (url "https://github.com/ScottYelich/ybs")
     (homepage "")
-    (language "")
-    (updated "2026-04-12")
-    (tags "ai"))
-  (repo
-    (name "memory")
-    (visibility private)
-    (description "Memories (for agentic systems work/use)")
-    (summary "A passive, file-based memory layer that turns every agent turn, job, and command into a linked Obsidian-compatible note.")
-    (doc "docs/memory.html")
-    (url "https://github.com/ScottYelich/memory")
-    (homepage "")
-    (language "")
-    (updated "2026-04-12")
-    (tags "ai"))
-  (repo
-    (name "gmail-utility")
-    (visibility private)
-    (description "General gmail utility: create, read, update, delete -- plus search, etc.  May then be called as agent /skill, etc.")
-    (summary "A CLI to pull your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash.")
-    (doc "docs/gmail-utility.html")
-    (url "https://github.com/ScottYelich/gmail-utility")
-    (homepage "")
-    (language "Python")
-    (updated "2026-02-22")
-    (tags "ai" "google" "Python"))
-  (repo
-    (name "playground")
-    (visibility private)
-    (description "playground")
-    (summary "An empty 2014-era scratch repo — a named placeholder.")
-    (doc "docs/playground.html")
-    (url "https://github.com/ScottYelich/playground")
-    (homepage "")
-    (language "")
-    (updated "2014-11-11")
-    (tags ))
+    (language "HTML")
+    (updated "2026-06-05")
+    (tags "devtools" "HTML"))
 )
 ;; DATA:END
 </script>
@@ -413,15 +413,16 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   function card(r){
     const pub=r.visibility==='public';
     const tagHtml=(r.tags||[]).map(t=>'<span class="ctag" data-tag="'+esc(t)+'">'+esc(t)+'</span>').join('');
-    // repo link — always present (public + private; name+url leak is OK, access stays protected)
+    // three links per card:
+    // repo  — GitHub (public or private; name+url leak is OK, access stays protected)
     const repoLink='<a href="'+esc(r.url)+'" target="_blank" rel="noopener"'
       +(pub?'':' title="private — opens only with access"')+'>'+(pub?'repo ↗':'private repo ↗')+'</a>';
-    // site link — always present: homepage if set, else the public summary page
-    const siteUrl=r.homepage||r.doc||'';
-    const siteLink=siteUrl
-      ? '<a href="'+esc(siteUrl)+'"'+(r.homepage?' target="_blank" rel="noopener"':'')+'>site ↗</a>' : '';
-    let links=repoLink+(siteLink?' '+siteLink:'');
-    if(r.homepage && r.doc) links+=' <a href="'+esc(r.doc)+'">details →</a>';
+    // site  — REMOTE: the repo's own index.html (its GitHub Pages site)
+    const siteLink='<a href="https://scottyelich.github.io/'+encodeURIComponent(r.name)+'/"'
+      +' target="_blank" rel="noopener" title="the repo\'s own page (GitHub Pages)">site ↗</a>';
+    // details — LOCAL: the interactive report in this portfolio
+    const detailsLink=r.doc ? '<a href="'+esc(r.doc)+'">details →</a>' : '';
+    const links=[repoLink, siteLink, detailsLink].filter(Boolean).join(' ');
     const summary=r.summary ? '<div class="summary">'+esc(r.summary)+'</div>' : '';
     return '<div class="card">'
       + '<h2>'+esc(r.name)+' <span class="badge '+(pub?'public':'private')+'">'+(pub?'public':'private')+'</span></h2>'

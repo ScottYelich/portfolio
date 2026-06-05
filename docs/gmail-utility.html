@@ -3,15 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>gmail-utility · summary</title>
+<meta name="report-template-version" content="1.0.0">
+<title>gmail-utility · report</title>
 <style>
-/*! EMBEDDED ASSET — readme.css
- * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
- * version: 0.1.0
- * date:    2026-06-05T04:52:25Z
- * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
- * note:    inlined for self-containment; check source for updates.
- */
 /*!
  * readme.css — theme for browser-loadable rendered README / doc pages
  * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
@@ -56,65 +50,102 @@ a:hover{text-decoration:underline}
 .markdown-body li{margin:.25em 0}
 .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--muted);font-size:13px}
+/*!
+ * report.css — additions for the interactive per-repo report template
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/report.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * Loaded alongside readme.css by tools/build-reports.py.
+ */
+.badge{font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600;
+  letter-spacing:.3px;vertical-align:middle}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.rep-head{margin:10px 0 16px}
+.rep-head h1{border:0;padding:0;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.rep-tag{color:var(--fg);font-size:15px;margin:.2em 0;font-style:italic}
+.rep-stats{color:var(--muted);font-size:13px;margin:.3em 0 0}
+.chart-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px 14px;margin:18px 0}
+.chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+#activity{width:100%;height:240px}
+.topbar .src{margin-left:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="topbar">
     <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
-    <span class="crumb">gmail-utility</span>
+    <span class="crumb">gmail-utility · report</span>
+    <a class="src" href="https://github.com/ScottYelich/gmail-utility" target="_blank" rel="noopener">repo ↗</a>
+    <a href="https://scottyelich.github.io/gmail-utility/" target="_blank" rel="noopener">site ↗</a>
   </nav>
+  <header class="rep-head">
+    <h1>gmail-utility <span class="badge private">private</span></h1>
+    <p class="rep-tag">A spec-first CLI that pulls your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash — now built via a YBS/dagsmith 24-step system.</p>
+    <p class="rep-stats">HTML · 7 commits · 2026-02 → 2026-06 · report template v1.0.0</p>
+  </header>
+  <div class="chart-card"><h3>Commit activity by month</h3><div id="activity"></div></div>
   <article class="markdown-body">
 <h1 id="gmail-utility--executive-summary">gmail-utility — executive
 summary</h1>
-<p><strong>One-liner:</strong> A CLI tool to pull your entire Gmail down
-into a local, searchable archive — SQLite metadata plus standard
-<code>.eml</code> files — with a deliberately paranoid two-stage trash
-system so cleanup never loses mail by accident.</p>
+<p><strong>One-liner:</strong> A spec-first CLI for pulling your entire
+Gmail into a local, searchable archive — SQLite metadata plus standard
+<code>.eml</code> files with a paranoid two-stage trash — now wired to a
+YBS/dagsmith build system that orchestrates its 24-step, 11-phase
+implementation.</p>
 <h2 id="what-it-provides">What it provides</h2>
 <ul>
-<li>Bulk download of Gmail messages via the Gmail REST API (batch
-requests) into a local archive.</li>
-<li>Local storage split for speed and portability: SQLite holds metadata
-plus an FTS5 full-text search index (no BLOBs), while message bodies
-live as standard <code>.eml</code> files readable by any mail
-client.</li>
+<li>A complete design and orchestrated build pipeline for a Gmail
+archiver: bulk download via the Gmail REST API (batch requests) into a
+local archive, with metadata-only SQLite (plus an FTS5 full-text index,
+no BLOBs) alongside message bodies stored as universal <code>.eml</code>
+files.</li>
 <li>Attachment extraction with SHA256 deduplication and reference
 counting, so identical attachments are stored once.</li>
 <li>A safe, reversible cleanup workflow — delete → local trash → review
-→ purge — built on two databases (<code>gmail.db</code> active,
-<code>gmail-trash.db</code> trash) with undelete support.</li>
-<li>Search over the archive (e.g. <code>from:</code>,
-<code>subject:</code>, label/date filters) and an intended Claude Code
-skill integration for conversational email management.</li>
+→ purge — designed on two databases (<code>gmail.db</code> active,
+<code>gmail-trash.db</code> trash) with undelete and dry-run
+support.</li>
+<li>A <strong>YBS build system</strong> under
+<code>systems/gmail-utility/</code>: a spec, 24 discrete step files
+across 11 phases, and an explicit dependency graph
+(<code>STEPS_ORDER.txt</code>) that maps to parallel execution rounds,
+driven by a <strong>dagsmith</strong>-style <code>.dagsmith.json</code>
+executor configuration.</li>
+<li>Search over the archive (sender/subject/label/date filters) and an
+intended Claude Code skill integration for conversational email
+management.</li>
 </ul>
 <h2 id="strengths">Strengths</h2>
 <ul>
 <li><strong>Clear, opinionated architecture</strong>: metadata-only
 SQLite + on-disk <code>.eml</code> keeps the database small and fast
-while leaving content in a universal, future-proof format.</li>
+while leaving content in a portable, future-proof format.</li>
 <li><strong>Safety-first design</strong>: trash-before-delete, undelete,
 dry-run, read-only Gmail scope, and a hard rule against destructive
-operations on live/pre-existing mail. Data directories live outside the
-repo to avoid leaking mail into git/tar/backups.</li>
-<li><strong>Thoroughly specified</strong>: a ~40 KB technical proposal
-and a ~50-step, 11-phase implementation plan with checkpoints and tests,
-plus a session-state tracker for resumable, incremental
-development.</li>
+operations on live mail. Data directories live outside the repo to avoid
+leaking mail into git/tar/backups.</li>
+<li><strong>Build is now executable, not just documented</strong>: the
+~40 KB proposal and ~50-step plan have been distilled into discrete YBS
+steps with a dependency DAG, so the implementation can be orchestrated
+(and parallelized) by dagsmith rather than hand-walked.</li>
 <li><strong>Reconciliation-based sync</strong> (set difference rather
 than a checkpoint table) keeps the sync model simple and robust.</li>
 </ul>
 <h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
 <ul>
-<li><strong>Pre-implementation</strong>: this is the project's most
-important caveat. Despite extensive docs, essentially no functionality
-is built yet — only a ~123-line <code>click</code> CLI skeleton exists;
-the <code>api/</code>, <code>storage/</code>, <code>sync/</code>,
-<code>trash/</code>, and <code>utils/</code> packages are empty
-<code>__init__.py</code> stubs, and the test suite is empty. Session
-state lists Phase 0 (project setup) as "NOT STARTED."</li>
+<li><strong>Pre-implementation</strong>: this remains the key caveat.
+The runtime functionality is not built yet — only a ~123-line
+<code>click</code> CLI skeleton exists with every command printing "not
+yet implemented", and the <code>api/</code>, <code>storage/</code>,
+<code>sync/</code>, <code>trash/</code>, and <code>utils/</code>
+packages are empty <code>__init__.py</code> stubs. The YBS steps
+describe the work; they have not yet been executed against the
+code.</li>
 <li><strong>No tests yet</strong> beyond an empty scaffold, so the
-safety guarantees are specified but unproven in code.</li>
+safety guarantees are specified but unproven in code.
+<code>SESSION_STATE.md</code> still lists Phase 0 as "NOT STARTED."</li>
 <li><strong>Setup friction</strong>: requires a Google Cloud project,
 Gmail API enablement, and user-provided OAuth credentials before first
 use; assumes Python 3.11+ and pyenv.</li>
@@ -130,31 +161,50 @@ archive of your Gmail and a safe way to declutter — bulk-deleting old
 promotions or newsletters without trusting an irreversible action
 against your live inbox. The <code>.eml</code> + SQLite combo is
 attractive if you value portable, tool-agnostic storage and full-text
-search you control. Today, though, it is better read as a reference spec
-than a tool you can run.</p>
+search you control. Today it is best read as a reference spec and a
+ready-to-run build plan rather than a finished tool — but the YBS system
+means going from spec to working code is now an orchestrated process
+rather than a from-scratch effort.</p>
 <h2 id="how-it-relates-to-the-other-projects">How it relates to the
 other projects</h2>
 <p>gmail-utility is the Gmail-specific, local-archive counterpart to
-<strong>gws</strong> (broader Google Workspace tooling), and the two
-share a Google-API domain and likely overlapping auth/data-handling
-philosophy. It echoes the portfolio-wide pattern of spec-first
-development seen in <strong>ybs</strong>-built projects (gws, yobro): a
-detailed proposal and step-by-step implementation plan precede code,
-with session-state tracking for resumable, agent-friendly work. As a
-clean, scoped CLI over a well-defined data store, its local archive
-could serve as a data source for agentic systems in the portfolio —
-<strong>memory</strong> (durable memories),
-<strong>mind</strong>/<strong>murphy</strong> (LLM
-processing/execution), and <strong>agent</strong> (macOS work-queue
-worker) — and its Claude Code skill hook aligns it with that
-conversational-tooling ecosystem.</p>
+<strong>gws</strong> (the broader Google Workspace CLI), sharing a
+Google-API domain and overlapping auth/data-handling philosophy. It now
+carries its own <strong>ybs</strong> system — the portfolio's spec/step
+build methodology — turning its proposal and implementation plan into
+discrete, dependency-ordered steps. Those steps are executed by a
+<strong>dagsmith</strong> build orchestrator (configured here via
+<code>.dagsmith.json</code>), which resolves the step DAG and runs
+rounds of work in parallel. As a clean, scoped CLI over a well-defined
+data store, its eventual local archive is a natural data source for
+agentic systems in the portfolio, including <strong>memory</strong>
+(agentic memories), and its planned Claude Code skill hook aligns it
+with that conversational-tooling ecosystem.</p>
 <hr />
 <p><em>Executive summary — condensed from this repo's own docs. Part of
 <a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
 portfolio</a>, the public starting point for these projects.</em></p>
 
   </article>
-  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+  <footer class="foot">Report template v1.0.0 · generated 2026-06-05T05:09:28Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
 </div>
+
+<script src="../vendor/echarts.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('activity');
+  if(!window.echarts){ el.parentNode.style.display='none'; return; }
+  var labels=["2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], values=[6, 0, 0, 0, 1];
+  if(!labels.length){ el.parentNode.style.display='none'; return; }
+  var ch=echarts.init(el,null,{renderer:'canvas'});
+  ch.setOption({backgroundColor:'transparent',
+    grid:{left:42,right:16,top:14,bottom:56},
+    tooltip:{trigger:'axis'},
+    xAxis:{type:'category',data:labels,axisLabel:{color:'#8b949e',rotate:45,fontSize:10},axisLine:{lineStyle:{color:'#30363d'}}},
+    yAxis:{type:'value',minInterval:1,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:[{type:'bar',data:values,itemStyle:{color:'#58a6ff'},barMaxWidth:22}]});
+  window.addEventListener('resize',function(){ch.resize();});
+})();
+</script>
 </body>
 </html>

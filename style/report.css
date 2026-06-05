@@ -1,0 +1,20 @@
+/*!
+ * report.css — additions for the interactive per-repo report template
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/report.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * Loaded alongside readme.css by tools/build-reports.py.
+ */
+.badge{font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600;
+  letter-spacing:.3px;vertical-align:middle}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.rep-head{margin:10px 0 16px}
+.rep-head h1{border:0;padding:0;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.rep-tag{color:var(--fg);font-size:15px;margin:.2em 0;font-style:italic}
+.rep-stats{color:var(--muted);font-size:13px;margin:.3em 0 0}
+.chart-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px 14px;margin:18px 0}
+.chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+#activity{width:100%;height:240px}
+.topbar .src{margin-left:auto}

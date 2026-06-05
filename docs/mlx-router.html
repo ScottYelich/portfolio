@@ -3,15 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mlx-router · summary</title>
+<meta name="report-template-version" content="1.0.0">
+<title>mlx-router · report</title>
 <style>
-/*! EMBEDDED ASSET — readme.css
- * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
- * version: 0.1.0
- * date:    2026-06-05T04:52:26Z
- * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
- * note:    inlined for self-containment; check source for updates.
- */
 /*!
  * readme.css — theme for browser-loadable rendered README / doc pages
  * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
@@ -56,100 +50,163 @@ a:hover{text-decoration:underline}
 .markdown-body li{margin:.25em 0}
 .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--muted);font-size:13px}
+/*!
+ * report.css — additions for the interactive per-repo report template
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/report.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * Loaded alongside readme.css by tools/build-reports.py.
+ */
+.badge{font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600;
+  letter-spacing:.3px;vertical-align:middle}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.rep-head{margin:10px 0 16px}
+.rep-head h1{border:0;padding:0;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.rep-tag{color:var(--fg);font-size:15px;margin:.2em 0;font-style:italic}
+.rep-stats{color:var(--muted);font-size:13px;margin:.3em 0 0}
+.chart-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px 14px;margin:18px 0}
+.chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+#activity{width:100%;height:240px}
+.topbar .src{margin-left:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="topbar">
     <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
-    <span class="crumb">mlx-router</span>
+    <span class="crumb">mlx-router · report</span>
+    <a class="src" href="https://github.com/ScottYelich/mlx-router" target="_blank" rel="noopener">repo ↗</a>
+    <a href="https://scottyelich.github.io/mlx-router/" target="_blank" rel="noopener">site ↗</a>
   </nav>
+  <header class="rep-head">
+    <h1>mlx-router <span class="badge private">private</span></h1>
+    <p class="rep-tag">A single OpenAI-compatible endpoint for Apple Silicon that routes each request to the right-sized local MLX model (7B chat → Coder-32B → 72B reasoning), with tool calling, KV-cache session affinity, and a self-managing daemon.</p>
+    <p class="rep-stats">Python · 22 commits · 2026-01 → 2026-06 · report template v1.0.0</p>
+  </header>
+  <div class="chart-card"><h3>Commit activity by month</h3><div id="activity"></div></div>
   <article class="markdown-body">
 <h1 id="mlx-router--executive-summary">mlx-router — executive
 summary</h1>
-<p><strong>One-liner:</strong> A thin, batteries-included wrapper that
-turns any Apple Silicon Mac into a private, OpenAI-compatible LLM
-endpoint backed by MLX.</p>
+<p><strong>One-liner:</strong> A single OpenAI-compatible endpoint for
+Apple Silicon that intelligently routes each request to the right-sized
+local MLX model — fast 7B for chat, Coder-32B for code, 72B for hard
+reasoning — with tool calling, KV-cache-aware session affinity, and a
+self-managing process daemon behind it.</p>
 <h2 id="what-it-provides">What it provides</h2>
 <ul>
-<li>An OpenAI-compatible local inference server
-(<code>/v1/chat/completions</code>, <code>/v1/models</code>) running at
-<code>http://localhost:8080</code>, so existing OpenAI SDK / curl
-clients work unchanged with <code>api_key="not-needed"</code>.</li>
-<li>Native Apple Silicon (M1–M5) inference via Apple's MLX and
-<code>mlx-lm</code>, with all computation and data staying on the local
-machine.</li>
-<li>Convenience tooling: an interactive <code>install.sh</code>, plus
-helper scripts to start the server (<code>start-server.sh</code>), chat
-interactively (<code>chat.sh</code>), and pre-download models
-(<code>download-model.sh</code>).</li>
-<li>Access to 1000+ 4-bit-quantized models from the Hugging Face
-<code>mlx-community</code> org, downloaded on first use and cached
-locally (default <code>~/.mlx-models</code>); models are never committed
-to the repo.</li>
-<li>Simple <code>config.env</code>-based configuration of host, port,
-max tokens, default model, and model storage directory.</li>
+<li><strong>One smart entry point</strong> (<code>:7777</code>) speaking
+the OpenAI Chat Completions API (<code>/v1/chat/completions</code>,
+<code>/v1/models</code>), so Aider, the OpenAI SDK, and curl clients
+work unchanged against fully local inference.</li>
+<li><strong>Tiered routing</strong> across 72B / 32B / 14B / 7B model
+tiers (Qwen2.5 family) plus a 0.5B router-classifier tier. Requests are
+dispatched, in priority order, by <code>X-Force-Model</code> header,
+prefix alias (<code>:1</code>/<code>:2</code>/<code>:3</code>,
+<code>math:</code>, <code>code:</code>, <code>deep:</code>,
+<code>fast:</code>, etc., configurable), per-conversation affinity,
+keyword match, ~160ms LLM classification, or default tier.</li>
+<li><strong>Session affinity for KV-cache reuse:</strong> hashes the
+first user message so multi-turn conversations stay pinned to the same
+backend, cutting latency on follow-ups.</li>
+<li><strong>Tool calling</strong> via prompt injection (native
+mlx_textgen tool support is unreliable on Qwen), with multi-format
+detection (XML tags, raw/newline-delimited JSON, truncated-JSON
+fallback) converted back to proper OpenAI streaming
+<code>tool_calls</code>; tools are auto-stripped for 7B to avoid
+crashes.</li>
+<li><strong>In-chat commands</strong> (<code>:+</code>/<code>:-</code>
+tier tags, <code>:=</code> stats, <code>:?</code> help) and
+routing-metadata response headers (<code>X-Routed-To</code>,
+<code>X-Route-Method</code>, <code>X-Route-Time-Ms</code>,
+<code>X-Backend-Port</code>, <code>X-Queue-Position</code>).</li>
+<li><strong>Process management:</strong> an <code>mlx</code> CLI and
+Unix-socket daemon that start/stop/swap/restart model servers with
+pre-load RAM checks, warmup inference, auto-restart with backoff,
+request timeouts, queue backpressure (HTTP 429), benchmarking
+(<code>tok/s</code>, TTFT, stress mode), and orphan-process
+adoption.</li>
 </ul>
 <h2 id="strengths">Strengths</h2>
 <ul>
-<li>Genuinely zero-friction local setup: one installer, sensible
-defaults (Llama 3.2 3B), and a hard system-check gate (macOS 14+,
-arm64).</li>
-<li>Drop-in OpenAI compatibility means it slots under any tooling
-already speaking that API with no client code changes.</li>
-<li>Fully local and private — no auth, no outbound calls at inference
-time, good for sensitive workloads and offline use.</li>
-<li>Lean and honest in scope: it's an explicit wrapper around
-<code>mlx-lm</code>, not a reimplementation, so it inherits upstream
-model support and performance.</li>
+<li>Right-sizes compute per request: cheap models handle easy traffic
+while big models are reserved for hard work, improving throughput and
+latency without client changes.</li>
+<li>Drop-in OpenAI compatibility — slots under existing tooling with
+zero code changes and no API key required.</li>
+<li>Fully local and private: all inference and data stay on-device, no
+outbound calls, good for sensitive or offline use.</li>
+<li>Operationally serious for a local stack: RAM gating, warmup,
+auto-restart, backpressure, configurable timeouts, and benchmarking are
+built in rather than bolted on.</li>
+<li>Tuned for Apple Silicon via MLX + mlx_textgen, with KV-cache
+persistence and affinity to exploit it.</li>
 </ul>
 <h2 id="weaknesses--limitations">Weaknesses / limitations</h2>
 <ul>
-<li>Thin by design: the heavy lifting is <code>mlx-lm</code>; this repo
-is essentially shell glue plus docs, so it adds little beyond ergonomics
-and conventions.</li>
-<li>Apple-Silicon-only and macOS-14+-only — no Intel, Linux, or non-Mac
-path whatsoever.</li>
-<li>"Router" is aspirational at this stage: there is no evidence of
-multi-backend routing, load balancing, model-aware dispatch, or queueing
-— it serves one model per server process.</li>
-<li>No authentication, rate limiting, or TLS; safe only on a trusted
-local/LAN boundary.</li>
-<li>Defaults bind to localhost and assume a single user; concurrency,
-observability, and production hardening are out of scope.</li>
-<li>First-response latency and large RAM requirements (7B ≈ 16GB, 70B ≈
-64GB+) are inherent to local inference.</li>
+<li>Apple-Silicon-and-macOS-14+-only — no Intel, Linux, or non-Mac
+path.</li>
+<li>Hardware-hungry: the full multi-tier setup targets large-RAM
+machines (e.g. M3 Ultra 256GB); a 72B tier alone needs ~45GB and the
+documented default layout runs many 32B instances.</li>
+<li>No authentication, rate limiting, or TLS — safe only on a trusted
+local/LAN boundary; defaults bind locally.</li>
+<li>Tool calling relies on prompt injection and heuristic output parsing
+rather than native function-calling, so reliability depends on model
+behavior and the fallback parsers.</li>
+<li>Qwen-centric: model tiers and routing keywords assume the Qwen2.5
+family; other models would need reconfiguration.</li>
+<li>Some bundled docs lag the code (e.g. mlx-manager.md still says the
+daemon does not auto-restart, while the router CLI now supports
+auto-restart/<code>restart</code>/<code>restart-all</code>).</li>
 </ul>
 <h2 id="why-youd-use-it">Why you'd use it</h2>
-<p>Reach for mlx-router when you want a private, cost-free LLM endpoint
-on a Mac that any OpenAI-compatible client can hit immediately — for
-local development, offline experimentation, privacy-sensitive prompts,
-or as the cheap inference backend for other tools in this portfolio.
-Choose it over a hosted API when data locality, zero marginal cost, and
-Apple Silicon performance matter more than scale, multi-tenancy, or
-operational guarantees.</p>
+<p>Reach for mlx-router when you want one private, cost-free,
+OpenAI-compatible endpoint on a Mac that automatically picks the
+cheapest model that can do the job — for local development, coding
+agents, offline experimentation, or privacy-sensitive prompts. Choose it
+over a hosted API when data locality, zero marginal cost, and Apple
+Silicon performance matter more than scale or multi-tenancy, and over a
+single-model local server when you want tiered cost/latency trade-offs,
+tool use, and process supervision without wiring them yourself.</p>
 <h2 id="how-it-relates-to-the-other-projects">How it relates to the
 other projects</h2>
-<p>mlx-router is the local inference substrate for the agentic and
-LLM-driven projects in the portfolio. murphy (Swift LLM
-processing/execution engine), agent (macOS work-queue AI worker loop),
-and mind (agentic processing) all need a model endpoint; mlx-router can
-serve them an on-device OpenAI-compatible backend instead of a paid
-cloud API. laniakea (LAN AI scripts → local bin) shares the same "keep
-AI on local/LAN hardware" philosophy and is a natural front-end for
-distributing access to a mlx-router instance across a network. saixha
-and yobro, as AI-driven shells/assistants, are likewise potential
-clients. Build/spec tooling such as ybs, dagsmith, and murphy can
-orchestrate workloads that call into it, and memory provides the
-persistence layer those agents pair with the inference mlx-router
-supplies.</p>
+<p>mlx-router is the local inference backend the rest of the portfolio
+calls. murphy (LLM engine), agent (work-queue daemon), saixha (S-expr
+shell), and yobro (local voice assistant) all need a model endpoint and
+can point their OpenAI-compatible client at mlx-router instead of a paid
+cloud API. laniakea (the LAN AI stack) shares the
+keep-AI-on-local/LAN-hardware philosophy and is a natural way to
+distribute access to a mlx-router instance across a network. Supporting
+tools (gws, gmail-utility, and similar) can likewise route their LLM
+calls here. Within this portfolio, mlx-router is the inference
+substrate; the other projects are its clients and orchestrators.</p>
 <hr />
 <p><em>Executive summary — condensed from this repo's own docs. Part of
 <a href="https://scottyelich.github.io/portfolio/">ScottYelich ·
 portfolio</a>, the public starting point for these projects.</em></p>
 
   </article>
-  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+  <footer class="foot">Report template v1.0.0 · generated 2026-06-05T05:09:28Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
 </div>
+
+<script src="../vendor/echarts.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('activity');
+  if(!window.echarts){ el.parentNode.style.display='none'; return; }
+  var labels=["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], values=[3, 18, 0, 0, 0, 1];
+  if(!labels.length){ el.parentNode.style.display='none'; return; }
+  var ch=echarts.init(el,null,{renderer:'canvas'});
+  ch.setOption({backgroundColor:'transparent',
+    grid:{left:42,right:16,top:14,bottom:56},
+    tooltip:{trigger:'axis'},
+    xAxis:{type:'category',data:labels,axisLabel:{color:'#8b949e',rotate:45,fontSize:10},axisLine:{lineStyle:{color:'#30363d'}}},
+    yAxis:{type:'value',minInterval:1,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:[{type:'bar',data:values,itemStyle:{color:'#58a6ff'},barMaxWidth:22}]});
+  window.addEventListener('resize',function(){ch.resize();});
+})();
+</script>
 </body>
 </html>

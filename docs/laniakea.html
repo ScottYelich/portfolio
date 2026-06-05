@@ -3,15 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>laniakea · summary</title>
+<meta name="report-template-version" content="1.0.0">
+<title>laniakea · report</title>
 <style>
-/*! EMBEDDED ASSET — readme.css
- * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
- * version: 0.1.0
- * date:    2026-06-05T04:52:25Z
- * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
- * note:    inlined for self-containment; check source for updates.
- */
 /*!
  * readme.css — theme for browser-loadable rendered README / doc pages
  * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
@@ -56,14 +50,42 @@ a:hover{text-decoration:underline}
 .markdown-body li{margin:.25em 0}
 .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--muted);font-size:13px}
+/*!
+ * report.css — additions for the interactive per-repo report template
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/report.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * Loaded alongside readme.css by tools/build-reports.py.
+ */
+.badge{font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600;
+  letter-spacing:.3px;vertical-align:middle}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.rep-head{margin:10px 0 16px}
+.rep-head h1{border:0;padding:0;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.rep-tag{color:var(--fg);font-size:15px;margin:.2em 0;font-style:italic}
+.rep-stats{color:var(--muted);font-size:13px;margin:.3em 0 0}
+.chart-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px 14px;margin:18px 0}
+.chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+#activity{width:100%;height:240px}
+.topbar .src{margin-left:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="topbar">
     <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
-    <span class="crumb">laniakea</span>
+    <span class="crumb">laniakea · report</span>
+    <a class="src" href="https://github.com/ScottYelich/laniakea" target="_blank" rel="noopener">repo ↗</a>
+    <a href="https://scottyelich.github.io/laniakea/" target="_blank" rel="noopener">site ↗</a>
   </nav>
+  <header class="rep-head">
+    <h1>laniakea <span class="badge private">private</span></h1>
+    <p class="rep-tag">The plumbing layer of a personal AI supercluster — scripts that turn one Apple Silicon Mac into a LAN-reachable LLM/vision/inference stack.</p>
+    <p class="rep-stats">Python · 7 commits · 2026-04 → 2026-06 · report template v1.0.0</p>
+  </header>
+  <div class="chart-card"><h3>Commit activity by month</h3><div id="activity"></div></div>
   <article class="markdown-body">
 <h1 id="laniakea--executive-summary">laniakea — executive summary</h1>
 <p><strong>One-liner:</strong> The plumbing layer of a personal AI
@@ -153,7 +175,25 @@ models and daemons actually run.</p>
 portfolio</a>, the public starting point for these projects.</em></p>
 
   </article>
-  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:25Z.</footer>
+  <footer class="foot">Report template v1.0.0 · generated 2026-06-05T05:09:28Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
 </div>
+
+<script src="../vendor/echarts.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('activity');
+  if(!window.echarts){ el.parentNode.style.display='none'; return; }
+  var labels=["2026-04", "2026-05", "2026-06"], values=[6, 0, 1];
+  if(!labels.length){ el.parentNode.style.display='none'; return; }
+  var ch=echarts.init(el,null,{renderer:'canvas'});
+  ch.setOption({backgroundColor:'transparent',
+    grid:{left:42,right:16,top:14,bottom:56},
+    tooltip:{trigger:'axis'},
+    xAxis:{type:'category',data:labels,axisLabel:{color:'#8b949e',rotate:45,fontSize:10},axisLine:{lineStyle:{color:'#30363d'}}},
+    yAxis:{type:'value',minInterval:1,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:[{type:'bar',data:values,itemStyle:{color:'#58a6ff'},barMaxWidth:22}]});
+  window.addEventListener('resize',function(){ch.resize();});
+})();
+</script>
 </body>
 </html>

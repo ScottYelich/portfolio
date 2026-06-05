@@ -3,15 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>playground · summary</title>
+<meta name="report-template-version" content="1.0.0">
+<title>playground · report</title>
 <style>
-/*! EMBEDDED ASSET — readme.css
- * source:  https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
- * version: 0.1.0
- * date:    2026-06-05T04:52:26Z
- * sha256:  41f095c302ffb1167a8818917cda4b744459b3e6ef5a1dee1d1a37401f9b14b7
- * note:    inlined for self-containment; check source for updates.
- */
 /*!
  * readme.css — theme for browser-loadable rendered README / doc pages
  * @source   https://github.com/ScottYelich/portfolio/blob/main/style/readme.css
@@ -56,14 +50,42 @@ a:hover{text-decoration:underline}
 .markdown-body li{margin:.25em 0}
 .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);
   color:var(--muted);font-size:13px}
+/*!
+ * report.css — additions for the interactive per-repo report template
+ * @source   https://github.com/ScottYelich/portfolio/blob/main/style/report.css
+ * @version  0.1.0
+ * @updated  2026-06-05
+ * Loaded alongside readme.css by tools/build-reports.py.
+ */
+.badge{font-size:11px;padding:2px 9px;border-radius:999px;font-weight:600;
+  letter-spacing:.3px;vertical-align:middle}
+.badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+.badge.private{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.35)}
+.rep-head{margin:10px 0 16px}
+.rep-head h1{border:0;padding:0;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.rep-tag{color:var(--fg);font-size:15px;margin:.2em 0;font-style:italic}
+.rep-stats{color:var(--muted);font-size:13px;margin:.3em 0 0}
+.chart-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px 14px;margin:18px 0}
+.chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+#activity{width:100%;height:240px}
+.topbar .src{margin-left:auto}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="topbar">
     <a class="home" href="https://scottyelich.github.io/portfolio/">← Portfolio</a>
-    <span class="crumb">playground</span>
+    <span class="crumb">playground · report</span>
+    <a class="src" href="https://github.com/ScottYelich/playground" target="_blank" rel="noopener">repo ↗</a>
+    <a href="https://scottyelich.github.io/playground/" target="_blank" rel="noopener">site ↗</a>
   </nav>
+  <header class="rep-head">
+    <h1>playground <span class="badge private">private</span></h1>
+    <p class="rep-tag">An empty 2014-era scratch repo — a named placeholder.</p>
+    <p class="rep-stats">HTML · 2 commits · 2014-11 → 2026-06 · report template v1.0.0</p>
+  </header>
+  <div class="chart-card"><h3>Commit activity by month</h3><div id="activity"></div></div>
   <article class="markdown-body">
 <h1 id="playground--executive-summary">playground — executive
 summary</h1>
@@ -110,7 +132,25 @@ personal sandbox sitting outside the active portfolio.</p>
 portfolio</a>, the public starting point for these projects.</em></p>
 
   </article>
-  <footer class="foot">Part of <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a> — the public starting point for these projects. Rendered 2026-06-05T04:52:26Z.</footer>
+  <footer class="foot">Report template v1.0.0 · generated 2026-06-05T05:09:28Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
 </div>
+
+<script src="../vendor/echarts.min.js"></script>
+<script>
+(function(){
+  var el=document.getElementById('activity');
+  if(!window.echarts){ el.parentNode.style.display='none'; return; }
+  var labels=["2014-11", "2014-12", "2015-01", "2015-02", "2015-03", "2015-04", "2015-05", "2015-06", "2015-07", "2015-08", "2015-09", "2015-10", "2015-11", "2015-12", "2016-01", "2016-02", "2016-03", "2016-04", "2016-05", "2016-06", "2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2017-06", "2017-07", "2017-08", "2017-09", "2017-10", "2017-11", "2017-12", "2018-01", "2018-02", "2018-03", "2018-04", "2018-05", "2018-06", "2018-07", "2018-08", "2018-09", "2018-10", "2018-11", "2018-12", "2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], values=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1];
+  if(!labels.length){ el.parentNode.style.display='none'; return; }
+  var ch=echarts.init(el,null,{renderer:'canvas'});
+  ch.setOption({backgroundColor:'transparent',
+    grid:{left:42,right:16,top:14,bottom:56},
+    tooltip:{trigger:'axis'},
+    xAxis:{type:'category',data:labels,axisLabel:{color:'#8b949e',rotate:45,fontSize:10},axisLine:{lineStyle:{color:'#30363d'}}},
+    yAxis:{type:'value',minInterval:1,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:[{type:'bar',data:values,itemStyle:{color:'#58a6ff'},barMaxWidth:22}]});
+  window.addEventListener('resize',function(){ch.resize();});
+})();
+</script>
 </body>
 </html>
