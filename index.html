@@ -16,8 +16,8 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T05:37:00Z
- * sha256:  5dbf0b896aa6b4b90b9d37ae2c35cf1703c8d5b342aa152ace6193dfe32e12d2
+ * date:    2026-06-05T05:39:53Z
+ * sha256:  827f6853a24cfaac08a698a2c7606f6dafe9a5d7c321ad6ab5f250da09f8ce31
  * note:    inlined for self-containment; check source for updates.
  */
 /*!
@@ -67,6 +67,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;
   display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card.flash{border-color:var(--accent);box-shadow:0 0 0 2px rgba(88,166,255,.55);
+  transition:box-shadow .3s,border-color .3s}
 .card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;letter-spacing:.3px}
 .badge.public{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.35)}
@@ -109,7 +111,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   </div>
 
   <div class="chart-wrap" id="chart-wrap">
-    <h3>Complexity × maturity — all repositories <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private</span></h3>
+    <h3>Complexity × maturity — all repositories <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private · click a point → its card</span></h3>
     <div id="chart"></div>
   </div>
 
@@ -126,7 +128,21 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T05:37:00Z")
+  (generated "2026-06-05T05:39:53Z")
+  (repo
+    (name "portfolio")
+    (visibility public)
+    (description "Interactive index of my repos (public + private)")
+    (summary "The public index and starting point for all these projects — an interactive, self-contained map.")
+    (doc "docs/portfolio.html")
+    (url "https://github.com/ScottYelich/portfolio")
+    (homepage "https://scottyelich.github.io/portfolio/")
+    (language "HTML")
+    (updated "2026-06-05")
+    (size 375)
+    (complexity 34)
+    (maturity 67)
+    (tags "HTML"))
   (repo
     (name "gmail-utility")
     (visibility private)
@@ -155,20 +171,6 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (complexity 69)
     (maturity 79)
     (tags "ai" "devtools" "Python"))
-  (repo
-    (name "portfolio")
-    (visibility public)
-    (description "Interactive index of my repos (public + private)")
-    (summary "The public index and starting point for all these projects — an interactive, self-contained map.")
-    (doc "docs/portfolio.html")
-    (url "https://github.com/ScottYelich/portfolio")
-    (homepage "https://scottyelich.github.io/portfolio/")
-    (language "HTML")
-    (updated "2026-06-05")
-    (size 375)
-    (complexity 34)
-    (maturity 67)
-    (tags "HTML"))
   (repo
     (name "playground")
     (visibility private)
@@ -472,7 +474,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     const detailsLink=r.doc ? '<a href="'+esc(r.doc)+'">details →</a>' : '';
     const links=[repoLink, siteLink, detailsLink].filter(Boolean).join(' ');
     const summary=r.summary ? '<div class="summary">'+esc(r.summary)+'</div>' : '';
-    return '<div class="card">'
+    return '<div class="card" id="card-'+esc(r.name)+'">'
       + '<h2>'+esc(r.name)+' <span class="badge '+(pub?'public':'private')+'">'+(pub?'public':'private')+'</span></h2>'
       + '<div class="desc">'+(esc(r.description)||'<span style="color:var(--muted)">no description</span>')+'</div>'
       + summary
@@ -517,13 +519,27 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
       yAxis:{name:'maturity →',nameLocation:'middle',nameGap:36,min:0,max:100,
         axisLabel:{color:'#8b949e'},axisLine:{lineStyle:{color:'#30363d'}},splitLine:{lineStyle:{color:'#21262d'}}},
       series:[{
-        type:'scatter',
+        type:'scatter', cursor:'pointer',
         symbolSize:d=>Math.max(10,Math.sqrt(d[2])/3),
         itemStyle:{color:p=>p.data.vis==='public'?'#3fb950':'#d29922',opacity:.82,borderColor:'#0d1117'},
         label:{show:true,formatter:p=>p.data.name,position:'top',color:'#8b949e',fontSize:9},
         emphasis:{focus:'self',label:{color:'#e6edf3'}},
         data:pts
       }]
+    });
+    // click a circle -> jump to that repo's card (clearing filters if it's hidden)
+    ch.on('click',function(p){
+      if(!p.data||!p.data.name) return;
+      const id='card-'+p.data.name;
+      let el=document.getElementById(id);
+      if(!el){
+        state.q=''; elQ.value=''; state.vis='all';
+        document.querySelectorAll('#vis button').forEach(x=>x.classList.toggle('on',x.dataset.v==='all'));
+        state.tags.clear(); elTags.querySelectorAll('.tag').forEach(t=>t.classList.remove('on'));
+        render(); el=document.getElementById(id);
+      }
+      if(el){ el.scrollIntoView({behavior:'smooth',block:'center'});
+        el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1500); }
     });
     window.addEventListener('resize',()=>ch.resize());
   })();
