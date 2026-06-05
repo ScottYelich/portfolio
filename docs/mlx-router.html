@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="report-template-version" content="1.0.0">
+<meta name="report-template-version" content="1.1.0">
 <title>mlx-router · report</title>
 <style>
 /*!
@@ -70,6 +70,12 @@ a:hover{text-decoration:underline}
 .chart-card h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
 #activity{width:100%;height:240px}
 .topbar .src{margin-left:auto}
+.report-charts{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0 8px}
+.report-charts .rc{flex:1 1 320px;min-width:300px;background:var(--panel);
+  border:1px solid var(--border);border-radius:12px;padding:10px 14px 14px}
+.report-charts .rc h3{margin:6px 2px;font-size:13px;color:var(--muted);font-weight:600;border:0;padding:0}
+.report-charts .rc .q{color:var(--muted);font-size:11px;font-weight:400}
+.report-charts .rc .c{width:100%;height:320px}
 </style>
 </head>
 <body>
@@ -83,9 +89,12 @@ a:hover{text-decoration:underline}
   <header class="rep-head">
     <h1>mlx-router <span class="badge private">private</span></h1>
     <p class="rep-tag">A single OpenAI-compatible endpoint for Apple Silicon that routes each request to the right-sized local MLX model (7B chat → Coder-32B → 72B reasoning), with tool calling, KV-cache session affinity, and a self-managing daemon.</p>
-    <p class="rep-stats">Python · 22 commits · 2026-01 → 2026-06 · report template v1.0.0</p>
+    <p class="rep-stats">Python · 14 files · 313 KB · report template v1.1.0</p>
   </header>
-  <div class="chart-card"><h3>Commit activity by month</h3><div id="activity"></div></div>
+  <div class="report-charts">
+    <div class="rc"><h3>Capability radar <span class="q">vs portfolio average</span></h3><div class="c" id="radar"></div></div>
+    <div class="rc"><h3>Anatomy &amp; composition <span class="q">real file make-up</span></h3><div class="c" id="sun"></div></div>
+  </div>
   <article class="markdown-body">
 <h1 id="mlx-router--executive-summary">mlx-router — executive
 summary</h1>
@@ -188,25 +197,29 @@ substrate; the other projects are its clients and orchestrators.</p>
 portfolio</a>, the public starting point for these projects.</em></p>
 
   </article>
-  <footer class="foot">Report template v1.0.0 · generated 2026-06-05T05:09:28Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
+  <footer class="foot">Report template v1.1.0 · generated 2026-06-05T05:37:01Z · <a href="https://scottyelich.github.io/portfolio/">ScottYelich · portfolio</a></footer>
 </div>
-
 <script src="../vendor/echarts.min.js"></script>
+<script>const SUBJECT="mlx-router";const AXES=["Value", "Maturity", "Complexity", "Reusability", "Autonomy", "Docs", "Tests", "LLM-reliance"];const RVAL=[82, 79, 69, 72, 78, 78, 55, 88];const AVG=[68, 64, 57, 64, 64, 67, 45, 56];const SUN=[{"name": "Other", "children": [{"name": ".example", "value": 2}, {"name": ".gitignore", "value": 1}, {"name": ".mlx", "value": 1}, {"name": "mlx-daemon", "value": 1}, {"name": "mlx-router", "value": 1}]}, {"name": "Docs", "children": [{"name": ".md", "value": 5}, {"name": ".txt", "value": 1}]}, {"name": "Web", "children": [{"name": ".html", "value": 1}]}, {"name": "Code", "children": [{"name": ".sh", "value": 1}]}];</script>
 <script>
-(function(){
-  var el=document.getElementById('activity');
-  if(!window.echarts){ el.parentNode.style.display='none'; return; }
-  var labels=["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], values=[3, 18, 0, 0, 0, 1];
-  if(!labels.length){ el.parentNode.style.display='none'; return; }
-  var ch=echarts.init(el,null,{renderer:'canvas'});
-  ch.setOption({backgroundColor:'transparent',
-    grid:{left:42,right:16,top:14,bottom:56},
-    tooltip:{trigger:'axis'},
-    xAxis:{type:'category',data:labels,axisLabel:{color:'#8b949e',rotate:45,fontSize:10},axisLine:{lineStyle:{color:'#30363d'}}},
-    yAxis:{type:'value',minInterval:1,axisLabel:{color:'#8b949e'},splitLine:{lineStyle:{color:'#21262d'}}},
-    series:[{type:'bar',data:values,itemStyle:{color:'#58a6ff'},barMaxWidth:22}]});
-  window.addEventListener('resize',function(){ch.resize();});
-})();
+function R(id,o){var c=echarts.init(document.getElementById(id),null,{renderer:'canvas'});
+ o.backgroundColor='transparent';c.setOption(o);addEventListener('resize',function(){c.resize();});return c;}
+var C=['#58a6ff','#3fb950','#d29922','#bc8cff','#f778ba','#39c5cf','#ff7b72','#a5d6ff'];
+if(window.echarts){
+ R('radar',{tooltip:{},legend:{data:[SUBJECT,'portfolio avg'],textStyle:{color:'#8b949e'},top:0},
+  radar:{indicator:AXES.map(function(n){return {name:n,max:100};}),splitNumber:4,
+   splitLine:{lineStyle:{color:'#21262d'}},splitArea:{areaStyle:{color:['rgba(88,166,255,.03)','rgba(88,166,255,.06)']}},
+   axisName:{color:'#8b949e',fontSize:11}},
+  series:[{type:'radar',data:[
+   {value:RVAL,name:SUBJECT,areaStyle:{color:'rgba(88,166,255,.25)'},lineStyle:{color:C[0],width:2},itemStyle:{color:C[0]}},
+   {value:AVG,name:'portfolio avg',areaStyle:{color:'rgba(139,148,158,.10)'},lineStyle:{color:'#8b949e'},itemStyle:{color:'#8b949e'}}]}]});
+ if(SUN.length){
+  R('sun',{tooltip:{formatter:function(p){return p.name+': '+p.value;}},
+   series:[{type:'sunburst',data:SUN,radius:[0,'95%'],sort:null,
+    label:{color:'#0d1117',fontSize:10,minAngle:8},itemStyle:{borderColor:'#0d1117',borderWidth:2},
+    levels:[{},{r0:0,r:'46%',label:{rotate:0}},{r0:'46%',r:'95%'}],color:C}]});
+ } else { document.getElementById('sun').parentNode.style.display='none'; }
+} else { var rc=document.querySelector('.report-charts'); if(rc) rc.style.display='none'; }
 </script>
 </body>
 </html>

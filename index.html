@@ -16,7 +16,7 @@
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
  * version: 0.1.0
- * date:    2026-06-05T05:09:30Z
+ * date:    2026-06-05T05:37:00Z
  * sha256:  5dbf0b896aa6b4b90b9d37ae2c35cf1703c8d5b342aa152ace6193dfe32e12d2
  * note:    inlined for self-containment; check source for updates.
  */
@@ -109,7 +109,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
   </div>
 
   <div class="chart-wrap" id="chart-wrap">
-    <h3>Repositories by primary language</h3>
+    <h3>Complexity × maturity — all repositories <span style="color:var(--muted);font-weight:400">· bubble = size · green public / amber private</span></h3>
     <div id="chart"></div>
   </div>
 
@@ -126,7 +126,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T05:09:30Z")
+  (generated "2026-06-05T05:37:00Z")
   (repo
     (name "gmail-utility")
     (visibility private)
@@ -137,6 +137,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 183)
+    (complexity 56)
+    (maturity 69)
     (tags "ai" "google" "HTML"))
   (repo
     (name "mlx-router")
@@ -148,6 +151,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 313)
+    (complexity 69)
+    (maturity 79)
     (tags "ai" "devtools" "Python"))
   (repo
     (name "portfolio")
@@ -159,6 +165,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "https://scottyelich.github.io/portfolio/")
     (language "HTML")
     (updated "2026-06-05")
+    (size 375)
+    (complexity 34)
+    (maturity 67)
     (tags "HTML"))
   (repo
     (name "playground")
@@ -170,6 +179,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 276)
+    (complexity 5)
+    (maturity 8)
     (tags "HTML"))
   (repo
     (name "yx")
@@ -181,6 +193,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 436)
+    (complexity 51)
+    (maturity 76)
     (tags "Python"))
   (repo
     (name "yobro")
@@ -192,6 +207,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 17164)
+    (complexity 60)
+    (maturity 63)
     (tags "ai" "Python"))
   (repo
     (name "mind")
@@ -203,6 +221,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 8)
+    (complexity 57)
+    (maturity 50)
     (tags "ai" "HTML"))
   (repo
     (name "memory")
@@ -214,6 +235,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 7)
+    (complexity 41)
+    (maturity 61)
     (tags "ai" "HTML"))
   (repo
     (name "gws")
@@ -225,6 +249,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 66)
+    (complexity 46)
+    (maturity 73)
     (tags "google" "Python"))
   (repo
     (name "laniakea")
@@ -236,6 +263,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 182)
+    (complexity 52)
+    (maturity 66)
     (tags "ai" "Python"))
   (repo
     (name "dagsmith")
@@ -247,6 +277,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Swift")
     (updated "2026-06-05")
+    (size 478)
+    (complexity 71)
+    (maturity 60)
     (tags "devtools" "Swift"))
   (repo
     (name "agent")
@@ -258,6 +291,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Swift")
     (updated "2026-06-05")
+    (size 182)
+    (complexity 61)
+    (maturity 71)
     (tags "ai" "Swift"))
   (repo
     (name "saixha")
@@ -269,6 +305,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 999)
+    (complexity 78)
+    (maturity 56)
     (tags "ai" "HTML"))
   (repo
     (name "murphy")
@@ -280,6 +319,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Swift")
     (updated "2026-06-05")
+    (size 135598)
+    (complexity 72)
+    (maturity 76)
     (tags "ai" "Swift"))
   (repo
     (name "sdts")
@@ -291,6 +333,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "Python")
     (updated "2026-06-05")
+    (size 68635)
+    (complexity 92)
+    (maturity 82)
     (tags "trading" "Python"))
   (repo
     (name "ybs")
@@ -302,6 +347,9 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (homepage "")
     (language "HTML")
     (updated "2026-06-05")
+    (size 1221)
+    (complexity 66)
+    (maturity 72)
     (tags "devtools" "HTML"))
 )
 ;; DATA:END
@@ -449,25 +497,32 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     model.generated ? 'Data generated '+model.generated+' · '+repos.length+' repositories' : '';
   render();
 
-  /* ---------- ECharts: repos by language (graceful if lib missing) ---------- */
+  /* ---------- ECharts: complexity × maturity across all repos (graceful if lib missing) ---------- */
   (function chart(){
     const wrap=document.getElementById('chart-wrap');
     if(!window.echarts){ wrap.style.display='none'; return; }
-    const counts={};
-    repos.forEach(r=>{ const l=r.language||'(none)'; counts[l]=(counts[l]||0)+1; });
-    const data=Object.entries(counts).map(([name,value])=>({name,value}))
-      .sort((a,b)=>b.value-a.value);
-    if(!data.length){ wrap.style.display='none'; return; }
+    const pts=repos.map(r=>({
+      name:r.name, vis:r.visibility,
+      value:[Number(r.complexity)||0, Number(r.maturity)||0, Number(r.size)||1]
+    })).filter(p=>p.value[0]||p.value[1]);
+    if(!pts.length){ wrap.style.display='none'; return; }
     const ch=echarts.init(document.getElementById('chart'),null,{renderer:'canvas'});
     ch.setOption({
       backgroundColor:'transparent',
-      tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},
-      legend:{type:'scroll',orient:'horizontal',bottom:0,textStyle:{color:'#8b949e'}},
+      grid:{left:54,right:24,top:18,bottom:48},
+      tooltip:{formatter:p=>'<b>'+p.data.name+'</b><br>complexity '+p.data.value[0]
+        +' · maturity '+p.data.value[1]+'<br>'+p.data.value[2]+' KB · '+p.data.vis},
+      xAxis:{name:'complexity →',nameLocation:'middle',nameGap:28,min:0,max:100,
+        axisLabel:{color:'#8b949e'},axisLine:{lineStyle:{color:'#30363d'}},splitLine:{lineStyle:{color:'#21262d'}}},
+      yAxis:{name:'maturity →',nameLocation:'middle',nameGap:36,min:0,max:100,
+        axisLabel:{color:'#8b949e'},axisLine:{lineStyle:{color:'#30363d'}},splitLine:{lineStyle:{color:'#21262d'}}},
       series:[{
-        type:'pie', radius:['45%','72%'], center:['50%','46%'], avoidLabelOverlap:true,
-        itemStyle:{borderColor:'#161b22',borderWidth:2},
-        label:{color:'#e6edf3'}, labelLine:{lineStyle:{color:'#30363d'}},
-        data:data
+        type:'scatter',
+        symbolSize:d=>Math.max(10,Math.sqrt(d[2])/3),
+        itemStyle:{color:p=>p.data.vis==='public'?'#3fb950':'#d29922',opacity:.82,borderColor:'#0d1117'},
+        label:{show:true,formatter:p=>p.data.name,position:'top',color:'#8b949e',fontSize:9},
+        emphasis:{focus:'self',label:{color:'#e6edf3'}},
+        data:pts
       }]
     });
     window.addEventListener('resize',()=>ch.resize());

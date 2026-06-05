@@ -1,0 +1,19 @@
+{
+  "_comment": "Curated 0-100 assessments per repo. Hand-assigned (judgment), single source of truth for the radar (per-repo report) and the complexity×maturity chart (index). Axes: value, maturity, complexity, reusability, autonomy, docs, tests, llm (LLM-reliance).",
+  "sdts":          {"value":85,"maturity":82,"complexity":92,"reusability":55,"autonomy":60,"docs":70,"tests":65,"llm":30},
+  "murphy":        {"value":80,"maturity":76,"complexity":72,"reusability":65,"autonomy":85,"docs":80,"tests":60,"llm":92},
+  "ybs":           {"value":78,"maturity":72,"complexity":66,"reusability":85,"autonomy":80,"docs":88,"tests":50,"llm":70},
+  "saixha":        {"value":70,"maturity":56,"complexity":78,"reusability":60,"autonomy":75,"docs":65,"tests":40,"llm":80},
+  "agent":         {"value":72,"maturity":71,"complexity":61,"reusability":70,"autonomy":88,"docs":70,"tests":55,"llm":50},
+  "dagsmith":      {"value":70,"maturity":60,"complexity":71,"reusability":75,"autonomy":82,"docs":68,"tests":45,"llm":65},
+  "mlx-router":    {"value":82,"maturity":79,"complexity":69,"reusability":72,"autonomy":78,"docs":78,"tests":55,"llm":88},
+  "laniakea":      {"value":65,"maturity":66,"complexity":52,"reusability":60,"autonomy":65,"docs":60,"tests":35,"llm":75},
+  "gws":           {"value":73,"maturity":73,"complexity":46,"reusability":78,"autonomy":60,"docs":72,"tests":50,"llm":55},
+  "gmail-utility": {"value":69,"maturity":69,"complexity":56,"reusability":70,"autonomy":55,"docs":75,"tests":60,"llm":40},
+  "memory":        {"value":62,"maturity":61,"complexity":41,"reusability":80,"autonomy":70,"docs":65,"tests":40,"llm":60},
+  "mind":          {"value":60,"maturity":50,"complexity":57,"reusability":65,"autonomy":72,"docs":60,"tests":35,"llm":78},
+  "yobro":         {"value":68,"maturity":63,"complexity":60,"reusability":50,"autonomy":80,"docs":62,"tests":45,"llm":85},
+  "yx":            {"value":75,"maturity":76,"complexity":51,"reusability":82,"autonomy":40,"docs":70,"tests":70,"llm":10},
+  "playground":    {"value":8,"maturity":8,"complexity":5,"reusability":5,"autonomy":5,"docs":5,"tests":0,"llm":0},
+  "portfolio":     {"value":67,"maturity":67,"complexity":34,"reusability":60,"autonomy":30,"docs":80,"tests":20,"llm":20}
+}

@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 
 echo "Fetching repos for $USER ..."
 gh repo list "$USER" --limit 500 \
-  --json name,description,visibility,url,homepageUrl,primaryLanguage,repositoryTopics,pushedAt,isArchived,isFork \
+  --json name,description,visibility,url,homepageUrl,primaryLanguage,repositoryTopics,pushedAt,isArchived,isFork,diskUsage \
   > /tmp/portfolio_repos.json
 
 GEN="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -27,6 +27,10 @@ try:
     taglines = json.load(open("data/taglines.json"))
 except Exception:
     taglines = {}
+try:
+    scores = {k: v for k, v in json.load(open("data/scores.json")).items() if not k.startswith("_")}
+except Exception:
+    scores = {}
 
 def esc(s):  # escape for an S-expression string literal
     return (s or "").replace("\\", "\\\\").replace('"', '\\"')
@@ -57,6 +61,7 @@ for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
     name = r["name"]
     summary = taglines.get(name, "")
     doc = f"docs/{name}.html" if os.path.exists(f"docs/{name}.html") else ""
+    sc = scores.get(name, {})
     lines += [
         "  (repo",
         f'    (name "{esc(name)}")',
@@ -68,6 +73,9 @@ for r in sorted(repos, key=lambda x: x.get("pushedAt") or "", reverse=True):
         f'    (homepage "{esc(r.get("homepageUrl") or "")}")',
         f'    (language "{esc(lang)}")',
         f'    (updated "{(r.get("pushedAt") or "")[:10]}")',
+        f'    (size {r.get("diskUsage", 0)})',
+        f'    (complexity {sc.get("complexity", 0)})',
+        f'    (maturity {sc.get("maturity", 0)})',
         f'    (tags {tags}))',
     ]
 lines.append(")")
