@@ -56,15 +56,15 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 .cloudbtn:hover{color:var(--fg);border-color:var(--accent)}
 .overlay{position:fixed;inset:0;background:rgba(13,17,23,.97);z-index:50;
   display:flex;flex-direction:column;padding:18px 22px}
-.overlay-head{display:flex;align-items:center;justify-content:space-between;
+.overlay-head{display:flex;align-items:center;gap:14px;
   color:var(--muted);font-size:13px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 .ovclose{background:none;border:0;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
 .ovclose:hover{color:var(--fg)}
-.cloudtags{flex:1;overflow:auto;display:flex;flex-wrap:wrap;gap:6px 12px;
-  align-content:flex-start;padding:18px 4px}
-.cloudtag{cursor:pointer;color:var(--muted);line-height:1.05;user-select:none}
-.cloudtag:hover{color:var(--fg)}
-.cloudtag.on{color:var(--accent);font-weight:700}
+.cloudsearch{flex:1;max-width:360px;background:var(--panel);border:1px solid var(--border);
+  color:var(--fg);border-radius:8px;padding:7px 11px;font-size:13px}
+.cloudsearch:focus{outline:none;border-color:var(--accent)}
+.cloudinfo{margin-left:auto;color:var(--muted);font-size:12px}
+.cloudcanvas{flex:1;width:100%;min-height:300px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin-top:18px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;
   display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
