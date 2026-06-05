@@ -118,7 +118,7 @@ html = re.sub(r"(;; DATA:START).*?(;; DATA:END)",
 html = re.sub(r"(/\* CSS:START \*/).*?(/\* CSS:END \*/)",
               lambda m: m.group(1) + "\n" + prov + css + m.group(2), html, flags=re.S)
 
-idx_ver = "1.0.0"
+idx_ver = "1.1.0"
 iprov = ('<meta name="author" content="Scott Yelich (scott@spy.org)">\n'
          '<meta name="version" content="' + idx_ver + '">\n'
          '<meta name="build-date" content="' + gen + '">\n'

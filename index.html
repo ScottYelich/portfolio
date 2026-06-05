@@ -6,9 +6,9 @@
 <title>ScottYelich · repositories</title>
 <!-- PROV:START -->
 <meta name="author" content="Scott Yelich (scott@spy.org)">
-<meta name="version" content="1.0.0">
-<meta name="build-date" content="2026-06-05T08:00:11Z">
-<!-- index.html · v1.0.0 · built 2026-06-05T08:00:11Z · author: Scott Yelich <scott@spy.org> -->
+<meta name="version" content="1.1.0">
+<meta name="build-date" content="2026-06-05T08:03:47Z">
+<!-- index.html · v1.1.0 · built 2026-06-05T08:03:47Z · author: Scott Yelich <scott@spy.org> -->
 <!-- PROV:END -->
 <!--
   Self-contained: CSS and repo data are EMBEDDED (no external fetch).
@@ -21,16 +21,16 @@
 /* CSS:START */
 /*! EMBEDDED ASSET — portfolio.css
  * source:  https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
- * version: 0.1.0
- * date:    2026-06-05T08:00:11Z
- * sha256:  db26a51d931e246582e1498ae1b7b4130c0414b37838e523052b3af85cb6163f
+ * version: 0.2.0
+ * date:    2026-06-05T08:03:47Z
+ * sha256:  cedfc0f262c314676b18fa2d4d1cf2039549454e2ebc0317cae206c843a2140c
  * note:    inlined for self-containment; check source for updates.
  */
 /*!
  * portfolio.css — canonical shared style (source of truth)
  *
  * @source   https://github.com/ScottYelich/portfolio/blob/main/style/portfolio.css
- * @version  0.1.0
+ * @version  0.2.0
  * @updated  2026-06-05
  * @license  MIT
  *
@@ -200,91 +200,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
 <script type="application/x-sexp" id="repos-sexp">
 ;; DATA:START
 (portfolio
-  (generated "2026-06-05T08:00:11Z")
-  (repo
-    (name "yx")
-    (visibility public)
-    (description "yx packet")
-    (summary "A secure, payload-agnostic UDP packet protocol with HMAC integrity and a byte-identical wire format across Python and Swift.")
-    (doc "docs/yx.html")
-    (url "https://github.com/ScottYelich/yx")
-    (homepage "")
-    (language "Python")
-    (updated "2026-06-05")
-    (size 445)
-    (value 75)
-    (maturity 38)
-    (complexity 55)
-    (reusability 82)
-    (autonomy 40)
-    (docs 70)
-    (tests 95)
-    (llm 10)
-    (tags "Python" "early" "moderate")
-    (keywords "protocol" "packet" "packets" "udp" "networking" "network" "wire-format" "framing" "length-prefix" "serialization" "binary" "codec" "encode" "decode" "checksum" "crc" "hmac" "integrity" "nonce" "replay-protection" "encryption" "encrypted" "aead" "chacha" "aes" "security" "crypto" "key-exchange" "handshake" "session-key" "transport" "multiplexing" "reliability" "ordering" "fragmentation" "mtu" "endianness" "interop" "interoperability" "ipc" "messaging" "datagram" "low-level" "canonical" "swift" "python" "early" "moderate" "yx" "public"))
-  (repo
-    (name "portfolio")
-    (visibility public)
-    (description "Interactive index of my repos (public + private)")
-    (summary "The public index and starting point for all these projects — an interactive, self-contained map.")
-    (doc "docs/portfolio.html")
-    (url "https://github.com/ScottYelich/portfolio")
-    (homepage "https://scottyelich.github.io/portfolio/")
-    (language "HTML")
-    (updated "2026-06-05")
-    (size 668)
-    (value 67)
-    (maturity 34)
-    (complexity 45)
-    (reusability 60)
-    (autonomy 30)
-    (docs 80)
-    (tests 5)
-    (llm 20)
-    (tags "HTML" "early" "moderate")
-    (keywords "portfolio" "index" "directory" "catalog" "gallery" "showcase" "overview" "map" "atlas" "profile" "bio" "resume" "cv" "repos" "repositories" "projects" "links" "navigation" "filter" "search" "dashboard" "charts" "echarts" "spider" "radar" "scatter" "visualization" "sexp" "self-contained" "vendored" "provenance" "static-site" "pages" "public" "landing" "homepage" "github-pages" "html" "early" "moderate"))
-  (repo
-    (name "gmail-utility")
-    (visibility private)
-    (description "General gmail utility: create, read, update, delete -- plus search, etc.  May then be called as agent /skill, etc.")
-    (summary "A spec-first CLI that pulls your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash — now built via a YBS/dagsmith 24-step system.")
-    (doc "docs/gmail-utility.html")
-    (url "https://github.com/ScottYelich/gmail-utility")
-    (homepage "")
-    (language "HTML")
-    (updated "2026-06-05")
-    (size 211)
-    (value 69)
-    (maturity 23)
-    (complexity 39)
-    (reusability 70)
-    (autonomy 55)
-    (docs 75)
-    (tests 20)
-    (llm 40)
-    (tags "ai" "google" "HTML" "early" "lean")
-    (keywords "gmail" "email" "mail" "imap" "smtp" "pop3" "message" "messages" "thread" "threads" "label" "labels" "attachment" "attachments" "mime" "header" "headers" "archive" "archiving" "backup" "eml" "mbox" "sqlite" "search" "searchable" "fulltext" "dedup" "deduplication" "incremental" "sync" "export" "download" "trash" "delete" "restore" "recovery" "retention" "gdpr" "compliance" "forensics" "e-discovery" "local" "offline" "ybs" "dagsmith" "automation" "privacy" "ai" "google" "html" "early" "lean" "gmail-utility" "private"))
-  (repo
-    (name "mlx-router")
-    (visibility private)
-    (description "MLX Router (proxy)")
-    (summary "A single OpenAI-compatible endpoint for Apple Silicon that routes each request to the right-sized local MLX model (7B chat → Coder-32B → 72B reasoning), with tool calling, KV-cache session affinity, and a self-managing daemon.")
-    (doc "docs/mlx-router.html")
-    (url "https://github.com/ScottYelich/mlx-router")
-    (homepage "")
-    (language "Python")
-    (updated "2026-06-05")
-    (size 312)
-    (value 82)
-    (maturity 40)
-    (complexity 31)
-    (reusability 72)
-    (autonomy 78)
-    (docs 78)
-    (tests 5)
-    (llm 88)
-    (tags "ai" "devtools" "Python" "early" "lean" "flagship")
-    (keywords "mlx" "apple-silicon" "metal" "m1" "m2" "m3" "m4" "neural-engine" "ane" "unified-memory" "vram" "llm" "inference" "model" "models" "router" "routing" "load-balance" "load-balancer" "affinity" "sticky-session" "session-affinity" "batching" "continuous-batching" "proxy" "gateway" "endpoint" "openai-compatible" "openai" "api" "rest" "http" "fastapi" "server" "serving" "sse" "streaming" "local" "on-device" "offline" "gpu" "tokens" "throughput" "tok/s" "ttft" "context-length" "kv-cache" "cache" "quantization" "quantized" "gguf" "safetensors" "weights" "tool-calling" "coder" "qwen" "llama" "benchmark" "daemon" "python" "self-hosted" "privacy" "private" "ai" "devtools" "early" "lean" "flagship" "mlx-router"))
+  (generated "2026-06-05T08:03:47Z")
   (repo
     (name "playground")
     (visibility private)
@@ -293,7 +209,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (doc "docs/playground.html")
     (url "https://github.com/ScottYelich/playground")
     (homepage "")
-    (language "HTML")
+    (language "")
     (updated "2026-06-05")
     (size 149)
     (value 8)
@@ -304,8 +220,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (docs 5)
     (tests 5)
     (llm 0)
-    (tags "HTML" "early" "lean")
-    (keywords "playground" "scratch" "sandbox" "experiment" "trial" "prototype" "throwaway" "kata" "snippet" "snippets" "test" "demo" "learning" "placeholder" "empty" "wip" "old" "archive" "html" "early" "lean" "private"))
+    (tags "early" "lean")
+    (keywords "playground" "scratch" "sandbox" "experiment" "trial" "prototype" "throwaway" "kata" "snippet" "snippets" "test" "demo" "learning" "placeholder" "empty" "wip" "old" "archive" "early" "lean" "private"))
   (repo
     (name "yobro")
     (visibility private)
@@ -335,7 +251,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (doc "docs/mind.html")
     (url "https://github.com/ScottYelich/mind")
     (homepage "")
-    (language "HTML")
+    (language "")
     (updated "2026-06-05")
     (size 17)
     (value 60)
@@ -346,8 +262,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (docs 60)
     (tests 5)
     (llm 78)
-    (tags "ai" "HTML" "early" "lean")
-    (keywords "mind" "cognition" "cognitive" "intelligence" "learning" "pattern" "patterns" "prediction" "predictive" "inference" "bayesian" "markov" "statistics" "statistical" "probability" "distribution" "histogram" "frequency" "frequencies" "classifier" "classification" "clustering" "feature" "features" "signal" "correlation" "heuristic" "agentic" "ai" "ml" "machine-learning" "model" "modeling" "processing" "analysis" "insight" "insights" "summarize" "summary" "extract" "extraction" "memory" "neural" "reasoning" "html" "early" "lean" "private"))
+    (tags "ai" "early" "lean")
+    (keywords "mind" "cognition" "cognitive" "intelligence" "learning" "pattern" "patterns" "prediction" "predictive" "inference" "bayesian" "markov" "statistics" "statistical" "probability" "distribution" "histogram" "frequency" "frequencies" "classifier" "classification" "clustering" "feature" "features" "signal" "correlation" "heuristic" "agentic" "ai" "ml" "machine-learning" "model" "modeling" "processing" "analysis" "insight" "insights" "summarize" "summary" "extract" "extraction" "memory" "neural" "reasoning" "early" "lean" "private"))
   (repo
     (name "memory")
     (visibility private)
@@ -356,7 +272,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (doc "docs/memory.html")
     (url "https://github.com/ScottYelich/memory")
     (homepage "")
-    (language "HTML")
+    (language "")
     (updated "2026-06-05")
     (size 15)
     (value 62)
@@ -367,8 +283,29 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (docs 65)
     (tests 5)
     (llm 60)
-    (tags "ai" "HTML" "early" "lean")
-    (keywords "memory" "memories" "remember" "recall" "knowledge" "knowledge-graph" "knowledge-base" "graph" "node" "link" "backlink" "wikilink" "zettelkasten" "pkm" "second-brain" "store" "storage" "notes" "note-taking" "obsidian" "markdown" "log" "logging" "journal" "index" "indexing" "fulltext" "search" "semantic" "vector" "embedding" "embeddings" "retrieval" "rag" "agentic" "ai" "llm" "agent" "context" "persistence" "file-based" "provenance" "audit-trail" "append-only" "event-sourcing" "html" "early" "lean" "private"))
+    (tags "ai" "early" "lean")
+    (keywords "memory" "memories" "remember" "recall" "knowledge" "knowledge-graph" "knowledge-base" "graph" "node" "link" "backlink" "wikilink" "zettelkasten" "pkm" "second-brain" "store" "storage" "notes" "note-taking" "obsidian" "markdown" "log" "logging" "journal" "index" "indexing" "fulltext" "search" "semantic" "vector" "embedding" "embeddings" "retrieval" "rag" "agentic" "ai" "llm" "agent" "context" "persistence" "file-based" "provenance" "audit-trail" "append-only" "event-sourcing" "early" "lean" "private"))
+  (repo
+    (name "gmail-utility")
+    (visibility private)
+    (description "General gmail utility: create, read, update, delete -- plus search, etc.  May then be called as agent /skill, etc.")
+    (summary "A spec-first CLI that pulls your entire Gmail into a local, searchable archive (SQLite + .eml) with a paranoid two-stage trash — now built via a YBS/dagsmith 24-step system.")
+    (doc "docs/gmail-utility.html")
+    (url "https://github.com/ScottYelich/gmail-utility")
+    (homepage "")
+    (language "Python")
+    (updated "2026-06-05")
+    (size 211)
+    (value 69)
+    (maturity 23)
+    (complexity 39)
+    (reusability 70)
+    (autonomy 55)
+    (docs 75)
+    (tests 20)
+    (llm 40)
+    (tags "ai" "google" "Python" "early" "lean")
+    (keywords "gmail" "email" "mail" "imap" "smtp" "pop3" "message" "messages" "thread" "threads" "label" "labels" "attachment" "attachments" "mime" "header" "headers" "archive" "archiving" "backup" "eml" "mbox" "sqlite" "search" "searchable" "fulltext" "dedup" "deduplication" "incremental" "sync" "export" "download" "trash" "delete" "restore" "recovery" "retention" "gdpr" "compliance" "forensics" "e-discovery" "local" "offline" "ybs" "dagsmith" "automation" "privacy" "ai" "google" "python" "early" "lean" "gmail-utility" "private"))
   (repo
     (name "gws")
     (visibility private)
@@ -411,6 +348,27 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (llm 75)
     (tags "ai" "Python" "early" "lean")
     (keywords "lan" "network" "local" "ai" "llm" "inference" "cluster" "supercluster" "homelab" "self-hosted" "apple-silicon" "mac" "gpu" "accelerator" "python" "shell" "scripts" "scripting" "bin" "tooling" "infrastructure" "infra" "plumbing" "provisioning" "bootstrap" "dotfiles" "install" "installer" "setup" "environment" "venv" "pyenv" "homebrew" "brew" "launchd" "cron" "scheduler" "monitoring" "observability" "vision" "multimodal" "deploy" "deployment" "orchestration" "automation" "server" "early" "lean" "laniakea" "private"))
+  (repo
+    (name "mlx-router")
+    (visibility private)
+    (description "MLX Router (proxy)")
+    (summary "A single OpenAI-compatible endpoint for Apple Silicon that routes each request to the right-sized local MLX model (7B chat → Coder-32B → 72B reasoning), with tool calling, KV-cache session affinity, and a self-managing daemon.")
+    (doc "docs/mlx-router.html")
+    (url "https://github.com/ScottYelich/mlx-router")
+    (homepage "")
+    (language "Python")
+    (updated "2026-06-05")
+    (size 312)
+    (value 82)
+    (maturity 40)
+    (complexity 31)
+    (reusability 72)
+    (autonomy 78)
+    (docs 78)
+    (tests 5)
+    (llm 88)
+    (tags "ai" "devtools" "Python" "early" "lean" "flagship")
+    (keywords "mlx" "apple-silicon" "metal" "m1" "m2" "m3" "m4" "neural-engine" "ane" "unified-memory" "vram" "llm" "inference" "model" "models" "router" "routing" "load-balance" "load-balancer" "affinity" "sticky-session" "session-affinity" "batching" "continuous-batching" "proxy" "gateway" "endpoint" "openai-compatible" "openai" "api" "rest" "http" "fastapi" "server" "serving" "sse" "streaming" "local" "on-device" "offline" "gpu" "tokens" "throughput" "tok/s" "ttft" "context-length" "kv-cache" "cache" "quantization" "quantized" "gguf" "safetensors" "weights" "tool-calling" "coder" "qwen" "llama" "benchmark" "daemon" "python" "self-hosted" "privacy" "private" "ai" "devtools" "early" "lean" "flagship" "mlx-router"))
   (repo
     (name "dagsmith")
     (visibility private)
@@ -461,7 +419,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (doc "docs/saixha.html")
     (url "https://github.com/ScottYelich/saixha")
     (homepage "")
-    (language "HTML")
+    (language "Swift")
     (updated "2026-06-05")
     (size 1008)
     (value 70)
@@ -472,8 +430,8 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (docs 65)
     (tests 28)
     (llm 80)
-    (tags "ai" "HTML" "early" "lean")
-    (keywords "shell" "sh" "repl" "lisp" "scheme" "s-expression" "sexp" "sexpr" "interpreter" "eval" "eval-apply" "macro" "macros" "quote" "quasiquote" "closure" "lambda" "reader-macro" "metaprogramming" "homoiconic" "homoiconicity" "dsl" "ai" "llm" "agent" "assistant" "sasha" "pipe" "unix-pipe" "pipeline" "composable" "filter" "transform" "command" "cli" "terminal" "code-as-data" "functional" "parser" "reader" "automation" "scripting" "script" "swift" "html" "early" "lean" "saixha" "private"))
+    (tags "ai" "Swift" "early" "lean")
+    (keywords "shell" "sh" "repl" "lisp" "scheme" "s-expression" "sexp" "sexpr" "interpreter" "eval" "eval-apply" "macro" "macros" "quote" "quasiquote" "closure" "lambda" "reader-macro" "metaprogramming" "homoiconic" "homoiconicity" "dsl" "ai" "llm" "agent" "assistant" "sasha" "pipe" "unix-pipe" "pipeline" "composable" "filter" "transform" "command" "cli" "terminal" "code-as-data" "functional" "parser" "reader" "automation" "scripting" "script" "swift" "early" "lean" "saixha" "private"))
   (repo
     (name "murphy")
     (visibility private)
@@ -524,7 +482,7 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (doc "docs/ybs.html")
     (url "https://github.com/ScottYelich/ybs")
     (homepage "")
-    (language "HTML")
+    (language "Shell")
     (updated "2026-06-05")
     (size 1172)
     (value 78)
@@ -535,8 +493,50 @@ input[type=search]:focus{outline:none;border-color:var(--accent)}
     (docs 88)
     (tests 18)
     (llm 70)
-    (tags "devtools" "HTML" "developing" "moderate")
-    (keywords "build" "builds" "building" "build-system" "buildsystem" "methodology" "blueprint" "spec" "specs" "specification" "step" "steps" "sdlc" "devops" "autonomous" "agent" "agentic" "ai" "codegen" "code-generation" "scaffold" "scaffolding" "generator" "declarative" "idempotent" "reproducible" "deterministic" "artifact" "artifacts" "manifest" "traceability" "verification" "validation" "acceptance-test" "test-driven" "tdd" "requirements" "s-expression" "sexp" "scheme" "lisp" "dsl" "graph" "build-graph" "dependency-graph" "node" "nodes" "guid" "template" "templates" "framework" "process" "workflow" "ci" "cd" "ci-cd" "pipeline" "governance" "audit" "adr" "decision-record" "devtools" "html" "developing" "moderate" "ybs" "private"))
+    (tags "devtools" "Shell" "developing" "moderate")
+    (keywords "build" "builds" "building" "build-system" "buildsystem" "methodology" "blueprint" "spec" "specs" "specification" "step" "steps" "sdlc" "devops" "autonomous" "agent" "agentic" "ai" "codegen" "code-generation" "scaffold" "scaffolding" "generator" "declarative" "idempotent" "reproducible" "deterministic" "artifact" "artifacts" "manifest" "traceability" "verification" "validation" "acceptance-test" "test-driven" "tdd" "requirements" "s-expression" "sexp" "scheme" "lisp" "dsl" "graph" "build-graph" "dependency-graph" "node" "nodes" "guid" "template" "templates" "framework" "process" "workflow" "ci" "cd" "ci-cd" "pipeline" "governance" "audit" "adr" "decision-record" "devtools" "shell" "developing" "moderate" "ybs" "private"))
+  (repo
+    (name "portfolio")
+    (visibility public)
+    (description "Interactive index of my repos (public + private)")
+    (summary "The public index and starting point for all these projects — an interactive, self-contained map.")
+    (doc "docs/portfolio.html")
+    (url "https://github.com/ScottYelich/portfolio")
+    (homepage "https://scottyelich.github.io/portfolio/")
+    (language "HTML")
+    (updated "2026-06-05")
+    (size 675)
+    (value 67)
+    (maturity 34)
+    (complexity 45)
+    (reusability 60)
+    (autonomy 30)
+    (docs 80)
+    (tests 5)
+    (llm 20)
+    (tags "HTML" "early" "moderate")
+    (keywords "portfolio" "index" "directory" "catalog" "gallery" "showcase" "overview" "map" "atlas" "profile" "bio" "resume" "cv" "repos" "repositories" "projects" "links" "navigation" "filter" "search" "dashboard" "charts" "echarts" "spider" "radar" "scatter" "visualization" "sexp" "self-contained" "vendored" "provenance" "static-site" "pages" "public" "landing" "homepage" "github-pages" "html" "early" "moderate"))
+  (repo
+    (name "yx")
+    (visibility public)
+    (description "yx packet")
+    (summary "A secure, payload-agnostic UDP packet protocol with HMAC integrity and a byte-identical wire format across Python and Swift.")
+    (doc "docs/yx.html")
+    (url "https://github.com/ScottYelich/yx")
+    (homepage "")
+    (language "Python")
+    (updated "2026-06-05")
+    (size 445)
+    (value 75)
+    (maturity 38)
+    (complexity 55)
+    (reusability 82)
+    (autonomy 40)
+    (docs 70)
+    (tests 95)
+    (llm 10)
+    (tags "Python" "early" "moderate")
+    (keywords "protocol" "packet" "packets" "udp" "networking" "network" "wire-format" "framing" "length-prefix" "serialization" "binary" "codec" "encode" "decode" "checksum" "crc" "hmac" "integrity" "nonce" "replay-protection" "encryption" "encrypted" "aead" "chacha" "aes" "security" "crypto" "key-exchange" "handshake" "session-key" "transport" "multiplexing" "reliability" "ordering" "fragmentation" "mtu" "endianness" "interop" "interoperability" "ipc" "messaging" "datagram" "low-level" "canonical" "swift" "python" "early" "moderate" "yx" "public"))
 )
 ;; DATA:END
 </script>
