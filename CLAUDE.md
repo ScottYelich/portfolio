@@ -15,9 +15,9 @@ Served via GitHub Pages at https://scottyelich.github.io/portfolio/ and clonable
 
 | File | Role |
 |------|------|
-| `index.html` | The page. Self-contained: CSS + data are **embedded**, ECharts is vendored. |
+| `index.html` | The page. **Fully self-contained**: CSS, data, **and ECharts** are all embedded. One file, draggable anywhere. |
 | `style/portfolio.css` | **Canonical source** of the shared style. Embedded into `index.html`; never `<link>`ed. |
-| `vendor/echarts.min.js` | Vendored Apache ECharts **6.0.0** (offline, version-pinned). See `vendor/echarts.provenance.txt`. |
+| `vendor/echarts.min.js` | **Canonical source** of Apache ECharts **6.0.0** (offline, version-pinned). Embedded into `index.html`, never `<script src>`ed. See `vendor/echarts.provenance.txt`. |
 | `build.sh` | Regenerates the embedded blocks from live `gh` data + `style/portfolio.css`. |
 | `NOTES.md` | Rationale for the conventions below (the "why"). |
 
@@ -26,8 +26,8 @@ Rebuild: `./build.sh` (requires `gh`, `python3`, `shasum`). Opens directly via `
 ## Conventions
 
 ### 1. Always embed; reference the source for update-checks
-Shared assets (CSS today) are **inlined**, never linked. Each embedded copy carries a
-**provenance header** so a consumer can verify integrity and check for updates:
+Shared/vendored assets (CSS and ECharts) are **inlined**, never linked. Each embedded copy
+carries a **provenance header** so a consumer can verify integrity and check for updates:
 
 ```
 /*! EMBEDDED ASSET — portfolio.css

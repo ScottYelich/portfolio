@@ -10,7 +10,7 @@ complexity×maturity chart). Composition is computed from `git ls-files` (real).
 Run from the portfolio repo root:  python3 tools/build-reports.py
 Requires: gh (auth), pandoc, git, vendor/echarts.min.js.
 """
-import json, subprocess, os, html, datetime, collections
+import json, subprocess, os, html, datetime, collections, hashlib, re
 
 TEMPLATE_VERSION = "1.1.0"
 PORTFOLIO_URL = "https://scottyelich.github.io/portfolio/"
@@ -24,6 +24,24 @@ def sh(*a): return subprocess.run(a, capture_output=True, text=True).stdout
 
 css = open("style/readme.css", encoding="utf-8").read()
 report_css = open("style/report.css", encoding="utf-8").read()
+
+# ECharts is EMBEDDED (never <script src>) so every report is 100% self-contained.
+echarts_src = open("vendor/echarts.min.js", encoding="utf-8").read()
+echarts_sha = hashlib.sha256(open("vendor/echarts.min.js", "rb").read()).hexdigest()
+_prov = open("vendor/echarts.provenance.txt", encoding="utf-8").read()
+_m = re.search(r"^version:\s*([0-9.]+)", _prov, re.M)
+ECHARTS_VERSION = _m.group(1) if _m else "6.0.0"
+ECHARTS_EMBED = (
+    "<!-- Vendored, version-pinned & EMBEDDED. See vendor/echarts.provenance.txt -->\n"
+    "<script>\n"
+    "/*! EMBEDDED ASSET — echarts.min.js\n"
+    f" * source:  https://cdn.jsdelivr.net/npm/echarts@{ECHARTS_VERSION}/dist/echarts.min.js\n"
+    f" * library: Apache ECharts {ECHARTS_VERSION} (Apache-2.0)\n"
+    f" * date:    {date}\n"
+    f" * sha256:  {echarts_sha}\n"
+    " * note:    inlined for self-containment; see vendor/echarts.provenance.txt.\n"
+    " */\n" + echarts_src + "\n</script>"
+)
 taglines = json.load(open("data/taglines.json", encoding="utf-8"))
 scores = json.load(open("data/scores.json", encoding="utf-8"))
 scores = {k: v for k, v in scores.items() if not k.startswith("_")}
@@ -135,7 +153,7 @@ for name, tag in taglines.items():
   </article>
   <footer class="foot">Report template v{TEMPLATE_VERSION} · generated {date} · <a href="{PORTFOLIO_URL}">ScottYelich · portfolio</a></footer>
 </div>
-<script src="../vendor/echarts.min.js"></script>
+{ECHARTS_EMBED}
 <script>{data_js}</script>
 <script>{CHART_JS}</script>
 </body>

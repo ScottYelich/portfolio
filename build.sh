@@ -3,6 +3,8 @@
 #   - Repo data  -> embedded S-expression between ;; DATA:START / ;; DATA:END
 #   - Stylesheet -> inlined from style/portfolio.css with a provenance header
 #                   (source + version + date + sha256) between /* CSS:START */ / /* CSS:END */
+#   - ECharts    -> inlined from vendor/echarts.min.js with a provenance header
+#                   between <!-- ECHARTS:START --> / <!-- ECHARTS:END -->
 # Usage: ./build.sh [github-user]   (default: ScottYelich).  Requires: gh, python3, shasum.
 set -euo pipefail
 USER="${1:-ScottYelich}"
@@ -16,12 +18,14 @@ gh repo list "$USER" --limit 500 \
 GEN="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 CSS_VERSION="$(grep -m1 '@version' style/portfolio.css | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
 CSS_SHA="$(shasum -a 256 style/portfolio.css | awk '{print $1}')"
+ECHARTS_VERSION="$(grep -m1 '^version:' vendor/echarts.provenance.txt | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+ECHARTS_SHA="$(shasum -a 256 vendor/echarts.min.js | awk '{print $1}')"
 
-python3 - "$GEN" "$CSS_VERSION" "$CSS_SHA" <<'PY'
+python3 - "$GEN" "$CSS_VERSION" "$CSS_SHA" "$ECHARTS_VERSION" "$ECHARTS_SHA" <<'PY'
 import json, sys, re
 
 import os
-gen, css_ver, css_sha = sys.argv[1], sys.argv[2], sys.argv[3]
+gen, css_ver, css_sha, ec_ver, ec_sha = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
 repos = json.load(open("/tmp/portfolio_repos.json"))
 try:
     taglines = json.load(open("data/taglines.json"))
@@ -112,11 +116,27 @@ prov = (
 )
 css = open("style/portfolio.css").read()
 
+ec_prov = (
+    "<!-- Vendored, version-pinned. See vendor/echarts.provenance.txt -->\n"
+    "<script>\n"
+    "/*! EMBEDDED ASSET — echarts.min.js\n"
+    " * source:  https://cdn.jsdelivr.net/npm/echarts@" + ec_ver + "/dist/echarts.min.js\n"
+    " * library: Apache ECharts " + ec_ver + " (Apache-2.0)\n"
+    f" * date:    {gen}\n"
+    f" * sha256:  {ec_sha}\n"
+    " * note:    inlined for self-containment; see vendor/echarts.provenance.txt.\n"
+    " */\n"
+)
+echarts = open("vendor/echarts.min.js").read()
+ec_block = ec_prov + echarts + "\n</script>\n"
+
 html = open("index.html").read()
 html = re.sub(r"(;; DATA:START).*?(;; DATA:END)",
               lambda m: m.group(1) + "\n" + sexp + "\n" + m.group(2), html, flags=re.S)
 html = re.sub(r"(/\* CSS:START \*/).*?(/\* CSS:END \*/)",
               lambda m: m.group(1) + "\n" + prov + css + m.group(2), html, flags=re.S)
+html = re.sub(r"(<!-- ECHARTS:START -->).*?(<!-- ECHARTS:END -->)",
+              lambda m: m.group(1) + "\n" + ec_block + m.group(2), html, flags=re.S)
 
 idx_ver = "1.1.0"
 iprov = ('<meta name="author" content="Scott Yelich (scott@spy.org)">\n'
@@ -131,6 +151,7 @@ open("index.html", "w").write(html)
 pub = sum(1 for r in repos if (r.get("visibility") or "").lower() == "public")
 print(f"Embedded {len(repos)} repos ({pub} public) as S-expression.")
 print(f"Inlined portfolio.css v{css_ver}  sha256={css_sha[:16]}…")
+print(f"Inlined echarts.min.js v{ec_ver}  sha256={ec_sha[:16]}…")
 PY
 
 echo "Done. index.html is self-contained (open it directly or via Pages)."
