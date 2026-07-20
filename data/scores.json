@@ -131,14 +131,14 @@
     "llm": 85
   },
   "yx": {
-    "value": 75,
-    "maturity": 38,
-    "complexity": 55,
-    "reusability": 82,
-    "autonomy": 40,
-    "docs": 70,
-    "tests": 95,
-    "llm": 10
+    "value": 82,
+    "maturity": 62,
+    "complexity": 66,
+    "reusability": 85,
+    "autonomy": 55,
+    "docs": 80,
+    "tests": 92,
+    "llm": 25
   },
   "playground": {
     "value": 8,

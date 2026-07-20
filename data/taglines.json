@@ -1,7 +1,7 @@
 {
   "portfolio": "The public index and starting point for all these projects — an interactive, self-contained map.",
   "sdts": "A full-stack algorithmic-trading lab: secure UDP networking, a zero-config service mesh, and a real-time terminal dashboard for trading bots.",
-  "yx": "A secure, payload-agnostic UDP packet protocol with HMAC integrity and a byte-identical wire format across Python and Swift.",
+  "yx": "A secure UDP messaging protocol with a byte-identical Swift/Python wire format — HMAC-authenticated datagrams, channels, and a mesh node daemon that turns machines into a discoverable agent message bus.",
   "yobro": "A 100% local, always-on \"Alexa clone\" for macOS that wakes to \"yo bro\" and answers in a local LLM's words — no cloud.",
   "gws": "A fast, JSON-only CLI wrapper around Gmail and Google Sheets, built to be driven by AI agents and shell scripts.",
   "laniakea": "The plumbing layer of a personal AI supercluster — scripts that turn one Apple Silicon Mac into a LAN-reachable LLM/vision/inference stack.",
